@@ -1,44 +1,51 @@
 "use client";
 import React from 'react'
-import { checkItemisActive, homeItem, menuItemsBottom, menuItemsTop } from './config';
+import { homeItem, menuItemsBottom, menuItemsTop } from './config';
 import Link from 'next/link';
 import { usePathname } from "next/navigation";
 import { DASHBOARD_URL } from '@/app/utilities/constants/global-urls';
+import HomeIcon from '../icons/navbar-icons/HomeIcon';
+import { COLORS } from '@/app/utilities/constants/colors';
 
 
 const LeftMenu = () => {
   const pathname: string = usePathname();
 
-  return (
-    <div className='flex flex-col bg-secondary w-36 h-[98vh] rounded'>
-      <div className='flex justify-center w-full pt-10'><h1 className='text-primary'>LOGO</h1></div>
+  const checkIsActive = (pathname: string, url: string): boolean => {
+    return pathname === url || pathname.startsWith(url);
+  }
 
-      <ul className='pt-36 pl-10 flex flex-col gap-5'>
+  return (
+    <div className='flex flex-col bg-secondary w-[4.2rem] xl:w-36 h-[98vh] rounded'>
+      <div className='flex justify-center w-full pt-10'><h1 className='text-primary'>LOGO</h1></div>
+      <ul className='pt-36 pl-5 flex flex-col gap-5'>
         <li key={homeItem.id}>
-          <Link 
-            className={`${pathname === DASHBOARD_URL ? "text-primary" : "text-white"} text-md font-medium`}
-            href={homeItem.url}
-            >{homeItem.title}</Link>
+          <Link href={homeItem.url} className="flex items-center gap-2">
+            <HomeIcon color={pathname === DASHBOARD_URL ? COLORS.primary : COLORS.white} />
+            <span
+              className={`hidden xl:block ${pathname === DASHBOARD_URL ? "text-primary" : "text-white"} text-md font-medium`}
+            >{homeItem.title}</span>
+          </Link>
         </li>
 
-        {menuItemsTop.map((item) => (
-          <li key={item.id}>
-            <Link 
-              className={`${checkItemisActive(pathname, item.url)} text-md font-medium`}
-              href={item.url}
-              >{item.title}</Link>
-          </li>
+        {menuItemsTop.map(({ id, title, url, icon }) => (
+          <Link key={id} href={url} className="flex items-center gap-2">
+            {icon && React.cloneElement(icon, { color: checkIsActive(pathname, url) ? COLORS.primary : COLORS.white })}
+            <span
+              className={`hidden xl:block ${checkIsActive(pathname, url)? `text-primary` : `text-white`} text-md font-medium`}
+            >{title}</span>
+          </Link>
         ))}
       </ul>
 
-      <ul className='flex pl-10 pb-10 flex-col align-bottom h-full justify-end gap-5'>
-        {menuItemsBottom.map((item) => (
-          <li key={item.id}>
-            <Link 
-              className={`${checkItemisActive(pathname, item.url)} text-md font-medium`}
-              href={item.url}
-              >{item.title}</Link>
-          </li>
+      <ul className='flex pl-5 pb-10 flex-col align-bottom h-full justify-end gap-5'>
+        {menuItemsBottom.map(({ id, title, url, icon }) => (
+          <Link key={id} href={url} className="flex items-center gap-2">
+            {icon && React.cloneElement(icon, { color: checkIsActive(pathname, url) ? COLORS.primary : COLORS.white })}
+            <span
+              className={`hidden xl:block ${checkIsActive(pathname, url)? `text-primary` : `text-white`} text-md font-medium`}
+            >{title}</span>
+          </Link>
         ))}
       </ul>
     </div>
