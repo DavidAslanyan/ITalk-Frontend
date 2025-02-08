@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import easyTermsData from "../../data/easy-terms.json";
 import { TermType } from '@/app/utilities/types/term.type';
-import SearchTermItem from '@/app/components/searchTermItem';
-import TermScrollable from '@/app/components/termScrollable';
-import SearchBlock from '@/app/components/searchBlock';
+import SearchTermItem from '@/app/components/search-term-item';
+import TermScrollable from '@/app/components/term-scrollable';
+import SearchBlock from '@/app/components/search-block';
 
 
 const Search = () => {
@@ -13,7 +13,7 @@ const Search = () => {
 
   return (
     <div className='flex flex-col justify-between h-full'>
-      <div className='pt-10'>
+      <div className='pt-2 md:pt-12'>
         <SearchBlock value={searchInput} setValue={setSearchInput} />
       </div>
      
