@@ -10,10 +10,10 @@ const Layout = ({ children }: Readonly<{
       <aside className="hidden md:block fixed top-0 mt-2 ml-2">
         <LeftMenu />
       </aside>
-      <aside className='md:hidden fixed bottom-5 left-1/2 transform -translate-x-1/2'>
+      <aside className='z-50 md:hidden fixed bottom-5 left-1/2 transform -translate-x-1/2'>
         <Tabbar />
       </aside>
-      <div className='ml-2 md:ml-[6rem] xl:ml-[12rem] pt-2 flex-1 w-full h-auto min-h-[100vh]'>
+      <div className='px-4 md:px-0 ml-2 md:ml-[6rem] xl:ml-[12rem] pt-2 flex-1 w-full h-auto min-h-[100vh]'>
         {children}
       </div>
     </main>
