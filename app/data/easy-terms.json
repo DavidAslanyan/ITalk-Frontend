@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "term": "AI",
+    "shortExplanation": "Artificial Intelligence",
+    "longExplanation": "Artificial Intelligence (AI) refers to the simulation of human intelligence in machines. AI systems can perform tasks such as learning, reasoning, problem-solving, perception, and language understanding. AI can be divided into narrow AI, which specializes in specific tasks like speech recognition, and general AI, which aims to perform any intellectual task a human can do. Machine learning and deep learning are subsets of AI that focus on training models using large datasets. AI is widely used in applications like chatbots, recommendation systems, and autonomous vehicles. While AI offers many benefits, ethical concerns such as bias, job displacement, and privacy issues are ongoing challenges.",
+    "level": "Easy"
+  },
+  {
+    "id": 2,
+    "term": "Blockchain",
+    "shortExplanation": "A decentralized digital ledger",
+    "longExplanation": "Blockchain is a distributed and decentralized ledger technology that securely records transactions across multiple computers. It enables transparency, immutability, and security by linking blocks of data in a chain. Each block contains a cryptographic hash of the previous block, ensuring that no data can be altered retroactively without altering all subsequent blocks. Blockchain is the foundation of cryptocurrencies like Bitcoin and Ethereum but has applications beyond finance, including supply chain management, voting systems, and smart contracts. Despite its benefits, blockchain faces scalability challenges, regulatory concerns, and energy consumption issues.",
+    "level": "Easy"
+  },
+  {
+    "id": 3,
+    "term": "Cloud Computing",
+    "shortExplanation": "On-demand computing over the internet",
+    "longExplanation": "Cloud computing refers to the delivery of computing services—including servers, storage, databases, networking, software, and analytics—over the internet. It allows users to access and store data remotely instead of on local hardware. Cloud computing offers scalability, cost-efficiency, and flexibility, making it ideal for businesses of all sizes. It is categorized into three main types: Infrastructure as a Service (IaaS), Platform as a Service (PaaS), and Software as a Service (SaaS). Major providers include AWS, Google Cloud, and Microsoft Azure. However, security risks and potential data breaches remain concerns for cloud users.",
+    "level": "Easy"
+  },
+  {
+    "id": 4,
+    "term": "Edge Computing",
+    "shortExplanation": "Processing data closer to the source",
+    "longExplanation": "Edge computing is a distributed computing model that processes data closer to its source rather than relying solely on centralized cloud servers. This reduces latency, enhances real-time processing, and minimizes bandwidth usage. It is especially useful in applications like autonomous vehicles, IoT devices, and industrial automation. By processing data at the edge, businesses can improve efficiency, security, and performance. However, edge computing also introduces challenges such as device management, security vulnerabilities, and interoperability issues between different hardware and software systems.",
+    "level": "Medium"
+  },
+  {
+    "id": 5,
+    "term": "DevOps",
+    "shortExplanation": "Development and Operations collaboration",
+    "longExplanation": "DevOps is a software development methodology that integrates development (Dev) and IT operations (Ops) to improve software delivery speed and reliability. It emphasizes automation, continuous integration/continuous deployment (CI/CD), monitoring, and collaboration. DevOps helps teams build, test, and release software more frequently and efficiently. Popular tools include Docker, Kubernetes, Jenkins, and Terraform. The approach enhances system reliability, reduces deployment failures, and improves time to market. However, implementing DevOps requires cultural change, skill upgrades, and significant process adjustments within organizations.",
+    "level": "Medium"
+  },
+  {
+    "id": 6,
+    "term": "Microservices",
+    "shortExplanation": "An architecture for scalable applications",
+    "longExplanation": "Microservices architecture breaks down applications into small, loosely coupled services that can be developed, deployed, and scaled independently. Each microservice handles a specific function and communicates with others via APIs. This approach enhances scalability, flexibility, and fault isolation compared to monolithic architectures. Popular tools for microservices include Docker, Kubernetes, and service mesh technologies like Istio. However, managing microservices requires robust DevOps practices, API management, and service orchestration to handle complexity effectively.",
+    "level": "Medium"
+  },
+  {
+    "id": 7,
+    "term": "Serverless Computing",
+    "shortExplanation": "Cloud-based execution without managing servers",
+    "longExplanation": "Serverless computing allows developers to build and deploy applications without managing server infrastructure. Cloud providers dynamically allocate resources based on demand, automatically scaling applications. Serverless architectures are event-driven, meaning functions execute only when triggered, reducing costs and complexity. AWS Lambda, Google Cloud Functions, and Azure Functions are popular serverless platforms. While it simplifies development and reduces costs, serverless computing has cold start latency issues, limited execution time, and potential vendor lock-in.",
+    "level": "Medium"
+  },
+  {
+    "id": 8,
+    "term": "Quantum Computing",
+    "shortExplanation": "Computing using quantum mechanics",
+    "longExplanation": "Quantum computing is an advanced computing paradigm that leverages quantum mechanics to process information. Unlike classical computers, which use bits (0s and 1s), quantum computers use qubits that can exist in multiple states simultaneously (superposition). This enables exponential speed-ups for certain computations, making quantum computers ideal for cryptography, optimization problems, and drug discovery. Companies like IBM, Google, and D-Wave are pioneering quantum computing research. However, practical quantum computing faces challenges such as qubit stability, error correction, and high operational costs.",
+    "level": "Hard"
+  },
+  {
+    "id": 9,
+    "term": "Zero Trust Security",
+    "shortExplanation": "A security model that assumes no trust",
+    "longExplanation": "Zero Trust Security is a cybersecurity framework that assumes no entity—inside or outside the network—should be trusted by default. It enforces strict access controls, continuous authentication, and least privilege access. Unlike traditional perimeter-based security models, Zero Trust focuses on verifying every user, device, and application before granting access. Organizations implement Zero Trust through multi-factor authentication (MFA), micro-segmentation, and endpoint security. While it enhances security posture, Zero Trust requires significant investment, proper implementation, and ongoing monitoring.",
+    "level": "Hard"
+  },
+  {
+    "id": 10,
+    "term": "Digital Twin",
+    "shortExplanation": "A virtual replica of a physical object",
+    "longExplanation": "A Digital Twin is a digital representation of a physical object, system, or process that is continuously updated with real-time data. It enables simulations, analysis, and predictive maintenance in industries such as manufacturing, healthcare, and smart cities. By leveraging IoT sensors, AI, and big data analytics, Digital Twins help optimize performance, reduce downtime, and improve decision-making. However, implementing Digital Twins requires robust data integration, high computational power, and secure data exchange protocols.",
+    "level": "Hard"
+  }
+]
