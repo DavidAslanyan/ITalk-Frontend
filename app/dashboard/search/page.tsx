@@ -9,12 +9,11 @@ import SearchBlock from '@/app/components/search-block';
 
 const Search = () => {
   const [termsData, setTermsData] = useState<TermType[]>(easyTermsData);
-  const [searchInput, setSearchInput] = useState<string>("");
 
   return (
     <div className='flex flex-col justify-between h-full'>
       <div className='pt-2 md:pt-12'>
-        <SearchBlock value={searchInput} setValue={setSearchInput} />
+        <SearchBlock />
       </div>
      
       <section className='lg:ml-10 mb-10'>
