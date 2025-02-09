@@ -1,13 +1,11 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import SearchIcon from "../icons/navbar-icons/SearchIcon";
 
 
-type SearchBlockProps = {
-  value: string;
-  setValue: (arg: string) => void;
-};
+const SearchBlock = () => {
+  const [value, setValue] = useState<string>("");
 
-const SearchBlock: React.FC<SearchBlockProps> = ({ value, setValue }) => {
   return (
     <div className="flex items-center px-3 max-w-[20rem] h-[2.5rem] bg-thirdly rounded-xl">
       <SearchIcon width={25} height={25} />
