@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { DASHBOARD_URL } from '@/app/utilities/constants/global-urls';
 import HomeIcon from '../icons/navbar-icons/HomeIcon';
 import { COLORS } from '@/app/utilities/constants/colors';
+import LearnButton from '../buttons/learn-button';
 
 
 const LeftMenu = () => {
@@ -18,7 +19,12 @@ const LeftMenu = () => {
   return (
     <div className='flex flex-col bg-secondary w-[4.2rem] xl:w-36 h-[98vh] rounded'>
       <div className='flex justify-center w-full pt-10'><h1 className='text-primary'>LOGO</h1></div>
-      <ul className='pt-36 pl-5 flex flex-col gap-5'>
+
+      <div className='hidden xl:block pl-10 pt-24'>
+        <LearnButton url='/' title='Start' size='small' />
+      </div>
+
+      <ul className='pt-36 xl:pt-24 pl-5 flex flex-col gap-5'>
         <li key={homeItem.id}>
           <Link href={homeItem.url} className="flex items-center gap-2">
             <HomeIcon color={pathname === DASHBOARD_URL ? COLORS.primary : COLORS.white} />
