@@ -3,7 +3,7 @@ import React from 'react'
 import { homeItem, menuItemsBottom, menuItemsTop } from './config';
 import Link from 'next/link';
 import { usePathname } from "next/navigation";
-import { DASHBOARD_URL } from '@/app/utilities/constants/global-urls';
+import { DASHBOARD_URL, TERMS_URL } from '@/app/utilities/constants/global-urls';
 import HomeIcon from '../icons/navbar-icons/HomeIcon';
 import { COLORS } from '@/app/utilities/constants/colors';
 import LearnButton from '../buttons/learn-button';
@@ -21,7 +21,7 @@ const LeftMenu = () => {
       <div className='flex justify-center w-full pt-10'><h1 className='text-primary'>LOGO</h1></div>
 
       <div className='hidden xl:block pl-10 pt-24'>
-        <LearnButton url='/' title='Start' size='small' />
+        <LearnButton url={`${DASHBOARD_URL}/${TERMS_URL}`} title='Start' size='small' />
       </div>
 
       <ul className='pt-36 xl:pt-24 pl-5 flex flex-col gap-5'>
