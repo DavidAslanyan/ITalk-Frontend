@@ -13,6 +13,7 @@ export default {
         secondary: "#222222",
         thirdly: "#D9D9D9",
         backPrimary: "#F0F0F0", 
+        secondaryLight: "#343333",
         background: "var(--background)",
         foreground: "var(--foreground)",
       },

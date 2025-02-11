@@ -5,6 +5,7 @@ import TermScrollable from '../components/term-scrollable';
 import SearchBlock from '../components/search-block';
 import DoughnutChart from '../components/doughnut-chart';
 import LearnButton from '../components/buttons/learn-button';
+import { DASHBOARD_URL, TERMS_URL } from '../utilities/constants/global-urls';
 
 const data = {
   username: "David Aslanyan",
@@ -30,10 +31,10 @@ const DashboardHome = () => {
           <div className='flex'>
             <DoughnutChart progress={data.progress} limit={300} />
             <div className='hidden md:block pt-20 pl-10'>
-              <LearnButton url='/' title='Start' size='large' />
+              <LearnButton url={`${DASHBOARD_URL}/${TERMS_URL}`} title='Start' size='large' />
             </div>
             <div className='md:hidden pt-20'>
-              <LearnButton url='/' title='Start' size='medium' />
+              <LearnButton url={`${DASHBOARD_URL}/${TERMS_URL}`} title='Start' size='medium' />
             </div>
           </div>
         </section>
