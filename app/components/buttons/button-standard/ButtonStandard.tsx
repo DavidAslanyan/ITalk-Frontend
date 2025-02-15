@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes, forwardRef } from 'react'
 
 type ButtonProps = {
   title: string;
-  onClick: () => void;
+  onClick?: any;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 
