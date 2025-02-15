@@ -11,7 +11,7 @@ import GoogleButton from "../components/buttons/google-button";
 import { REGEX_EMAIL } from "../utilities/constants/regex-statements";
 
 
-const Register = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -107,4 +107,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
