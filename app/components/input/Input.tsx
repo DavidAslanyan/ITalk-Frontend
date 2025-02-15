@@ -56,7 +56,7 @@ const InputCustom: React.FC<InputProps> = ({
         }
 
         {isPassword &&
-        <button onClick={() => setVisible(!visible)} className='absolute right-2 top-10'>
+        <button type="button" onClick={() => setVisible(!visible)} className='absolute right-2 top-10'>
           {visible
           ? <EyeOpenIcon color={COLORS.darkGray} />
           : <EyeClosedIcon color={COLORS.darkGray} />
