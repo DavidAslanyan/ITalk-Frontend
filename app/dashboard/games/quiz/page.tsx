@@ -9,7 +9,6 @@ import { DASHBOARD_URL, GAMES } from "@/app/utilities/constants/global-urls";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
-import ButtonQuizStep from "@/app/components/buttons/button-quiz-step/ButtonQuizStep";
 
 
 const Quiz = () => {
@@ -91,7 +90,6 @@ const Quiz = () => {
     return shuffled;
   }, [randomTerms, termData, swiper]);
 
-  console.log(termData)
 
   return (
     <div className="">
