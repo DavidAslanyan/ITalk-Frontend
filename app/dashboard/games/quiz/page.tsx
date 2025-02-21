@@ -1,27 +1,41 @@
 "use client";
 import ButtonStandard from "@/app/components/buttons/button-standard";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import easyTermsData from "../../../data/easy-terms.json";
 import { fetchRandomTerms } from "@/app/utilities/functions/fetch-random-terms";
 import QuizStep from "@/app/components/quiz-step/QuizStep";
 import { useRouter } from "next/navigation";
-import { DASHBOARD_URL, GAMES } from "@/app/utilities/constants/global-urls";
+import { DASHBOARD_URL, GAMES, TERMS_URL } from "@/app/utilities/constants/global-urls";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
+import { QuizButtonForm } from "@/app/components/buttons/button-quiz-step/ButtonQuizStep";
+import Popup from "@/app/components/popup";
 
 
 const Quiz = () => {
   const router = useRouter();
-  const [gameLive, setGameLive] = useState<boolean>(true);
+  const [gameLive, setGameLive] = useState<boolean>(false);
+
   const [swiper, setSwiper] = useState<any>(null);
   const [step, setStep] = useState<number>(0);
-  const [score, setScore] = useState<number>(0);
-
   const [selectedOption, setSelectedOption] = useState<string>("");
-  const [popupOpen, setPopupOpen] = useState<boolean>(false);
+
+  const [successPopupOpen, setSuccessPopupOpen] = useState<boolean>(false);
+  const [failPopupOpen, setFailPopupOpen] = useState<boolean>(false);
+  const [response, setResponse] = useState<QuizButtonForm | "">("");
   
-  const handlePopup = () => {
+  useEffect(() => {
+    if (response === QuizButtonForm.ERROR) {
+      setFailPopupOpen(true);
+    }
+  }, [response]);
+
+  const handleFailPopup = () => {
+    router.replace(`${DASHBOARD_URL}/${TERMS_URL}`);
+  }
+
+  const handleSuccessPopup = () => {
     router.push(`${DASHBOARD_URL}/${GAMES}`);
   }
 
@@ -30,7 +44,6 @@ const Quiz = () => {
   };
 
   const termData = useMemo(() => easyTermsData.slice(data.progress), [data.progress]);
-
   const randomTerms = useMemo(() => fetchRandomTerms(3).map((term) => term.shortExplanation), [swiper, step]);
 
   const onSlideChange = () => {
@@ -41,20 +54,39 @@ const Quiz = () => {
     if (step <= randomTerms.length) {
       swiper?.slideNext();
     } else {
-      setPopupOpen(true);
+      setSuccessPopupOpen(true);
     }
     setSelectedOption("");
+    setResponse("");
   }
 
-  const handleBack = () => {
-    swiper?.slidePrev();
-    setSelectedOption("");
+  const handleSelect = (option: string) => {
+    if (selectedOption === "") {
+      setSelectedOption(option);
+    }
   }
+
+  const shuffledOptions = useMemo(() => {
+    let uniqueRandomTerms = new Set<string>();
   
+    while (uniqueRandomTerms.size < 3) {
+      const term = fetchRandomTerms(1)[0].shortExplanation;
+      if (term !== termData[step].shortExplanation) {
+        uniqueRandomTerms.add(term);
+      }
+    }
+  
+    const options = [...uniqueRandomTerms];
+    const randomIndex = Math.floor(Math.random() * (options.length + 1));
+  
+    options.splice(randomIndex, 0, termData[step].shortExplanation);
+  
+    return options;
+  }, [termData, step]);
 
   if (!gameLive) {
     return (
-      <div>
+      <div className="px-4">
         <h1>Game 1 - Quiz</h1>
         <h3>Take a quiz to test your recently learnt terms</h3>
 
@@ -77,22 +109,14 @@ const Quiz = () => {
 
         <p className="pt-10">Excited? Great then jump right into the game</p>
         <div>
-          <ButtonStandard title="Start the Game" />
+          <ButtonStandard onClick={() => setGameLive(true)} title="Start the Game" />
         </div>
       </div>
     );
   }
-
-  const shuffledOptions = useMemo(() => {
-    const shuffled = [...randomTerms];
-    const randomIndex = Math.floor(Math.random() * 3);
-    shuffled.splice(randomIndex, 0, termData[step].shortExplanation);
-    return shuffled;
-  }, [randomTerms, termData, swiper]);
-
-
+  
   return (
-    <div className="">
+    <div className="min-h-[120vh] md:h-auto">
       <h1>Game 1 - Quiz</h1>
       <h2>Question {step + 1}</h2>
 
@@ -111,33 +135,44 @@ const Quiz = () => {
               <QuizStep
                 term={item.term}
                 answer={item.shortExplanation}
-                selectOption={setSelectedOption}
+                selectedOption={selectedOption}
+                selectOption={handleSelect}
                 shuffledOptions={shuffledOptions}
+                setResponse={setResponse}
               />
             </SwiperSlide>
           ))}
         </Swiper>
 
         <div>
+          <span>{response}</span>
           <p>{selectedOption}</p>
         </div>
 
         <div className="flex justify-between mt-4 gap-4">
-        <button
-          disabled={step === 0}
-          className={`border px-6 py-2 ${step === 0 ? "bg-thirdly" : "bg-secondary" } text-white rounded transition-all`}
-          onClick={handleBack}
-        >
-          Back
-        </button>
         
         <ButtonStandard 
+          disabled={selectedOption === ""}
           onClick={handleNext}
-          title={"Next"}
+          title={step <= randomTerms.length ? "Next" : "Finish"}
           />
         </div>
       </div>
 
+      <Popup isOpen={successPopupOpen}>
+        <div className="flex flex-col items-center justify-center p-5">
+          <span className="py-3 text-2xl text-green-600 font-bold">SUCCESS</span>
+          <ButtonStandard onClick={handleSuccessPopup} title="Proceed to other Games"/>
+        </div>
+      </Popup>
+
+      
+      <Popup isOpen={failPopupOpen}> 
+        <div className="flex flex-col items-center justify-center p-5">
+          <span className="py-3 text-2xl text-red-600 font-bold">FAIL</span>
+          <ButtonStandard onClick={handleFailPopup} title="Return to Terms"/>
+        </div>
+      </Popup>
 
     </div>
   );

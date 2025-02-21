@@ -8,7 +8,7 @@ const GAMES = [
     title: "Game Name 1",
     gif: "/games/giphy.gif",
     image: "/games/sample.jpg",
-    url: "/",
+    url: "games/quiz",
   },
   {
     id: 2,
