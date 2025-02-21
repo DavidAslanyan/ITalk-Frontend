@@ -2,7 +2,7 @@ import React, { useEffect, ReactNode } from "react";
 
 type PopupProps = {
   isOpen: boolean;
-  setIsOpen: (arg: boolean) => void;
+  setIsOpen?: (arg: boolean) => void;
   children: ReactNode;
 };
 

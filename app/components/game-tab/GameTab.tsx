@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import ButtonStandard from "../buttons/button-standard";
+import { useRouter } from "next/navigation";
 
 type GameTabProps = {
   title: string;
@@ -11,6 +12,8 @@ type GameTabProps = {
 };
 
 const GameTab: React.FC<GameTabProps> = ({ title, url, gif, image }) => {
+  const router = useRouter();
+
   return (
     <div className="group relative w-full max-w-[20rem] cursor-pointer">
       <div className="absolute top-0 left-0 w-full h-full rounded-t-md opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -38,7 +41,7 @@ const GameTab: React.FC<GameTabProps> = ({ title, url, gif, image }) => {
           {title}
         </span>
         <div className="opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-          <ButtonStandard title="Play" onClick={() => {}} />
+          <ButtonStandard title="Play" onClick={() => router.push(url)} />
         </div>
       </div>
     </div>
