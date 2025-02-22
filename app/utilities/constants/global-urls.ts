@@ -5,4 +5,5 @@ export const REGISER_URL = "/register";
 export const POLICY_URL = "/policy";
 
 export const GAMES = "games";
+export const GAME_QUIZ = "games/quiz";
 

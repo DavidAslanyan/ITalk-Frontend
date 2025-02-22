@@ -5,13 +5,17 @@ import easyTermsData from "../../../data/easy-terms.json";
 import { fetchRandomTerms } from "@/app/utilities/functions/fetch-random-terms";
 import QuizStep from "@/app/components/quiz-step/QuizStep";
 import { useRouter } from "next/navigation";
-import { DASHBOARD_URL, GAMES, TERMS_URL } from "@/app/utilities/constants/global-urls";
+import { DASHBOARD_URL, GAME_QUIZ, GAMES, TERMS_URL } from "@/app/utilities/constants/global-urls";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import { QuizButtonForm } from "@/app/components/buttons/button-quiz-step/ButtonQuizStep";
 import Popup from "@/app/components/popup";
+import SmallProgressBar from "@/app/components/small-progress-bar/SmallProgressBar";
+import Timer from "@/app/components/timer";
 
+
+const TIMER_SECONDS = 45;
 
 const Quiz = () => {
   const router = useRouter();
@@ -20,16 +24,29 @@ const Quiz = () => {
   const [swiper, setSwiper] = useState<any>(null);
   const [step, setStep] = useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<string>("");
+  const [timerRunning, setTimerRunning] = useState<boolean>(true);
 
   const [successPopupOpen, setSuccessPopupOpen] = useState<boolean>(false);
   const [failPopupOpen, setFailPopupOpen] = useState<boolean>(false);
+  const [timeOverPopupOpen, setTimeOverPopupOpen] = useState<boolean>(false);
   const [response, setResponse] = useState<QuizButtonForm | "">("");
+
+  useEffect(() => {
+    if (!timerRunning && !successPopupOpen && !failPopupOpen) {
+      setTimeOverPopupOpen(true);
+    }
+  }, [timerRunning]);
   
   useEffect(() => {
     if (response === QuizButtonForm.ERROR) {
+      setTimerRunning(false);
       setFailPopupOpen(true);
     }
   }, [response]);
+
+  const handleRetry = () => {
+    window.location.reload();
+  }
 
   const handleFailPopup = () => {
     router.replace(`${DASHBOARD_URL}/${TERMS_URL}`);
@@ -54,6 +71,7 @@ const Quiz = () => {
     if (step <= randomTerms.length) {
       swiper?.slideNext();
     } else {
+      setTimerRunning(false);
       setSuccessPopupOpen(true);
     }
     setSelectedOption("");
@@ -116,46 +134,60 @@ const Quiz = () => {
   }
   
   return (
-    <div className="min-h-[120vh] md:h-auto">
-      <h1>Game 1 - Quiz</h1>
-      <h2>Question {step + 1}</h2>
+    <div className="h-[140vh] md:h-auto">
+      <h1 className="text-secondary text-2xl font-semibold">Game 1 - Quiz</h1>
 
+      <div className="pt-10">
+        <Timer setIsRunning={setTimerRunning} seconds={TIMER_SECONDS} isRunning={timerRunning} />
+      </div>
       
-      <div className="w-full max-w-[50rem]">
-        <Swiper
-          modules={[Navigation, Pagination]}
-          spaceBetween={50}
-          slidesPerView={1}
-          onSwiper={setSwiper}
-          onSlideChange={onSlideChange}
-          allowTouchMove={false}
-        >
-          {termData.map((item ,index) => (
-            <SwiperSlide key={index}>
-              <QuizStep
-                term={item.term}
-                answer={item.shortExplanation}
-                selectedOption={selectedOption}
-                selectOption={handleSelect}
-                shuffledOptions={shuffledOptions}
-                setResponse={setResponse}
+      <div className="md:flex pt-3 justify-center items-center">
+        <div className="w-full max-w-[40rem] lg:max-w-[50rem]">
+          <h2 className="text-center text-lg font-semibold">Question {step + 1}</h2>
+          <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={50}
+            slidesPerView={1}
+            onSwiper={setSwiper}
+            onSlideChange={onSlideChange}
+            allowTouchMove={false}
+          >
+            {termData.map((item ,index) => (
+              <SwiperSlide key={index}>
+                <QuizStep
+                  term={item.term}
+                  answer={item.shortExplanation}
+                  selectedOption={selectedOption}
+                  selectOption={handleSelect}
+                  shuffledOptions={shuffledOptions}
+                  setResponse={setResponse}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          <div className="flex flex-col items-center justify-center gap-3">
+            {response === QuizButtonForm.SUCCESS ?
+            <span className="pt-3 text-xl text-green-700 font-semibold">Correct, well done !</span>
+            : <span className="pt-3 text-xl">Select the right option</span>
+            }
+
+            <div className="pt-3">
+              <ButtonStandard 
+                disabled={selectedOption === ""}
+                onClick={handleNext}
+                title={step <= randomTerms.length ? "Next Question" : "Finish"}
               />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+            </div>
+          </div>
 
-        <div>
-          <span>{response}</span>
-          <p>{selectedOption}</p>
-        </div>
+          <section className="w-full max-w-[30rem] mx-auto pt-10">
+            <div className="w-full">
+              <SmallProgressBar progress={step} limit={randomTerms.length + 2} />
+            </div>
+          </section>
 
-        <div className="flex justify-between mt-4 gap-4">
         
-        <ButtonStandard 
-          disabled={selectedOption === ""}
-          onClick={handleNext}
-          title={step <= randomTerms.length ? "Next" : "Finish"}
-          />
         </div>
       </div>
 
@@ -170,7 +202,19 @@ const Quiz = () => {
       <Popup isOpen={failPopupOpen}> 
         <div className="flex flex-col items-center justify-center p-5">
           <span className="py-3 text-2xl text-red-600 font-bold">FAIL</span>
-          <ButtonStandard onClick={handleFailPopup} title="Return to Terms"/>
+          <ButtonStandard onClick={handleRetry} title="Try Again"/>
+          <span className="text-secondary py-1 font-medium">or</span>
+          <button onClick={handleFailPopup} className="text-secondary text-base font-semibold">Return to Terms</button>
+        </div>
+      </Popup>
+
+      <Popup isOpen={timeOverPopupOpen}> 
+        <div className="flex flex-col items-center justify-center p-5">
+          <span className="py-3 text-2xl text-red-600 font-bold">FAIL</span>
+          <span className="pb-2 text-red-600 text-xl">Sorry, your time is over</span>
+          <ButtonStandard onClick={handleRetry} title="Try Again"/>
+          <span className="text-secondary py-1 font-medium">or</span>
+          <button onClick={handleFailPopup} className="text-secondary text-base font-semibold">Return to Terms</button>
         </div>
       </Popup>
 
