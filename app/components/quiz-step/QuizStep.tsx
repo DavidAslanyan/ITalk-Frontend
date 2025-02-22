@@ -34,11 +34,11 @@ const QuizStep: React.FC<QuizStepProps> = ({
   };
 
   return (
-    <div className='border flex flex-col justify-center items-center'>
-      <span className='text-secondary text-base'>
+    <div className='flex flex-col justify-center items-center'>
+      <span className='text-secondary text-center text-base'>
         What does this mean? - <span className='text-secondary text-2xl font-semibold'>{term}</span>
       </span>
-      <ul className='pt-5 flex w-full max-w-[45rem] flex-wrap items-center gap-4'>
+      <ul className='pt-5 flex w-full max-w-[45rem] flex-wrap items-center justify-center gap-4'>
         {shuffledOptions?.map((option, index) => (
           <li key={index}>
             <ButtonQuizStep 

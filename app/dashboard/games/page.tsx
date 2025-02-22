@@ -5,7 +5,7 @@ import React from "react";
 const GAMES = [
   {
     id: 1,
-    title: "Game Name 1",
+    title: "Classics - Quiz",
     gif: "/games/giphy.gif",
     image: "/games/sample.jpg",
     url: "games/quiz",

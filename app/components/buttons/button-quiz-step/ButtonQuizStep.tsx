@@ -28,7 +28,7 @@ const ButtonQuizStep: React.FC<ButtonProps> = ({
       type='button'
       className={`
         ${buttonColor}
-        text-white rounded-sm w-full max-w-[20rem] md:max-w-auto md:w-[20rem] h-20 py-2 px-3`
+        text-white rounded-sm w-full max-w-[20rem] md:max-w-auto md:w-[20rem] h-20 py-2 px-3 transition-all`
       }
       onClick={onClick}
       >
