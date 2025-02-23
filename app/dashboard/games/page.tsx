@@ -15,7 +15,7 @@ const GAMES = [
     title: "Game Name 2",
     gif: "/games/giphy.gif",
     image: "/games/sample.jpg",
-    url: "/",
+    url: "games/missing-word",
   },
   {
     id: 3,
