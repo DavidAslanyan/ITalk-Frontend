@@ -12,17 +12,17 @@ const GAMES = [
   },
   {
     id: 2,
-    title: "Game Name 2",
+    title: "Missing Word",
     gif: "/games/giphy.gif",
     image: "/games/sample.jpg",
     url: "games/missing-word",
   },
   {
     id: 3,
-    title: "Game Name 3",
+    title: "Word Shuffle",
     gif: "/games/giphy.gif",
     image: "/games/sample.jpg",
-    url: "/",
+    url: "games/word-shuffle",
   },
   {
     id: 4,
