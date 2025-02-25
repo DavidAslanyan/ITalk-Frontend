@@ -5,7 +5,7 @@ import easyTermsData from "../../../data/easy-terms.json";
 import { fetchRandomTerms } from "@/app/utilities/functions/fetch-random-terms";
 import QuizStep from "@/app/components/quiz-step/QuizStep";
 import { useRouter } from "next/navigation";
-import { DASHBOARD_URL, GAME_QUIZ, GAMES, TERMS_URL } from "@/app/utilities/constants/global-urls";
+import { DASHBOARD_URL, GAMES, TERMS_URL } from "@/app/utilities/constants/global-urls";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -183,7 +183,7 @@ const Quiz = () => {
 
           <section className="w-full max-w-[30rem] mx-auto pt-10">
             <div className="w-full">
-              <SmallProgressBar progress={step} limit={randomTerms.length + 2} />
+              <SmallProgressBar progress={step} limit={randomTerms.length + 1} />
             </div>
           </section>
 
