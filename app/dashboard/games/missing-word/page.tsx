@@ -18,6 +18,7 @@ const TIMER_SECONDS = 59;
 
 const MissingWord = () => {
   const router = useRouter();
+  const [gameLive, setGameLive] = useState<boolean>(false);
   const [swiper, setSwiper] = useState<any>(null);
   const [step, setStep] = useState<number>(0);
   const [response, setResponse] = useState<CheckedWordReponseEnum | null>(null);
@@ -73,6 +74,38 @@ const MissingWord = () => {
       setSuccessPopupOpen(true);
     }
     setResponse(null);
+  }
+
+  if (!gameLive) {
+    return (
+      <div className="px-4">
+        <h1 className="text-secondary text-2xl font-semibold">
+          Game 2 - Missing Word
+        </h1>
+        <h3>Find the missing words in the terms' explanations to test your recently learnt </h3>
+
+        <div className="pt-10">
+          <span className="text-xl font-semibold">Instructions</span>
+          <ul className=" list-decimal">
+            <li>Simple and straighforward game</li>
+            <li>A short explanation of one the learned terms will be shown to you</li>
+            <li>
+              However, one of the words will be missing
+            </li>
+            <li>You will have to type the missing word by yourself and click check</li>
+            <li>You have 1 minute to complete all 5 terms</li>
+            <li>Tha's it, continue the same steps for the rest of the terms</li>
+            <li>If you passed all, Congrats, you won Game 2</li>
+            <li>You are ready to proceed to the next games</li>
+          </ul>
+        </div>
+
+        <p className="pt-10">Excited? Great then jump right into the game</p>
+        <div className="pt-5 pb-20">
+          <ButtonStandard onClick={() => setGameLive(true)} title="Start the Game" />
+        </div>
+      </div>
+    );
   }
 
 
