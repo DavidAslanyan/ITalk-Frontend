@@ -1,6 +1,5 @@
 "use client";
-import React, { Fragment, useMemo, useState } from 'react'
-import InputUnderlined from '../input-underlined';
+import React, { useEffect, useMemo, useState } from 'react'
 import ButtonStandard from '../buttons/button-standard';
 
 
@@ -12,7 +11,6 @@ export enum CheckedWordReponseEnum {
 type MissingWordStepProps = {
   term: string;
   explanation: string;
-  response: CheckedWordReponseEnum | null;
   setResponse: (arg: CheckedWordReponseEnum) => void;
 }
 
@@ -22,21 +20,24 @@ const UNDERLINE = "_";
 const MissingWordStep: React.FC<MissingWordStepProps> = ({
   term,
   explanation,
-  response,
   setResponse
 }) => {
   const words = explanation.split(' ');
   const longWords = words.filter((word) => word.length >= WORD_LENGTH);
-
+  
   const [inputValue, setInputValue] = useState<string>("");
   const [savedWord, setSavedWord] = useState<string | null>(null);
-
+  
+  useEffect(() => {
+    if (longWords.length > 0) {
+      setSavedWord(longWords[Math.floor(Math.random() * Math.min(3, longWords.length))]);
+    }
+  }, [term]); 
+  
   const formattedWords = useMemo(() => {
-    const wordToCut = longWords[Math.floor(Math.random() * 3)];
-    setSavedWord(wordToCut);
-
-    return words.map((word) => (word === wordToCut ? UNDERLINE : word));
-  }, [term, savedWord]);
+    return words.map((word) => (word === savedWord ? UNDERLINE : word));
+  }, [words, savedWord]);
+  
 
   const handleCheckClick = () => {
     if (inputValue.toLowerCase() === savedWord?.toLowerCase()) {
@@ -46,22 +47,26 @@ const MissingWordStep: React.FC<MissingWordStepProps> = ({
     }
   }
 
+
   return (
     <div className='flex flex-col justify-center items-center'>
-      <p>Term: {term}</p>
-      <div className='flex items-center gap-2'>
-        {formattedWords.map((word, index) => (
-          word === UNDERLINE
-          ? 
-          <div key={index}>
-            <InputUnderlined 
-              value={inputValue} 
-              onChange={(e) => setInputValue(e.target.value)}
-              name='missingTerm' 
-            />
-          </div>
-          : <p className='text-base text-secondary font-medium' key={index}>{word}</p>
-        ))}
+      <p className='pt-5'>Term: <span className='text-xl text-secondary font-semibold'>{term}</span></p>
+      <div className='pt-10 flex flex-wrap items-center gap-2'>
+        {formattedWords.map((word, index) => {
+          if (word === UNDERLINE) {
+            return (
+              <div key={index} className='border-b-2 border-b-secondary'>
+                <input 
+                  value={inputValue} 
+                  onChange={(e) => setInputValue(e.target.value)}
+                  name='missingTerm' 
+                  className={`text-lg px-2 w-full max-w-[10rem] font-semibold text-secondary bg-backPrimary border-none focus:outline-none`}
+                  />
+              </div>
+            )
+          }
+          return <p className='text-md text-secondary font-medium' key={index}>{word}</p>
+        })}
       </div>
 
       <div className='pt-6'>
