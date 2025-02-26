@@ -1,72 +1,72 @@
 [
   {
     "id": 1,
-    "term": "AI",
-    "shortExplanation": "Artificial Intelligence",
-    "longExplanation": "Artificial Intelligence (AI) refers to the simulation of human intelligence in machines. AI systems can perform tasks such as learning, reasoning, problem-solving, perception, and language understanding. AI can be divided into narrow AI, which specializes in specific tasks like speech recognition, and general AI, which aims to perform any intellectual task a human can do. Machine learning and deep learning are subsets of AI that focus on training models using large datasets. AI is widely used in applications like chatbots, recommendation systems, and autonomous vehicles. While AI offers many benefits, ethical concerns such as bias, job displacement, and privacy issues are ongoing challenges.",
-    "level": "Easy"
+    "term": "Load Balancing",
+    "shortExplanation": "Distributing network traffic efficiently",
+    "longExplanation": "Load balancing is the process of distributing network traffic across multiple servers to ensure no single server becomes overwhelmed. This improves application availability, fault tolerance, and response times. Load balancers can be hardware-based or software-based and operate at different layers of the OSI model. Common strategies include round-robin, least connections, and IP hash-based balancing. Popular tools include Nginx, HAProxy, and AWS Elastic Load Balancer. Challenges include handling session persistence, SSL termination, and distributed denial-of-service (DDoS) mitigation.",
+    "level": "Medium"
   },
   {
     "id": 2,
-    "term": "Blockchain",
-    "shortExplanation": "A decentralized digital ledger",
-    "longExplanation": "Blockchain is a distributed and decentralized ledger technology that securely records transactions across multiple computers. It enables transparency, immutability, and security by linking blocks of data in a chain. Each block contains a cryptographic hash of the previous block, ensuring that no data can be altered retroactively without altering all subsequent blocks. Blockchain is the foundation of cryptocurrencies like Bitcoin and Ethereum but has applications beyond finance, including supply chain management, voting systems, and smart contracts. Despite its benefits, blockchain faces scalability challenges, regulatory concerns, and energy consumption issues.",
-    "level": "Easy"
+    "term": "Container Orchestration",
+    "shortExplanation": "Managing containerized applications",
+    "longExplanation": "Container orchestration automates the deployment, scaling, and management of containerized applications across clusters. It ensures containers run efficiently and optimally across different environments. Kubernetes is the most widely used container orchestration tool, allowing developers to manage microservices-based applications with features like service discovery, load balancing, and self-healing capabilities. Other tools include Docker Swarm and Apache Mesos. Challenges include managing stateful applications, networking complexities, and security concerns in multi-tenant environments.",
+    "level": "Medium"
   },
   {
     "id": 3,
-    "term": "Cloud Computing",
-    "shortExplanation": "On-demand computing over the internet",
-    "longExplanation": "Cloud computing refers to the delivery of computing services—including servers, storage, databases, networking, software, and analytics—over the internet. It allows users to access and store data remotely instead of on local hardware. Cloud computing offers scalability, cost-efficiency, and flexibility, making it ideal for businesses of all sizes. It is categorized into three main types: Infrastructure as a Service (IaaS), Platform as a Service (PaaS), and Software as a Service (SaaS). Major providers include AWS, Google Cloud, and Microsoft Azure. However, security risks and potential data breaches remain concerns for cloud users.",
-    "level": "Easy"
+    "term": "API Gateway",
+    "shortExplanation": "A centralized API management layer",
+    "longExplanation": "An API Gateway is a server that acts as an intermediary between clients and backend services, managing API requests, authentication, and traffic control. It provides features such as rate limiting, caching, request transformation, and security enforcement. Popular API gateways include Kong, Apigee, and AWS API Gateway. API gateways help optimize microservices communication and ensure scalability, but they introduce additional latency, complexity, and single points of failure if not managed properly.",
+    "level": "Medium"
   },
   {
     "id": 4,
-    "term": "Edge Computing",
-    "shortExplanation": "Processing data closer to the source",
-    "longExplanation": "Edge computing is a distributed computing model that processes data closer to its source rather than relying solely on centralized cloud servers. This reduces latency, enhances real-time processing, and minimizes bandwidth usage. It is especially useful in applications like autonomous vehicles, IoT devices, and industrial automation. By processing data at the edge, businesses can improve efficiency, security, and performance. However, edge computing also introduces challenges such as device management, security vulnerabilities, and interoperability issues between different hardware and software systems.",
+    "term": "Event-Driven Architecture",
+    "shortExplanation": "Designing systems around events",
+    "longExplanation": "Event-Driven Architecture (EDA) is a software design pattern where components communicate by producing and consuming events rather than direct function calls. It enables real-time processing, scalability, and decoupled systems. EDA is widely used in microservices, IoT applications, and real-time analytics. Technologies like Apache Kafka, RabbitMQ, and AWS EventBridge facilitate event streaming and messaging. However, implementing EDA introduces challenges such as event ordering, eventual consistency, and debugging complexity due to asynchronous workflows.",
     "level": "Medium"
   },
   {
     "id": 5,
-    "term": "DevOps",
-    "shortExplanation": "Development and Operations collaboration",
-    "longExplanation": "DevOps is a software development methodology that integrates development (Dev) and IT operations (Ops) to improve software delivery speed and reliability. It emphasizes automation, continuous integration/continuous deployment (CI/CD), monitoring, and collaboration. DevOps helps teams build, test, and release software more frequently and efficiently. Popular tools include Docker, Kubernetes, Jenkins, and Terraform. The approach enhances system reliability, reduces deployment failures, and improves time to market. However, implementing DevOps requires cultural change, skill upgrades, and significant process adjustments within organizations.",
+    "term": "Service Mesh",
+    "shortExplanation": "Managing service-to-service communication",
+    "longExplanation": "A Service Mesh is an infrastructure layer that manages service-to-service communication in microservices architectures. It provides features such as traffic control, observability, security, and resilience through sidecar proxies. Popular service mesh solutions include Istio, Linkerd, and Consul. Service meshes help in managing distributed applications efficiently but come with increased complexity, resource overhead, and configuration challenges.",
     "level": "Medium"
   },
   {
     "id": 6,
-    "term": "Microservices",
-    "shortExplanation": "An architecture for scalable applications",
-    "longExplanation": "Microservices architecture breaks down applications into small, loosely coupled services that can be developed, deployed, and scaled independently. Each microservice handles a specific function and communicates with others via APIs. This approach enhances scalability, flexibility, and fault isolation compared to monolithic architectures. Popular tools for microservices include Docker, Kubernetes, and service mesh technologies like Istio. However, managing microservices requires robust DevOps practices, API management, and service orchestration to handle complexity effectively.",
+    "term": "GraphQL",
+    "shortExplanation": "A flexible query language for APIs",
+    "longExplanation": "GraphQL is a query language for APIs that allows clients to request specific data, reducing over-fetching and under-fetching issues. Unlike REST, GraphQL provides a single endpoint for fetching structured data, improving efficiency and flexibility. It is widely used in modern web applications and is supported by libraries like Apollo and Relay. While GraphQL enhances API performance and usability, it introduces complexity in caching, rate limiting, and query optimization.",
     "level": "Medium"
   },
   {
     "id": 7,
-    "term": "Serverless Computing",
-    "shortExplanation": "Cloud-based execution without managing servers",
-    "longExplanation": "Serverless computing allows developers to build and deploy applications without managing server infrastructure. Cloud providers dynamically allocate resources based on demand, automatically scaling applications. Serverless architectures are event-driven, meaning functions execute only when triggered, reducing costs and complexity. AWS Lambda, Google Cloud Functions, and Azure Functions are popular serverless platforms. While it simplifies development and reduces costs, serverless computing has cold start latency issues, limited execution time, and potential vendor lock-in.",
+    "term": "Infrastructure as Code (IaC)",
+    "shortExplanation": "Managing infrastructure with code",
+    "longExplanation": "Infrastructure as Code (IaC) is the practice of managing and provisioning IT infrastructure using machine-readable configuration files rather than manual processes. It ensures consistency, scalability, and automation in cloud and on-premises environments. Popular IaC tools include Terraform, Ansible, and AWS CloudFormation. While IaC reduces human errors and deployment time, it requires proper version control, security considerations, and a learning curve for teams unfamiliar with declarative infrastructure management.",
     "level": "Medium"
   },
   {
     "id": 8,
-    "term": "Quantum Computing",
-    "shortExplanation": "Computing using quantum mechanics",
-    "longExplanation": "Quantum computing is an advanced computing paradigm that leverages quantum mechanics to process information. Unlike classical computers, which use bits (0s and 1s), quantum computers use qubits that can exist in multiple states simultaneously (superposition). This enables exponential speed-ups for certain computations, making quantum computers ideal for cryptography, optimization problems, and drug discovery. Companies like IBM, Google, and D-Wave are pioneering quantum computing research. However, practical quantum computing faces challenges such as qubit stability, error correction, and high operational costs.",
-    "level": "Hard"
+    "term": "NoSQL Databases",
+    "shortExplanation": "Flexible, schema-less databases",
+    "longExplanation": "NoSQL databases are designed for handling unstructured or semi-structured data, offering flexibility, scalability, and high performance compared to traditional relational databases. They are categorized into key-value stores, document stores, column-family stores, and graph databases. Popular NoSQL databases include MongoDB, Cassandra, and Redis. NoSQL databases excel in handling big data and real-time applications but can introduce challenges in complex queries, consistency models, and schema evolution.",
+    "level": "Medium"
   },
   {
     "id": 9,
-    "term": "Zero Trust Security",
-    "shortExplanation": "A security model that assumes no trust",
-    "longExplanation": "Zero Trust Security is a cybersecurity framework that assumes no entity—inside or outside the network—should be trusted by default. It enforces strict access controls, continuous authentication, and least privilege access. Unlike traditional perimeter-based security models, Zero Trust focuses on verifying every user, device, and application before granting access. Organizations implement Zero Trust through multi-factor authentication (MFA), micro-segmentation, and endpoint security. While it enhances security posture, Zero Trust requires significant investment, proper implementation, and ongoing monitoring.",
-    "level": "Hard"
+    "term": "Reverse Proxy",
+    "shortExplanation": "An intermediary server for requests",
+    "longExplanation": "A reverse proxy is a server that sits between client devices and backend servers, handling incoming requests and distributing them efficiently. It improves load balancing, security, and caching for web applications. Common reverse proxy solutions include Nginx, Apache HTTP Server, and HAProxy. While reverse proxies enhance application performance and security, misconfigurations can lead to vulnerabilities and performance bottlenecks.",
+    "level": "Medium"
   },
   {
     "id": 10,
-    "term": "Digital Twin",
-    "shortExplanation": "A virtual replica of a physical object",
-    "longExplanation": "A Digital Twin is a digital representation of a physical object, system, or process that is continuously updated with real-time data. It enables simulations, analysis, and predictive maintenance in industries such as manufacturing, healthcare, and smart cities. By leveraging IoT sensors, AI, and big data analytics, Digital Twins help optimize performance, reduce downtime, and improve decision-making. However, implementing Digital Twins requires robust data integration, high computational power, and secure data exchange protocols.",
-    "level": "Hard"
+    "term": "Data Lake",
+    "shortExplanation": "A centralized repository for large datasets",
+    "longExplanation": "A Data Lake is a storage system that holds vast amounts of raw data in its native format, supporting structured, semi-structured, and unstructured data. It enables big data analytics, machine learning, and real-time processing. Technologies like Apache Hadoop, AWS S3, and Azure Data Lake Storage power data lake solutions. While data lakes offer scalability and cost efficiency, they require proper data governance, security measures, and indexing to prevent turning into ‘data swamps’ with unmanageable data.",
+    "level": "Medium"
   }
 ]
