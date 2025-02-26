@@ -1,6 +1,6 @@
 import easyTermsData from "../../data/easy-terms.json";
-import mediumTermsData from "../../data/easy-terms.json";
-import hardTermsData from "../../data/easy-terms.json";
+import mediumTermsData from "../../data/medium-terms.json";
+import hardTermsData from "../../data/hard-terms.json";
 
 
 export const fetchRandomTerms = (numberOfTerms: number) => {

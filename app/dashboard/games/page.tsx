@@ -26,10 +26,10 @@ const GAMES = [
   },
   {
     id: 4,
-    title: "Game Name 4",
+    title: "Feed the Dino",
     gif: "/games/giphy.gif",
     image: "/games/sample.jpg",
-    url: "/",
+    url: "games/feed-dino",
   },
 ];
 
