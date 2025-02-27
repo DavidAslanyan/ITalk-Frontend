@@ -144,14 +144,12 @@ const FeedMonster = () => {
         </div>
       </DndContext>
 
-
       <Popup isOpen={successPopupOpen}>
         <div className="flex flex-col items-center justify-center p-5">
           <span className="py-3 text-2xl text-green-600 font-bold">SUCCESS</span>
           <ButtonStandard onClick={handleSuccessPopup} title="Proceed to other Games"/>
         </div>
       </Popup>
-
       
       <Popup isOpen={failPopupOpen}> 
         <div className="flex flex-col items-center justify-center p-5">
