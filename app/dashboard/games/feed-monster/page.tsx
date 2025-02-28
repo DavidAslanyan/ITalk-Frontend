@@ -1,7 +1,6 @@
 "use client";
 import DottedLine from '@/app/components/dotted-line';
 import FoodPlate from '@/app/components/food-plate';
-import Zombie from '@/app/components/lottie-zombie';
 import React, { useEffect, useMemo, useState } from 'react';
 import easyTermsData from "../../../data/easy-terms.json";
 import { fetchRandomTerms } from "@/app/utilities/functions/fetch-random-terms";
@@ -16,9 +15,10 @@ import { DASHBOARD_URL, GAMES, TERMS_URL } from '@/app/utilities/constants/globa
 import Popup from '@/app/components/popup';
 import ButtonStandard from '@/app/components/buttons/button-standard';
 import Timer from '@/app/components/timer';
+import Monster from '@/app/components/lottie-monster';
 
 
-const TIMER_SECONDS = 45;
+const TIMER_SECONDS = 120;
 
 const FeedMonster = () => {
   const router = useRouter();
@@ -26,6 +26,7 @@ const FeedMonster = () => {
     progress: 5,
   };
 
+  const [gameLive, setGameLive] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
   const [response, setResponse] = useState<ResponseEnum | null>(null);
   const [shuffledTerms, setShuffledTerms] = useState<string[]>([]);
@@ -48,6 +49,7 @@ const FeedMonster = () => {
       setFailPopupOpen(true);
     } else if (response === ResponseEnum.SUCCESS) {
       setSuccessPopupOpen(true);
+      setTimerRunning(false);
     }
   }, [response]);
 
@@ -72,12 +74,14 @@ const FeedMonster = () => {
   }, [data.progress]);
   
   const randomTerms = useMemo(() => {
-    return fetchRandomTerms(5).map((term) => term.term);
+    const fetchedTerms = fetchRandomTerms(5).map((term) => term.term);
+    return Array.from(new Set(fetchedTerms.filter(term => !termsData.includes(term))));
   }, [step]);
+  
   
   useEffect(() => {
     setShuffledTerms(shuffleArray([...termsData, ...randomTerms]));
-  }, [termsData, randomTerms]);
+  }, []);
 
   const [draggingItem, setDraggingItem] = useState<string | null>(null);
 
@@ -90,7 +94,7 @@ const FeedMonster = () => {
   function handleDragEnd({ over }: any) {  
     if (draggingItem) {
       if (draggingItem.toLowerCase() === termsData[step].toLowerCase()) {
-        setStep(step + 1);
+        setStep((prev) => prev + 1);
         setShuffledTerms((prev) => prev.filter((term) => term.toLowerCase() !== draggingItem.toLowerCase()));
       } else {
         setResponse(ResponseEnum.FAIL);
@@ -98,11 +102,44 @@ const FeedMonster = () => {
     }
   
     setDraggingItem(null); 
+  }  
+
+  if (!gameLive) {
+    return (
+      <div className="px-4">
+        <h1 className="text-secondary text-2xl font-semibold">
+          Game 4 - Feed the Monster
+        </h1>
+        <h3>Figure out what term the mosnter needs and feed him with it</h3>
+
+        <div className="pt-10">
+          <span className="text-xl font-semibold">Instructions</span>
+          <ul className=" list-decimal">
+            <li>Simple and straightforward game</li>
+            <li>The monster is hungry and you need to feed him</li>
+            <li>The monster is very bad at speaking so you will have to figure out what terms does he want</li>
+            <li>
+              He has a plate where you need to place the terms which trasnform into food for him
+            </li>
+            <li>Fill the plate with food until the monster the satisfied</li>
+            <li>When the plate is full, press feed and feed the monster</li>
+            <li>That's it you won the game!</li>
+            <li>Note: The monster is very sensitive you grab a wrong term, he will get angry and you will loose</li>
+            <li>So, pick think carefully before you grab one</li>
+            <li>Note, if you are on a mobile, no need to grab, just tap on the term and it will be automatically placed on monster's plate</li>
+          </ul>
+        </div>
+
+        <p className="pt-10">Excited? Great then jump right into the game</p>
+        <div className="pt-5 pb-20">
+          <ButtonStandard onClick={() => setGameLive(true)} title="Start the Game" />
+        </div>
+      </div>
+    );
   }
-  
 
   return (
-    <div className="h-[140vh] md:h-auto">
+    <div className="h-[160vh] sm:h-auto">
       <h1 className="text-secondary text-2xl font-semibold">
         Game 4 - Feed the Monster
       </h1>
@@ -110,7 +147,7 @@ const FeedMonster = () => {
       <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
         <div className="pt-10 flex flex-col-reverse xl:flex-row xl:justify-around items-center">
           <section className="flex flex-1 flex-row xl:flex-col items-center pt-10 xl:pt-0">
-            <div className="flex items-center justify-center">
+            <div className="hidden sm:flex items-center justify-center">
               <Timer setIsRunning={setTimerRunning} seconds={TIMER_SECONDS} isRunning={timerRunning} />
             </div>
             <div className="flex flex-col xl:flex-row items-center">
@@ -119,7 +156,7 @@ const FeedMonster = () => {
                 buttonActive={step === monstersQuestions.length} 
                 setResponse={setResponse}
                 />
-              <Zombie />
+              <Monster />
             </div>
             <Droppable id="droppable">
               <FoodPlate step={step} />
@@ -144,14 +181,12 @@ const FeedMonster = () => {
         </div>
       </DndContext>
 
-
       <Popup isOpen={successPopupOpen}>
         <div className="flex flex-col items-center justify-center p-5">
           <span className="py-3 text-2xl text-green-600 font-bold">SUCCESS</span>
           <ButtonStandard onClick={handleSuccessPopup} title="Proceed to other Games"/>
         </div>
       </Popup>
-
       
       <Popup isOpen={failPopupOpen}> 
         <div className="flex flex-col items-center justify-center p-5">
