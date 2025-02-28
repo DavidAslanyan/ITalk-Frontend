@@ -18,7 +18,7 @@ import ButtonStandard from '@/app/components/buttons/button-standard';
 import Timer from '@/app/components/timer';
 
 
-const TIMER_SECONDS = 45;
+const TIMER_SECONDS = 120;
 
 const FeedMonster = () => {
   const router = useRouter();
@@ -48,6 +48,7 @@ const FeedMonster = () => {
       setFailPopupOpen(true);
     } else if (response === ResponseEnum.SUCCESS) {
       setSuccessPopupOpen(true);
+      setTimerRunning(false);
     }
   }, [response]);
 
@@ -72,12 +73,14 @@ const FeedMonster = () => {
   }, [data.progress]);
   
   const randomTerms = useMemo(() => {
-    return fetchRandomTerms(5).map((term) => term.term);
+    const fetchedTerms = fetchRandomTerms(5).map((term) => term.term);
+    return Array.from(new Set(fetchedTerms.filter(term => !termsData.includes(term))));
   }, [step]);
+  
   
   useEffect(() => {
     setShuffledTerms(shuffleArray([...termsData, ...randomTerms]));
-  }, [termsData, randomTerms]);
+  }, []);
 
   const [draggingItem, setDraggingItem] = useState<string | null>(null);
 
@@ -90,7 +93,7 @@ const FeedMonster = () => {
   function handleDragEnd({ over }: any) {  
     if (draggingItem) {
       if (draggingItem.toLowerCase() === termsData[step].toLowerCase()) {
-        setStep(step + 1);
+        setStep((prev) => prev + 1);
         setShuffledTerms((prev) => prev.filter((term) => term.toLowerCase() !== draggingItem.toLowerCase()));
       } else {
         setResponse(ResponseEnum.FAIL);
@@ -98,11 +101,10 @@ const FeedMonster = () => {
     }
   
     setDraggingItem(null); 
-  }
-  
+  }  
 
   return (
-    <div className="h-[140vh] md:h-auto">
+    <div className="h-[160vh] sm:h-auto">
       <h1 className="text-secondary text-2xl font-semibold">
         Game 4 - Feed the Monster
       </h1>
@@ -110,7 +112,7 @@ const FeedMonster = () => {
       <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
         <div className="pt-10 flex flex-col-reverse xl:flex-row xl:justify-around items-center">
           <section className="flex flex-1 flex-row xl:flex-col items-center pt-10 xl:pt-0">
-            <div className="flex items-center justify-center">
+            <div className="hidden sm:flex items-center justify-center">
               <Timer setIsRunning={setTimerRunning} seconds={TIMER_SECONDS} isRunning={timerRunning} />
             </div>
             <div className="flex flex-col xl:flex-row items-center">
