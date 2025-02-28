@@ -1,9 +1,12 @@
+"use client";
 import React, { ReactNode } from 'react'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { useRouter } from 'next/navigation';
 
 type DropDownItem = {
   icon: ReactNode;
   title: string;
+  url: string;
 }
 
 type DropdownMenuProps = {
@@ -15,6 +18,12 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   menuButton,
   menuItems
 }) => {
+  const router = useRouter();
+
+  const handleClick = (url: string) => {
+    router.push(url);
+  }
+
   return (
     <Menu>
       <MenuButton>{menuButton}</MenuButton>
@@ -26,13 +35,11 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
           {menuItems.map((item, index) => (
             <MenuItem key={index}>
               <div>
-                <button className="group flex w-full items-center gap-2 rounded-md py-2 px-3 data-[focus]:bg-white/10">
+                <button onClick={() => handleClick(item.url)} className="group flex w-full items-center gap-2 rounded-md py-2 px-3 data-[focus]:bg-white/10">
                   {item.icon}
                   {item.title}
                 </button>
-                {index !== menuItems.length - 1 &&
-                <div className='h-[0.12rem] w-full flex justify-center bg-thirdly rounded-full'></div>
-                }
+                
               </div>
           </MenuItem>
           ))}

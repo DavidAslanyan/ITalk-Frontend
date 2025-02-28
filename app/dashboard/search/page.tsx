@@ -13,7 +13,7 @@ const Search = () => {
   return (
     <div className='flex flex-col justify-between h-full'>
       <div className='pt-2 md:pt-12'>
-        <SearchBlock />
+        <SearchBlock value='' setValue={() => {}} />
       </div>
      
       <section className='lg:ml-10 mb-10'>

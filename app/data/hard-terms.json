@@ -1,69 +1,69 @@
 [
   {
-    "id": 11,
+    "id": 21,
     "term": "Homomorphic Encryption",
     "shortExplanation": "Encryption that allows computations on ciphertexts",
     "longExplanation": "Homomorphic encryption is a cryptographic technique that allows computations to be performed on encrypted data without decrypting it. The result, when decrypted, matches the outcome of operations performed on the plaintext. This enables secure data processing in cloud computing and privacy-preserving AI. There are different types, including partially, somewhat, and fully homomorphic encryption (FHE), each with varying levels of computation capabilities. Despite its advantages, FHE is computationally expensive and not yet practical for widespread use in real-time applications.",
     "level": "Hard"
   },
   {
-    "id": 12,
+    "id": 22,
     "term": "Sharding",
     "shortExplanation": "Database partitioning for scalability",
     "longExplanation": "Sharding is a database architecture pattern that partitions large datasets into smaller, distributed segments called 'shards' to improve performance and scalability. Each shard operates as an independent database instance but collectively forms a unified data source. Sharding is commonly used in distributed databases, blockchain networks, and high-traffic applications. While it enhances performance, sharding introduces complexities in data consistency, query execution, and cross-shard transactions.",
     "level": "Hard"
   },
   {
-    "id": 13,
+    "id": 23,
     "term": "Differential Privacy",
     "shortExplanation": "A privacy-preserving data analysis method",
     "longExplanation": "Differential privacy is a statistical technique that ensures the privacy of individuals in a dataset while allowing meaningful analysis. It introduces controlled noise to query results, preventing the identification of specific individuals. This approach is used by organizations like Apple and Google to collect user data while maintaining privacy. Differential privacy balances accuracy with privacy, but improper noise calibration can lead to either too much data distortion or insufficient anonymity.",
     "level": "Hard"
   },
   {
-    "id": 14,
+    "id": 24,
     "term": "Byzantine Fault Tolerance",
     "shortExplanation": "Resilience against malicious failures",
     "longExplanation": "Byzantine Fault Tolerance (BFT) is a property of distributed systems that enables them to function correctly even when some nodes act maliciously or provide incorrect information. BFT is crucial in blockchain consensus mechanisms like PBFT (Practical Byzantine Fault Tolerance) and protocols like Tendermint. It ensures system reliability in adversarial environments, but implementing BFT increases computational and communication overhead.",
     "level": "Hard"
   },
   {
-    "id": 15,
+    "id": 25,
     "term": "Chaos Engineering",
     "shortExplanation": "Deliberate failure testing to improve resilience",
     "longExplanation": "Chaos engineering is a discipline that involves deliberately introducing failures into a system to test its resilience and identify weaknesses before real incidents occur. It is widely used in distributed systems and cloud computing to improve system reliability. Netflix's 'Chaos Monkey' is a well-known tool for chaos testing. While beneficial, chaos engineering requires careful implementation to avoid unintended system disruptions.",
     "level": "Hard"
   },
   {
-    "id": 16,
+    "id": 26,
     "term": "Secure Multi-Party Computation",
     "shortExplanation": "Collaborative computation without data sharing",
     "longExplanation": "Secure Multi-Party Computation (SMPC) is a cryptographic technique that allows multiple parties to jointly compute a function over their inputs while keeping them private. SMPC is used in privacy-preserving AI, confidential financial transactions, and secure data analytics. Although it enhances data security, SMPC is computationally intensive and difficult to scale for large datasets.",
     "level": "Hard"
   },
   {
-    "id": 17,
+    "id": 27,
     "term": "Federated Learning",
     "shortExplanation": "Decentralized machine learning without data sharing",
     "longExplanation": "Federated learning is a distributed machine learning approach where models are trained across multiple devices without centralizing user data. Instead of sending raw data to a central server, only model updates are shared, enhancing privacy and security. This technique is used in mobile devices, healthcare applications, and AI-driven personalization. Challenges include communication overhead, model aggregation complexities, and ensuring fairness across different devices.",
     "level": "Hard"
   },
   {
-    "id": 18,
+    "id": 28,
     "term": "Kernel Bypass Networking",
     "shortExplanation": "Optimizing network performance by bypassing OS kernel",
     "longExplanation": "Kernel Bypass Networking improves network performance by allowing applications to interact directly with network hardware, bypassing the operating system's kernel. Technologies like DPDK (Data Plane Development Kit) and RDMA (Remote Direct Memory Access) enable lower latency and higher throughput, making them ideal for high-frequency trading, cloud networking, and data centers. However, kernel bypass requires specialized hardware and complex implementation.",
     "level": "Hard"
   },
   {
-    "id": 19,
+    "id": 29,
     "term": "Vector Databases",
     "shortExplanation": "Databases optimized for high-dimensional data search",
     "longExplanation": "Vector databases are specialized databases designed for storing and searching high-dimensional vector representations of data. They power AI applications like recommendation systems, image recognition, and natural language processing by enabling fast similarity searches. Technologies like FAISS, Annoy, and Milvus are commonly used in AI-driven applications. However, vector databases require optimized indexing and search algorithms to handle large-scale data efficiently.",
     "level": "Hard"
   },
   {
-    "id": 20,
+    "id": 30,
     "term": "Secure Enclaves",
     "shortExplanation": "Isolated execution environments for secure computing",
     "longExplanation": "Secure enclaves are hardware-based trusted execution environments (TEEs) that provide secure data processing and computation even in untrusted environments. Intel SGX and AMD SEV are examples of secure enclave technologies. They are used for protecting sensitive computations in cloud environments, confidential AI processing, and secure financial transactions. Despite their security benefits, enclaves are vulnerable to side-channel attacks and require careful implementation.",
