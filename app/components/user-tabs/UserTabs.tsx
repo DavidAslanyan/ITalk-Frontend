@@ -7,6 +7,7 @@ import SettingsIcon from '../icons/profile-icons/SettingsIcon';
 import HistoryIcon from '../icons/profile-icons/HistoryIcon';
 import PolicyIcon from '../icons/navbar-icons/PolicyIcon';
 import HelpIcon from '../icons/navbar-icons/HelpIcon';
+import { DASHBOARD_URL, HISTORY, PROFILE } from '@/app/utilities/constants/global-urls';
 
 
 const profileData = {
@@ -19,19 +20,23 @@ const LETTER_LIMIT = 14;
 const menuItems = [
   {
     icon: <SettingsIcon height={25} />,
-    title: "Settings"
+    title: "Settings",
+    url: `${DASHBOARD_URL}${PROFILE}`
   },
   {
     icon: <HistoryIcon height={21} />,
-    title: "History"
+    title: "History",
+    url: `${DASHBOARD_URL}${HISTORY}`
   },
   {
     icon: <PolicyIcon height={25} />,
-    title: "Policy"
+    title: "Policy",
+    url: `${DASHBOARD_URL}${HISTORY}`
   },
   {
     icon: <HelpIcon height={23} />,
-    title: "Help"
+    title: "Help",
+    url: `${DASHBOARD_URL}${HISTORY}`
   }
 ];
 

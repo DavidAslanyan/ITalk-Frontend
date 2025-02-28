@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id":  1,
     "term": "AI",
     "shortExplanation": "Artificial Intelligence",
     "longExplanation": "Artificial Intelligence (AI) refers to the simulation of human intelligence in machines. AI systems can perform tasks such as learning, reasoning, problem-solving, perception, and language understanding. AI can be divided into narrow AI, which specializes in specific tasks like speech recognition, and general AI, which aims to perform any intellectual task a human can do. Machine learning and deep learning are subsets of AI that focus on training models using large datasets. AI is widely used in applications like chatbots, recommendation systems, and autonomous vehicles. While AI offers many benefits, ethical concerns such as bias, job displacement, and privacy issues are ongoing challenges.",
