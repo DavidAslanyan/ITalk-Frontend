@@ -1,7 +1,6 @@
 "use client";
 import DottedLine from '@/app/components/dotted-line';
 import FoodPlate from '@/app/components/food-plate';
-import Zombie from '@/app/components/lottie-zombie';
 import React, { useEffect, useMemo, useState } from 'react';
 import easyTermsData from "../../../data/easy-terms.json";
 import { fetchRandomTerms } from "@/app/utilities/functions/fetch-random-terms";
@@ -16,6 +15,7 @@ import { DASHBOARD_URL, GAMES, TERMS_URL } from '@/app/utilities/constants/globa
 import Popup from '@/app/components/popup';
 import ButtonStandard from '@/app/components/buttons/button-standard';
 import Timer from '@/app/components/timer';
+import Monster from '@/app/components/lottie-monster';
 
 
 const TIMER_SECONDS = 120;
@@ -26,6 +26,7 @@ const FeedMonster = () => {
     progress: 5,
   };
 
+  const [gameLive, setGameLive] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
   const [response, setResponse] = useState<ResponseEnum | null>(null);
   const [shuffledTerms, setShuffledTerms] = useState<string[]>([]);
@@ -103,6 +104,40 @@ const FeedMonster = () => {
     setDraggingItem(null); 
   }  
 
+  if (!gameLive) {
+    return (
+      <div className="px-4">
+        <h1 className="text-secondary text-2xl font-semibold">
+          Game 4 - Feed the Monster
+        </h1>
+        <h3>Figure out what term the mosnter needs and feed him with it</h3>
+
+        <div className="pt-10">
+          <span className="text-xl font-semibold">Instructions</span>
+          <ul className=" list-decimal">
+            <li>Simple and straightforward game</li>
+            <li>The monster is hungry and you need to feed him</li>
+            <li>The monster is very bad at speaking so you will have to figure out what terms does he want</li>
+            <li>
+              He has a plate where you need to place the terms which trasnform into food for him
+            </li>
+            <li>Fill the plate with food until the monster the satisfied</li>
+            <li>When the plate is full, press feed and feed the monster</li>
+            <li>That's it you won the game!</li>
+            <li>Note: The monster is very sensitive you grab a wrong term, he will get angry and you will loose</li>
+            <li>So, pick think carefully before you grab one</li>
+            <li>Note, if you are on a mobile, no need to grab, just tap on the term and it will be automatically placed on monster's plate</li>
+          </ul>
+        </div>
+
+        <p className="pt-10">Excited? Great then jump right into the game</p>
+        <div className="pt-5 pb-20">
+          <ButtonStandard onClick={() => setGameLive(true)} title="Start the Game" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="h-[160vh] sm:h-auto">
       <h1 className="text-secondary text-2xl font-semibold">
@@ -121,7 +156,7 @@ const FeedMonster = () => {
                 buttonActive={step === monstersQuestions.length} 
                 setResponse={setResponse}
                 />
-              <Zombie />
+              <Monster />
             </div>
             <Droppable id="droppable">
               <FoodPlate step={step} />
