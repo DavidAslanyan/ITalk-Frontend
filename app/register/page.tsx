@@ -139,11 +139,11 @@ const Register = () => {
           }
 
           <div>
-            <p>Already have an account? <Link className="font-semibold" href={LOGIN_URL}>Log in</Link></p>
+            <GoogleButton title="Sign Up with Google" onClick={() => {}}/>
           </div>
 
           <div>
-            <GoogleButton title="Sign Up with Google" onClick={() => {}}/>
+            <p>Already have an account? <Link className="font-semibold" href={LOGIN_URL}>Log in</Link></p>
           </div>
         </div>
         </form>
