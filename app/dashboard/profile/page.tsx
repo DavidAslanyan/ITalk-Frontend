@@ -8,6 +8,7 @@ import HelpIcon from "@/app/components/icons/navbar-icons/HelpIcon";
 import { useRouter } from "next/navigation";
 import PolicyIcon from "@/app/components/icons/navbar-icons/PolicyIcon";
 import SettingsToggleTab from "@/app/components/settings-toggle-tab";
+import { getUserQuery } from "@/app/services/queries/auth.query";
 
 
 const profileData = {
@@ -18,24 +19,12 @@ const profileData = {
   progress: 150,
 };
 
-{/* <div className="w-[12rem] border-[1rem] border-thirdly rounded-full">
-            <Image
-              width={200}
-              height={200}
-              src={profileData.avatarURL}
-              alt="prfile avatar"
-            />
-          </div> */}
-
-          // <h3 className="text-3xl text-secondary font-bold">
-          //   {profileData.username}
-          // </h3>
-          // <EditIcon />
 
 const Profile = () => {
   const router = useRouter();
+  const { data } = getUserQuery();
 
-  const [darkMode, setDarkMode] = useState(false);
+  console.log(data)
 
   return (
     <div className="min-h-[150vh] sm:min-h-[120vh] md:min-h-[100vh]">
@@ -83,17 +72,10 @@ const Profile = () => {
         />
 
         <SettingsToggleTab 
-          title="Dark Mode"
-          icon={<EditIcon height={25} />}
-          enabled={darkMode}
-          setEnabled={setDarkMode}
-        />
-
-        <SettingsToggleTab 
           title="Notifications"
           icon={<EditIcon height={25} />}
-          enabled={darkMode}
-          setEnabled={setDarkMode}
+          enabled={true}
+          setEnabled={() => {}}
         />
 
       <SettingsTab
