@@ -8,3 +8,9 @@ export type RegisterUserFormType = {
   rPassword: string,
   difficultyLevel: DifficultyLevel
 }
+
+export type LoginUserFormType = {
+  email: string,
+  password: string,
+}
+

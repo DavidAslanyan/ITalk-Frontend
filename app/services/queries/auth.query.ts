@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getUser, postUser } from "../controllers/auth.controller";
+import { getUser, postUser, loginUser } from "../controllers/auth.controller";
 
 
 export const getUserQuery = () => {
@@ -15,6 +15,12 @@ export const getUserQuery = () => {
 export const registerUserMutation = () => {
   return useMutation({
     mutationFn: postUser
+  });
+};
+
+export const loginUserMutation = () => {
+  return useMutation({
+    mutationFn: loginUser
   });
 };
 
