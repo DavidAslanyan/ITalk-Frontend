@@ -25,7 +25,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, children }) => {
       }`}
     >
       <div
-        className={`bg-white p-6 rounded-lg shadow-lg w-80 transform transition-all duration-300 ${
+        className={`bg-white p-6 rounded-lg mx-5 shadow-lg w-full max-w-[30rem] transform transition-all duration-300 ${
           isOpen ? "scale-100 opacity-100" : "scale-90 opacity-0"
         }`}
       >

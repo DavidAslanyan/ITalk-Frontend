@@ -7,22 +7,34 @@ import { COLORS } from "../utilities/constants/colors";
 import LockIcon from "../components/icons/LockIcon";
 import Checkbox from "../components/checkbox";
 import Link from "next/link";
-import { LOGIN_URL, POLICY_URL } from "../utilities/constants/global-urls";
+import { DASHBOARD_URL, LOGIN_URL, POLICY_URL } from "../utilities/constants/global-urls";
 import GoogleButton from "../components/buttons/google-button";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../utilities/constants/regex-statements";
+import { registerUserMutation } from "../services/queries/auth.query";
+import { useRouter } from "next/navigation";
+import { RegisterUserFormType } from "../utilities/types/auth.type";
+import { DifficultyLevel } from "../utilities/enums/difficulty-level.enum";
+import { ResponseEnum } from "../utilities/enums/response.enum";
+import Popup from "../components/popup";
+import { HttpStatusCode } from "../utilities/enums/status-codes.enum";
+import SuccessIcon from "../components/icons/SuccessIcon";
+import FailIcon from "../components/icons/FailIcon";
 
 
 const Register = () => {
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    rPassword: "",
+    rPassword: ""
   });
-
+  const [difficultyLevel, setDifficultyLevel] = useState<DifficultyLevel>(DifficultyLevel.EASY);
   const [policyChecked, setPolicyChecked] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [popup, setPopup] = useState<ResponseEnum | null>(null);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,7 +49,8 @@ const Register = () => {
     e.preventDefault();
 
     if (validateInputs()) {
-      console.log("Success: ", formData);
+      const finalFormData = { ...formData, difficultyLevel };
+      handleRegister(finalFormData);
     }
   }
 
@@ -75,6 +88,26 @@ const Register = () => {
     setErrorMessage("");
     return true;
   }
+
+
+  const { mutate: registerUser } = registerUserMutation();
+
+  const handleRegister = (formData: RegisterUserFormType) => {
+    registerUser(formData, {
+      onSuccess: (data) => {
+        if (data?.status === HttpStatusCode.CREATED) {
+          setPopup(ResponseEnum.SUCCESS);
+        } else {
+          setPopup(ResponseEnum.FAIL);
+          setErrorMessage(data?.error);
+        }
+      },
+      onError: (error) => {
+        console.error("Error registering user:", error);
+        setPopup(ResponseEnum.FAIL);
+      },
+    });
+  };
 
 
   return (
@@ -132,6 +165,15 @@ const Register = () => {
             icon={<LockIcon color={COLORS.thirdly} />}
           />
 
+          <div>
+            <label className="text-base text-secondary font-semibold" htmlFor="diffcultyLevel">Difficulty Level</label>
+            <div className="pt-2 flex justify-between gap-3">
+              <button onClick={() => setDifficultyLevel(DifficultyLevel.EASY)} type="button" className={`${difficultyLevel === DifficultyLevel.EASY ? "bg-primary border-secondary" : "bg-white border-thirdly" } text-secondary text-base font-semibold capitalize border-2 py-1 w-full max-w-[9rem] rounded-sm transition-all`}>{DifficultyLevel.EASY}</button>
+              <button onClick={() => setDifficultyLevel(DifficultyLevel.MEDIUM)} type="button" className={`${difficultyLevel === DifficultyLevel.MEDIUM ? "bg-primary border-secondary" : "bg-white border-thirdly" } text-secondary text-base font-semibold capitalize border-2 py-1 w-full max-w-[9rem] rounded-sm transition-all`}>{DifficultyLevel.MEDIUM}</button>
+              <button onClick={() => setDifficultyLevel(DifficultyLevel.HARD)} type="button" className={`${difficultyLevel === DifficultyLevel.HARD ? "bg-primary border-secondary" : "bg-white border-thirdly" } text-secondary text-base font-semibold capitalize border-2 py-1 w-full max-w-[9rem] rounded-sm transition-all`}>{DifficultyLevel.HARD}</button>
+            </div>
+          </div>
+
           <div className="flex items-start justify-between gap-2">
             <Checkbox checked={policyChecked} setChecked={setPolicyChecked} />
             <p>By creating an account you agree to the terms of use and our <Link className="text-secondary font-semibold underline" href={POLICY_URL}>privacy policy</Link></p>
@@ -157,6 +199,28 @@ const Register = () => {
       <div className="bg-secondary flex-1 h-screen hidden md:block">
         <h1 className="text-white text-3xl xl:text-5xl flex justify-center items-center gap-2 h-screen">Join <span className="text-primary">Solaris</span> Community!</h1>
       </div>
+
+
+      <Popup isOpen={popup !== null}>
+        <div className="flex flex-col items-center justify-center py-5 px-10">
+          {popup === ResponseEnum.SUCCESS
+          ?
+          <>
+          <SuccessIcon width={120} height={120} color={COLORS.primaryGreen} />
+          <span className="py-3 text-2xl text-green-600 font-bold">SUCCESS</span>
+          <p className="text-center pb-10">Congrats, you successfully created your account. Now, let's jump right into action !</p>
+          <ButtonStandard onClick={() => router.push(DASHBOARD_URL)} title="Begin My Journey"/>
+          </>
+          :
+          <>
+          <FailIcon width={120} height={120} color={COLORS.primaryRed} />
+          <span className="py-3 text-2xl text-red-600 font-bold">FAIL</span>
+          <p className="text-center">{errorMessage}</p>
+          <button onClick={() => setPopup(null)} className="mt-2 border-2 border-thirdly px-3 py-2 text-md font-semibold text-secondary rounded-sm">Try Again</button>
+          </>
+          }
+        </div>
+      </Popup>
     </div>
   );
 };

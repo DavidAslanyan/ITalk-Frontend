@@ -1,5 +1,7 @@
 import { API_URLS } from "@/app/utilities/constants/api-endpoints";
+import { RegisterUserFormType } from "@/app/utilities/types/auth.type";
 import axios from "axios";
+
 
 export const getUser = async () => {
   try {
@@ -7,6 +9,17 @@ export const getUser = async () => {
     return response.data;
   } catch (error) {
     console.error("There was an error fetching the data:", error);
+    throw error; 
+  }
+}
+
+
+export const postUser = async (data: RegisterUserFormType) => {
+  try {
+    const response = await axios.post(`${API_URLS.REGISTER}`, data);
+    return response.data;
+  } catch(error) {
+    console.error("Failed to register the user:", error);
     throw error; 
   }
 }
