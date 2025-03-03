@@ -9,7 +9,7 @@ import Checkbox from "../components/checkbox";
 import Link from "next/link";
 import { LOGIN_URL, POLICY_URL } from "../utilities/constants/global-urls";
 import GoogleButton from "../components/buttons/google-button";
-import { REGEX_EMAIL } from "../utilities/constants/regex-statements";
+import { REGEX_EMAIL, REGEX_PASSWORD } from "../utilities/constants/regex-statements";
 
 
 const Register = () => {
@@ -56,6 +56,11 @@ const Register = () => {
       setErrorMessage("Password must contain at least 8 characters");
       return false;
     } 
+
+    if (!REGEX_PASSWORD.test(formData.password)) {
+      setErrorMessage("Password must contain minimum 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character");
+      return false;
+    }
 
     if (formData.password !== formData.rPassword) {
       setErrorMessage("Passwords don't match");

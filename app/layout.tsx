@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import StoreProvider from "./providers/StoreProvider";
+import QueryProvider from "./providers/QueryProvider";
 
 
 export const metadata: Metadata = {
@@ -15,11 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <StoreProvider>
-    <html lang="en">
-      <body>
-        {children}
-      </body>
-    </html>
+      <QueryProvider>
+        <html lang="en">
+          <body>
+            {children}
+          </body>
+        </html>
+      </QueryProvider>
     </StoreProvider>
   );
 }
