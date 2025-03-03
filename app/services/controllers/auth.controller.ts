@@ -5,7 +5,7 @@ import axios from "axios";
 
 export const getUser = async () => {
   try {
-    const response = await axios.get(`${API_URLS.AUTH}/023a62e2-f89d-4954-9861-56466d8679c4`);
+    const response = await axios.get(`${API_URLS.AUTH}/fcae8e76-1a1d-4fba-ae7a-df9ab09b3d8b`);
     return response.data;
   } catch (error) {
     console.error("There was an error fetching the data:", error);
