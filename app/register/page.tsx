@@ -208,8 +208,8 @@ const Register = () => {
           <>
           <SuccessIcon width={120} height={120} color={COLORS.primaryGreen} />
           <span className="py-3 text-2xl text-green-600 font-bold">SUCCESS</span>
-          <p className="text-center pb-10">Congrats, you successfully created your account. Now, let's jump right into action !</p>
-          <ButtonStandard onClick={() => router.push(DASHBOARD_URL)} title="Begin My Journey"/>
+          <p className="text-center pb-10">Congrats, you successfully created your account. Now, let's login and jump right into action !</p>
+          <ButtonStandard onClick={() => router.push(LOGIN_URL)} title="Login"/>
           </>
           :
           <>

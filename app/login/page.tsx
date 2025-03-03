@@ -6,13 +6,18 @@ import EmailIcon from "../components/icons/EmailIcon";
 import { COLORS } from "../utilities/constants/colors";
 import LockIcon from "../components/icons/LockIcon";
 import Link from "next/link";
-import { REGISER_URL } from "../utilities/constants/global-urls";
+import { DASHBOARD_URL, REGISER_URL } from "../utilities/constants/global-urls";
 import GoogleButton from "../components/buttons/google-button";
-import { REGEX_EMAIL } from "../utilities/constants/regex-statements";
+import { REGEX_EMAIL, REGEX_PASSWORD } from "../utilities/constants/regex-statements";
+import { LoginUserFormType } from "../utilities/types/auth.type";
+import { loginUserMutation } from "../services/queries/auth.query";
+import { HttpStatusCode } from "../utilities/enums/status-codes.enum";
+import { useRouter } from "next/navigation";
 
 
 const Login = () => {
-  const [formData, setFormData] = useState({
+  const router = useRouter();
+  const [formData, setFormData] = useState<LoginUserFormType>({
     email: "",
     password: ""
   });
@@ -32,7 +37,7 @@ const Login = () => {
     e.preventDefault();
 
     if (validateInputs()) {
-      console.log("Success: ", formData);
+      handleLogin(formData);
     }
   }
 
@@ -47,6 +52,11 @@ const Login = () => {
       return false;
     }
 
+    if (!REGEX_PASSWORD.test(formData.password)) {
+      setErrorMessage("Password must contain minimum 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character");
+      return false;
+    }
+
     if (formData.password.length < 8) {
       setErrorMessage("Your password must contain at least 8 characters");
       return false;
@@ -56,6 +66,22 @@ const Login = () => {
     return true;
   }
 
+  const { mutate: loginUser } = loginUserMutation();
+  
+  const handleLogin = (formData: LoginUserFormType) => {
+    loginUser(formData, {
+      onSuccess: (data) => {
+        if (data?.status === HttpStatusCode.ACCEPTED) {
+          router.push(DASHBOARD_URL);
+        } else {
+          setErrorMessage(data?.error);
+        }
+      },
+      onError: (error) => {
+        console.error("Error registering user:", error);
+      },
+    });
+  };
 
   return (
     <div className="bg-white flex justify-center items-center h-[120vh] md:h-screen">

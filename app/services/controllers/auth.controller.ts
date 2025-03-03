@@ -1,5 +1,5 @@
 import { API_URLS } from "@/app/utilities/constants/api-endpoints";
-import { RegisterUserFormType } from "@/app/utilities/types/auth.type";
+import { LoginUserFormType, RegisterUserFormType } from "@/app/utilities/types/auth.type";
 import axios from "axios";
 
 
@@ -20,6 +20,17 @@ export const postUser = async (data: RegisterUserFormType) => {
     return response.data;
   } catch(error) {
     console.error("Failed to register the user:", error);
+    throw error; 
+  }
+}
+
+
+export const loginUser = async (data: LoginUserFormType) => {
+  try {
+    const response = await axios.post(`${API_URLS.LOGIN}`, data);
+    return response.data;
+  } catch(error) {
+    console.error("Failed to login the user:", error);
     throw error; 
   }
 }
