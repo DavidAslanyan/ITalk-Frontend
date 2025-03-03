@@ -1,11 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
-import { getUser } from "../controllers/auth.controller";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getUser, postUser } from "../controllers/auth.controller";
 
 
 export const getUserQuery = () => {
   return useQuery({
     queryKey: ['user'],
-    queryFn: getUser
+    queryFn: getUser,
+    staleTime: 5 * 60 * 1000,
+    retry: 2, 
+    refetchOnWindowFocus: false, 
+  });
+};
+
+export const registerUserMutation = () => {
+  return useMutation({
+    mutationFn: postUser
   });
 };
 
