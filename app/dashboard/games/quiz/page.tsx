@@ -13,11 +13,31 @@ import { QuizButtonForm } from "@/app/components/buttons/button-quiz-step/Button
 import Popup from "@/app/components/popup";
 import SmallProgressBar from "@/app/components/small-progress-bar/SmallProgressBar";
 import Timer from "@/app/components/timer";
+import { addPassedGameMutation } from "@/app/services/queries/progress.query";
+import { GAME, GamesEnum } from "@/app/utilities/constants/game-titles";
 
 
 const TIMER_SECONDS = 45;
 
 const Quiz = () => {
+  const gamesPassed: string[] = [];
+  const { mutate: addPassedGame } = addPassedGameMutation();
+
+  const savePassedGame = () => {
+    addPassedGame({
+      gamePassed: GamesEnum.QUIZ
+    }, {
+      onSuccess: () => {
+        router.replace(`${DASHBOARD_URL}/${GAMES}`);
+      },
+      onError: () => {
+        router.replace(`${DASHBOARD_URL}/${GAMES}`);
+      }
+    })
+  }
+
+
+  // Client State
   const router = useRouter();
   const [gameLive, setGameLive] = useState<boolean>(false);
 
@@ -53,7 +73,11 @@ const Quiz = () => {
   }
 
   const handleSuccessPopup = () => {
-    router.push(`${DASHBOARD_URL}/${GAMES}`);
+    if (!gamesPassed.includes(GAME.QUIZ)) {
+      savePassedGame();
+    } else {
+      router.replace(`${DASHBOARD_URL}/${GAMES}`);
+    }
   }
 
   const data = {

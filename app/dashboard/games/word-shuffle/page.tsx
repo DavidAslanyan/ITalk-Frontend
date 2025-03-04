@@ -12,11 +12,30 @@ import { DASHBOARD_URL, GAMES, TERMS_URL } from '@/app/utilities/constants/globa
 import Popup from '@/app/components/popup';
 import Timer from '@/app/components/timer';
 import SmallProgressBar from '@/app/components/small-progress-bar/SmallProgressBar';
+import { addPassedGameMutation } from '@/app/services/queries/progress.query';
+import { GAME, GamesEnum } from '@/app/utilities/constants/game-titles';
 
 
 const TIMER_SECONDS = 120;
 
 const WordShuffle = () => {
+  const gamesPassed: string[] = [];
+  const { mutate: addPassedGame } = addPassedGameMutation();
+
+  const savePassedGame = () => {
+    addPassedGame({
+      gamePassed: GamesEnum.WORD_SHUFFLE
+    }, {
+      onSuccess: () => {
+        router.replace(`${DASHBOARD_URL}/${GAMES}`);
+      },
+      onError: () => {
+        router.replace(`${DASHBOARD_URL}/${GAMES}`);
+      }
+    })
+  }
+
+    
   const router = useRouter();
   const data = {
     progress: 5,
@@ -59,7 +78,11 @@ const WordShuffle = () => {
   }
 
   const handleSuccessPopup = () => {
-    router.push(`${DASHBOARD_URL}/${GAMES}`);
+    if (!gamesPassed.includes(GAME.WORD_SHUFFLE)) {
+      savePassedGame();
+    } else {
+      router.replace(`${DASHBOARD_URL}/${GAMES}`);
+    }
   }
 
   const onSlideChange = () => {

@@ -2,10 +2,11 @@ import { API_URLS } from "@/app/utilities/constants/api-endpoints";
 import { LoginUserFormType, RegisterUserFormType } from "@/app/utilities/types/auth.type";
 import axios from "axios";
 
+const id  = "7ac2fe64-c4e2-4bdc-8ed7-0afb3f039e74";
 
 export const getUser = async () => {
   try {
-    const response = await axios.get(`${API_URLS.AUTH}/fcae8e76-1a1d-4fba-ae7a-df9ab09b3d8b`);
+    const response = await axios.get(`${API_URLS.AUTH}/${id}`);
     return response.data;
   } catch (error) {
     console.error("There was an error fetching the data:", error);
