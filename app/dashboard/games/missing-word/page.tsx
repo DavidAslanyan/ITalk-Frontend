@@ -12,11 +12,30 @@ import { useRouter } from "next/navigation";
 import { DASHBOARD_URL, GAMES, TERMS_URL } from "@/app/utilities/constants/global-urls";
 import Timer from "@/app/components/timer";
 import SmallProgressBar from "@/app/components/small-progress-bar/SmallProgressBar";
+import { addPassedGameMutation } from "@/app/services/queries/progress.query";
+import { GAME, GamesEnum } from "@/app/utilities/constants/game-titles";
 
 
 const TIMER_SECONDS = 59;
 
 const MissingWord = () => {
+  const gamesPassed: string[] = [];
+  const { mutate: addPassedGame } = addPassedGameMutation();
+
+  const savePassedGame = () => {
+    addPassedGame({
+      gamePassed: GamesEnum.MISSING_WORD
+    }, {
+      onSuccess: () => {
+        router.replace(`${DASHBOARD_URL}/${GAMES}`);
+      },
+      onError: () => {
+        router.replace(`${DASHBOARD_URL}/${GAMES}`);
+      }
+    })
+  }
+
+    
   const router = useRouter();
   const [gameLive, setGameLive] = useState<boolean>(false);
   const [swiper, setSwiper] = useState<any>(null);
@@ -54,7 +73,11 @@ const MissingWord = () => {
   }
 
   const handleSuccessPopup = () => {
-    router.push(`${DASHBOARD_URL}/${GAMES}`);
+    if (!gamesPassed.includes(GAME.MISSING_WORD)) {
+      savePassedGame();
+    } else {
+      router.replace(`${DASHBOARD_URL}/${GAMES}`);
+    }
   }
     
   const termData = useMemo(
