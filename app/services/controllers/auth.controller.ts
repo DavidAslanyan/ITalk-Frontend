@@ -2,7 +2,7 @@ import { API_URLS } from "@/app/utilities/constants/api-endpoints";
 import { LoginUserFormType, RegisterUserFormType } from "@/app/utilities/types/auth.type";
 import axios from "axios";
 
-const id  = "7ac2fe64-c4e2-4bdc-8ed7-0afb3f039e74";
+const id  = "1ffbaed4-2661-4b9c-ae36-b31f121d4824";
 
 export const getUser = async () => {
   try {

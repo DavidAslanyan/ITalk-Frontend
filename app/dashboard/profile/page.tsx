@@ -22,9 +22,8 @@ const profileData = {
 
 const Profile = () => {
   const router = useRouter();
-  const { data } = getUserQuery();
+  // const { data } = getUserQuery();
 
-  console.log(data)
 
   return (
     <div className="min-h-[150vh] sm:min-h-[120vh] md:min-h-[100vh]">
