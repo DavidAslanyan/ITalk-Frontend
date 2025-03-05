@@ -26,3 +26,16 @@ html {
   width: 0.2rem; 
   border-radius: 1rem;
 }
+
+
+/* Add this to your global CSS file or scoped CSS module */
+.scrollbar-hidden {
+  /* Hide scrollbar for all browsers */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+

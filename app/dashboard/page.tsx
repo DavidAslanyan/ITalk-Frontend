@@ -12,23 +12,24 @@ import { getUserQuery } from '../services/queries/auth.query';
 const DashboardHome = () => {
   const [inputValue, setInputValue] = useState<string>("");
 
-  const { data: user, isLoading, isError } = getUserQuery();
+  // const { data: user, isLoading, isError } = getUserQuery();
 
   const userMappedData = useMemo(() => {
-    if (!user) return null;
+    // if (!user) return null;
     return {
-      username: `${user.data.firstName} ${user.data.lastName}`,
-      progress: user.data.progress ?? 0, 
+      username: `Davit Aslanyan`,
+      progress: 100, 
     };
-  }, [user]);
+  }, []);
+  // user[]
 
-  if (isLoading) {
-    return (
-      <div>
-        <p>Loading...</p>
-      </div>
-    )
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div>
+  //       <p>Loading...</p>
+  //     </div>
+  //   )
+  // }
 
 
   return (
