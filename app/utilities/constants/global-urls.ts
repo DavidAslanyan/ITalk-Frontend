@@ -6,6 +6,8 @@ export const POLICY_URL = "/policy";
 export const HISTORY = "/history";
 export const PROFILE = "/profile";
 
+
 export const GAMES = "games";
 export const GAME_QUIZ = "games/quiz";
+export const EDIT_PROFILE = "edit-profile"
 
