@@ -36,9 +36,16 @@ export const FRAMES = {
   violet: "violet",
 };
 
-
 export const BACKGROUNDS = {
-  option1: "",
-
+  def: "/backgrounds/cover-1.jpg",
+  cover1: "/backgrounds/cover-2.jpg",
+  cover2: "/backgrounds/cover-3.jpg",
+  cover3: "/backgrounds/cover-4.jpg",
+  cover4: "/backgrounds/cover-5.jpg",
+  cover5: "/backgrounds/cover-6.jpg",
+  cover6: "/backgrounds/cover-7.jpg",
+  cover7: "/backgrounds/cover-8.jpg",
+  cover8: "/backgrounds/cover-9.jpg",
+  cover9: "/backgrounds/cover-10.jpg",
 };
 

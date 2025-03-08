@@ -11,8 +11,10 @@ import ButtonSecondary from '@/app/components/buttons/button-secondary/ButtonSec
 import Popup from '@/app/components/popup';
 import AvatarCloset from '@/app/components/user-closet/avatar-closet/AvatarCloset';
 import LargePopup from '@/app/components/large-popup';
-import { FRAMES } from '@/app/utilities/constants/shop-items';
+import { BACKGROUNDS, FRAMES } from '@/app/utilities/constants/shop-items';
 import FrameCloset from '@/app/components/user-closet/frame-closet';
+import BackgroundContainer from '@/app/components/background-container';
+import BackgroundCloset from '@/app/components/user-closet/background-closet';
 
 const profileData = {
   avatarURL: "/user-avatars/male-1.png",
@@ -32,7 +34,16 @@ const profileData = {
     "/user-avatars/limited-6.png",
   ],
   purchasedBackgrounds: [
-    "def",
+    BACKGROUNDS.def,
+    BACKGROUNDS.cover1,
+    BACKGROUNDS.cover2,
+    BACKGROUNDS.cover3,
+    BACKGROUNDS.cover4,
+    BACKGROUNDS.cover5,
+    BACKGROUNDS.cover6,
+    BACKGROUNDS.cover7,
+    BACKGROUNDS.cover8,
+    BACKGROUNDS.cover9,
   ],
   purchasedFrames: [
     FRAMES.def, 
@@ -42,6 +53,7 @@ const profileData = {
     FRAMES.amber, FRAMES.cyan, FRAMES.emerald, FRAMES.violet
   ],
   coins: 75,
+  backgroundUrl: BACKGROUNDS.cover2,
   rang: "Student",
   rangURL: "/rangs/rang-1.png",
   firstName: "David",
@@ -59,11 +71,14 @@ const EditProfile = () => {
     password: "",
     newPassword: ""
   });
+
   const [avatar, setAvatar] = useState(profileData.avatarURL);
   const [frame, setFrame] = useState(profileData.frame);
+  const [background, setBackground] = useState(profileData.backgroundUrl);
   
   const [avatarPopupOpen, setAvatarPopupOpen] = useState<boolean>(false);
   const [framePopupOpen, setFramePopupOpen] = useState<boolean>(false);
+  const [backgroundPopupOpen, setBackgroundPopupOpen] = useState<boolean>(false);
   
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,86 +92,91 @@ const EditProfile = () => {
     
   return (
     <div className='h-[150vh] md:h-auto'>
-      <h1 className="text-secondary text-2xl font-semibold">Edit Profile</h1>
+      <h1 className="text-secondary text-2xl font-semibold py-5">Edit Profile</h1>
 
-      <section className='pt-10'>
-        <AvatarFrame type={frame}>
-          <Image
-            width={200}
-            height={200}
-            src={avatar}
-            alt="profile avatar"
+      <section className='pr-4'>
+        <BackgroundContainer imageUrl={background} />
+      </section>
+
+      <div className='relative'>
+        <section className='pt-10 flex flex-col items-center sm:block'>
+          <AvatarFrame type={frame}>
+            <Image
+              width={200}
+              height={200}
+              src={avatar}
+              alt="profile avatar"
+            />
+          </AvatarFrame>
+          <div className='pt-5 flex flex-col sm:flex-row gap-3 items-center'>
+            <ButtonSecondary onClick={() => setAvatarPopupOpen(true)} title='Change Avatar' />
+            <ButtonSecondary onClick={() =>  setFramePopupOpen(true)} title='Change Frame' />
+            <ButtonSecondary onClick={() =>  setBackgroundPopupOpen(true)} title='Change Background' />
+          </div>
+        </section>
+
+        <section className='pt-5 flex flex-col sm:flex-row  gap-5 max-w-[34rem]'>
+          <InputCustom
+            maxLength={15}
+            name="firstName"
+            onChange={(e) => handleFormChange(e)}
+            value={formData.firstName}
+            label="First Name"
+            placeholder="Type here"
           />
-        </AvatarFrame>
-        <div className='pt-5 flex gap-3 items-center'>
-          <ButtonSecondary onClick={() => setAvatarPopupOpen(true)} title='Change Avatar' />
-          <ButtonSecondary onClick={() =>  setFramePopupOpen(true)} title='Change Frame' />
+
+          <InputCustom
+            maxLength={15}
+            name="lastName"
+            onChange={(e) => handleFormChange(e)}
+            value={formData.lastName}
+            label="Last Name"
+            placeholder="Type here"
+          />
+        </section>
+
+        <section className='pt-5 flex flex-col sm:flex-row max-w-[34rem]'>
+          <InputCustom
+            maxLength={15}
+            name="email"
+            onChange={(e) => handleFormChange(e)}
+            value={formData.email}
+            label="Email"
+            type="email"
+            icon={<EmailIcon color={COLORS.thirdly} />}
+            placeholder="Type here"
+          />
+        </section>
+
+        <section className='pt-5 flex flex-col sm:flex-row  gap-5 max-w-[34rem]'>
+          <InputCustom
+            isPassword={true}
+            maxLength={15}
+            name="password"
+            onChange={(e) => handleFormChange(e)}
+            value={formData.password}
+            label="Old Password"
+            icon={<LockIcon color={COLORS.thirdly} />}
+            placeholder="Type here"
+          />
+
+          <InputCustom
+            isPassword={true}
+            maxLength={15}
+            name="newPassword"
+            onChange={(e) => handleFormChange(e)}
+            value={formData.newPassword}
+            label="New Password"
+            icon={<LockIcon color={COLORS.thirdly} />}
+            placeholder="Type here"
+          />
+        </section>
+
+        <div className='pt-10 flex gap-3'>
+          <ButtonStandard title='Save Changes' />
+          <ButtonSecondary title='Reset' />
         </div>
-      </section>
-
-      <section className='pt-5 flex flex-col sm:flex-row  gap-5 max-w-[34rem]'>
-        <InputCustom
-          maxLength={15}
-          name="firstName"
-          onChange={(e) => handleFormChange(e)}
-          value={formData.firstName}
-          label="First Name"
-          placeholder="Type here"
-        />
-
-        <InputCustom
-          maxLength={15}
-          name="lastName"
-          onChange={(e) => handleFormChange(e)}
-          value={formData.lastName}
-          label="Last Name"
-          placeholder="Type here"
-        />
-      </section>
-
-      <section className='pt-5 flex flex-col sm:flex-row max-w-[34rem]'>
-        <InputCustom
-          maxLength={15}
-          name="email"
-          onChange={(e) => handleFormChange(e)}
-          value={formData.email}
-          label="Email"
-          type="email"
-          icon={<EmailIcon color={COLORS.thirdly} />}
-          placeholder="Type here"
-        />
-      </section>
-
-      <section className='pt-5 flex flex-col sm:flex-row  gap-5 max-w-[34rem]'>
-        <InputCustom
-          isPassword={true}
-          maxLength={15}
-          name="password"
-          onChange={(e) => handleFormChange(e)}
-          value={formData.password}
-          label="Old Password"
-          icon={<LockIcon color={COLORS.thirdly} />}
-          placeholder="Type here"
-        />
-
-        <InputCustom
-          isPassword={true}
-          maxLength={15}
-          name="newPassword"
-          onChange={(e) => handleFormChange(e)}
-          value={formData.newPassword}
-          label="New Password"
-          icon={<LockIcon color={COLORS.thirdly} />}
-          placeholder="Type here"
-        />
-      </section>
-
-      <div className='pt-10 flex gap-3'>
-        <ButtonStandard title='Save Changes' />
-        <ButtonSecondary title='Reset' />
       </div>
-
-
 
       <LargePopup 
         isOpen={avatarPopupOpen}
@@ -183,6 +203,20 @@ const EditProfile = () => {
               setFrame={setFrame}
               setPopup={setFramePopupOpen}
               purchasedFrames={profileData.purchasedFrames}
+            />
+          </div>
+      </LargePopup>
+
+      <LargePopup 
+        isOpen={backgroundPopupOpen}
+        maxWidth='max-w-[60rem]'
+        >
+          <div>
+            <BackgroundCloset 
+              background={background}
+              setBackground={setBackground}
+              purchasedBackgrounds={profileData.purchasedBackgrounds}
+              setPopup={setBackgroundPopupOpen}
             />
           </div>
       </LargePopup>

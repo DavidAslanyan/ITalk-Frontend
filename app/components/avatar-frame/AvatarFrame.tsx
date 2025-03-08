@@ -12,7 +12,7 @@ const AvatarFrame: React.FC<AvatarFrameProps> = ({
   children
 }) => {
   return (
-    <div className={`w-[12rem] border-[1rem] ${selectFrameColor(type)} rounded-full flex items-center justify-center`}>
+    <div className={`w-[12rem] border-[1rem] ${selectFrameColor(type)} rounded-full flex items-center justify-center bg-backPrimary`}>
       {children}
     </div>
   )
