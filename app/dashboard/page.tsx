@@ -18,7 +18,7 @@ const DashboardHome = () => {
     // if (!user) return null;
     return {
       username: `Davit Aslanyan`,
-      progress: 100, 
+      progress: 110, 
     };
   }, []);
   // user[]

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import PolicyIcon from "@/app/components/icons/navbar-icons/PolicyIcon";
 import SettingsToggleTab from "@/app/components/settings-toggle-tab";
 import { getUserQuery } from "@/app/services/queries/auth.query";
+import { EDIT_PROFILE } from "@/app/utilities/constants/global-urls";
 
 
 const profileData = {
@@ -67,7 +68,7 @@ const Profile = () => {
         <SettingsTab
           title="Edit Profile"
           icon={<EditIcon height={25} />}
-          onClick={() => router.push("help")}
+          onClick={() => router.push(EDIT_PROFILE)}
         />
 
         <SettingsToggleTab 

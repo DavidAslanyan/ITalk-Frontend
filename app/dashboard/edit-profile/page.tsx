@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react'
 import Image from 'next/image';
-import AvatarBorder from '@/app/components/avatar-border/AvatarBorder';
+import AvatarFrame from '@/app/components/avatar-frame/AvatarFrame';
 import InputCustom from '@/app/components/input';
 import EmailIcon from '@/app/components/icons/EmailIcon';
 import { COLORS } from '@/app/utilities/constants/colors';
@@ -9,11 +9,14 @@ import LockIcon from '@/app/components/icons/LockIcon';
 import ButtonStandard from '@/app/components/buttons/button-standard';
 import ButtonSecondary from '@/app/components/buttons/button-secondary/ButtonSecondary';
 import Popup from '@/app/components/popup';
-import AvatarStore from '@/app/components/avatar-store/AvatarStore';
+import AvatarCloset from '@/app/components/user-closet/avatar-closet/AvatarCloset';
 import LargePopup from '@/app/components/large-popup';
+import { FRAMES } from '@/app/utilities/constants/shop-items';
+import FrameCloset from '@/app/components/user-closet/frame-closet';
 
 const profileData = {
   avatarURL: "/user-avatars/male-1.png",
+  frame: "def",
   purchasedAvatars: [
     "/user-avatars/male-1.png",
     "/user-avatars/female-1.png",
@@ -27,6 +30,16 @@ const profileData = {
     "/user-avatars/limited-4.png",
     "/user-avatars/limited-5.png",
     "/user-avatars/limited-6.png",
+  ],
+  purchasedBackgrounds: [
+    "def",
+  ],
+  purchasedFrames: [
+    FRAMES.def, 
+    FRAMES.black, 
+    FRAMES.red, FRAMES.blue, FRAMES.lightBlue, FRAMES.orange, FRAMES.purple,
+    FRAMES.yellow, FRAMES.pink, FRAMES.teal, FRAMES.lime, FRAMES.indigo, FRAMES.rose,
+    FRAMES.amber, FRAMES.cyan, FRAMES.emerald, FRAMES.violet
   ],
   coins: 75,
   rang: "Student",
@@ -47,8 +60,9 @@ const EditProfile = () => {
     newPassword: ""
   });
   const [avatar, setAvatar] = useState(profileData.avatarURL);
+  const [frame, setFrame] = useState(profileData.frame);
   
-  const [avatarPopupOpen, setAvatarPopupOpen] = useState<boolean>(true);
+  const [avatarPopupOpen, setAvatarPopupOpen] = useState<boolean>(false);
   const [framePopupOpen, setFramePopupOpen] = useState<boolean>(false);
   
 
@@ -66,17 +80,17 @@ const EditProfile = () => {
       <h1 className="text-secondary text-2xl font-semibold">Edit Profile</h1>
 
       <section className='pt-10'>
-        <AvatarBorder>
+        <AvatarFrame type={frame}>
           <Image
             width={200}
             height={200}
             src={avatar}
-            alt="prfile avatar"
+            alt="profile avatar"
           />
-        </AvatarBorder>
+        </AvatarFrame>
         <div className='pt-5 flex gap-3 items-center'>
           <ButtonSecondary onClick={() => setAvatarPopupOpen(true)} title='Change Avatar' />
-          <ButtonSecondary title='Change Frame' />
+          <ButtonSecondary onClick={() =>  setFramePopupOpen(true)} title='Change Frame' />
         </div>
       </section>
 
@@ -145,17 +159,32 @@ const EditProfile = () => {
 
 
       <LargePopup 
-      isOpen={avatarPopupOpen}
-      maxWidth='max-w-[60rem]'
-      >
-        <div>
-          <AvatarStore  
-            avatar={avatar}
-            setAvatar={setAvatar}
-            setPopup={setAvatarPopupOpen}
-            purchasedAvatars={profileData.purchasedAvatars}
-          />
-        </div>
+        isOpen={avatarPopupOpen}
+        maxWidth='max-w-[60rem]'
+        >
+          <div>
+            <AvatarCloset  
+              avatar={avatar}
+              setAvatar={setAvatar}
+              setPopup={setAvatarPopupOpen}
+              purchasedAvatars={profileData.purchasedAvatars}
+            />
+          </div>
+      </LargePopup>
+
+      <LargePopup 
+        isOpen={framePopupOpen}
+        maxWidth='max-w-[60rem]'
+        >
+          <div>
+            <FrameCloset  
+              avatar={avatar}
+              frame={frame}
+              setFrame={setFrame}
+              setPopup={setFramePopupOpen}
+              purchasedFrames={profileData.purchasedFrames}
+            />
+          </div>
       </LargePopup>
 
     </div>

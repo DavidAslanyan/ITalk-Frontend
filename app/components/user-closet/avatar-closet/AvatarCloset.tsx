@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import ButtonStandard from '../buttons/button-standard'
-import ButtonSecondary from '../buttons/button-secondary/ButtonSecondary'
+import ButtonStandard from '../../buttons/button-standard'
+import ButtonSecondary from '../../buttons/button-secondary/ButtonSecondary'
 
-type AvatarStoreProps = {
+type AvatarClosetProps = {
   avatar: string,
   setAvatar: (arg: string) => void,
   purchasedAvatars: string[]
   setPopup: (arg: boolean) => void
 }
 
-const AvatarStore: React.FC<AvatarStoreProps> = ({ avatar, setAvatar, purchasedAvatars, setPopup }) => {
+const AvatarCloset: React.FC<AvatarClosetProps> = ({ avatar, setAvatar, purchasedAvatars, setPopup }) => {
   const [curAvatar, setCurAvatar] = useState(avatar);
   const [hasMounted, setHasMounted] = useState(false);
 
@@ -42,15 +42,23 @@ const AvatarStore: React.FC<AvatarStoreProps> = ({ avatar, setAvatar, purchasedA
           <Image priority width={200} height={200} src={curAvatar} alt="profile avatar" />
         </div>
 
-        <div className="w-full overflow-x-auto">
-          <ul className="py-5 flex items-center justify-center gap-5 overflow-x-auto whitespace-nowrap max-w-full scrollbar-hidden">
+        <div className="w-full overflow-x-auto scrollbar-hidden">
+          <ul className="py-5 flex items-center justify-start gap-5 overflow-x-auto whitespace-nowrap w-max min-w-full">
             {purchasedAvatars.map((item, index) => (
-              <li onClick={() => setCurAvatar(item)} className="rounded-full flex-shrink-0 cursor-pointer" key={index}>
-                <Image priority width={100} height={100} src={item} alt="profile avatar" />
+              <li onClick={() => setCurAvatar(item)} className="rounded-full flex-shrink-0 cursor-pointer transition-all" key={index}>
+                <Image 
+                  className={`${item === curAvatar && "border-4 border-green-500 rounded-full"}`}
+                  priority 
+                  width={100} 
+                  height={100} 
+                  src={item} 
+                  alt="profile avatar" 
+                />
               </li>
             ))}
           </ul>
         </div>
+
       </section>
 
       <div className='flex justify-center items-center w-40 mx-auto gap-3'>
@@ -67,4 +75,4 @@ const AvatarStore: React.FC<AvatarStoreProps> = ({ avatar, setAvatar, purchasedA
   )
 }
 
-export default AvatarStore
+export default AvatarCloset
