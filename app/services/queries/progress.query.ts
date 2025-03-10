@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { addPassedGame, clearPassedGames } from "../controllers/progress.controller";
+import { addPassedGame, clearPassedGames, subtractCoins } from "../controllers/progress.controller";
 
 
 export const addPassedGameMutation = () => {
@@ -13,3 +13,10 @@ export const clearPassedGamesMutation = () => {
     mutationFn: clearPassedGames
   });
 };
+
+export const subtractCoinsMutation = () => {
+  return useMutation({
+    mutationFn: subtractCoins
+  });
+};
+
