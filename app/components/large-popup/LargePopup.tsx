@@ -21,7 +21,7 @@ const LargePopup: React.FC<PopupProps> = ({ isOpen, setIsOpen, children, maxWidt
 
   return (
     <div
-      className={`z-50 fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 transition-opacity duration-300 ${
+      className={`z-50 px-4 fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 transition-opacity duration-300 ${
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >

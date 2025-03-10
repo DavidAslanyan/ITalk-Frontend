@@ -1,8 +1,9 @@
 import { API_URLS } from "@/app/utilities/constants/api-endpoints";
-import { LoginUserFormType, RegisterUserFormType } from "@/app/utilities/types/auth.type";
+import { LoginUserFormType, RegisterUserFormType, UpdateUserFormType } from "@/app/utilities/types/auth.type";
 import axios from "axios";
 
 const id  = "1ffbaed4-2661-4b9c-ae36-b31f121d4824";
+
 
 export const getUser = async () => {
   try {
@@ -32,6 +33,17 @@ export const loginUser = async (data: LoginUserFormType) => {
     return response.data;
   } catch(error) {
     console.error("Failed to login the user:", error);
+    throw error; 
+  }
+}
+
+
+export const updateUser = async ({ userId, data }: { userId: string; data: UpdateUserFormType }) => {
+  try {
+    const response = await axios.patch(`${API_URLS.AUTH_UPDATE}/${userId}`, data);
+    return response.data;
+  } catch(error) {
+    console.error("Failed to update the user:", error);
     throw error; 
   }
 }

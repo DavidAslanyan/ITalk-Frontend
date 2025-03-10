@@ -14,3 +14,13 @@ export type LoginUserFormType = {
   password: string,
 }
 
+export type UpdateUserFormType = {
+  firstName: string,
+  lastName: string,
+  oldPassword: string,
+  newPassword : string,
+  email: string,
+  avatarUrl: string,
+  frameUrl: string,
+  backgroundUrl: string
+}

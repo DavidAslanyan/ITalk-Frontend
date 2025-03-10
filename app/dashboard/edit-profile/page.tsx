@@ -15,8 +15,16 @@ import { BACKGROUNDS, FRAMES } from '@/app/utilities/constants/shop-items';
 import FrameCloset from '@/app/components/user-closet/frame-closet';
 import BackgroundContainer from '@/app/components/background-container';
 import BackgroundCloset from '@/app/components/user-closet/background-closet';
+import { updateUserMutation } from '@/app/services/queries/auth.query';
+import { HttpStatusCode } from '@/app/utilities/enums/status-codes.enum';
+import { useRouter } from 'next/navigation';
+import { DASHBOARD_URL, PROFILE } from '@/app/utilities/constants/global-urls';
+import FailIcon from '@/app/components/icons/FailIcon';
+import EditIcon from '@/app/components/icons/EditIcon';
+
 
 const profileData = {
+  id: "6cadc416-677a-4aaf-8a69-fdbf53b8d761",
   avatarURL: "/user-avatars/male-1.png",
   frame: "def",
   purchasedAvatars: [
@@ -64,14 +72,15 @@ const profileData = {
 
 
 const EditProfile = () => {
-  const [formData, setFormData] = useState({
+  const router = useRouter();
+  const initialState = {
     firstName: profileData.firstName,
     lastName: profileData.lastName,
     email: profileData.email,
     password: "",
     newPassword: ""
-  });
-
+  };
+  const [formData, setFormData] = useState(initialState);
   const [avatar, setAvatar] = useState(profileData.avatarURL);
   const [frame, setFrame] = useState(profileData.frame);
   const [background, setBackground] = useState(profileData.backgroundUrl);
@@ -79,6 +88,8 @@ const EditProfile = () => {
   const [avatarPopupOpen, setAvatarPopupOpen] = useState<boolean>(false);
   const [framePopupOpen, setFramePopupOpen] = useState<boolean>(false);
   const [backgroundPopupOpen, setBackgroundPopupOpen] = useState<boolean>(false);
+  const [formSubmitPopupOpen, setFormSubmitPopupOpen] = useState<boolean>(false);
+  const [errorPopup, setErrorPopup] = useState<string>("");
   
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,12 +100,55 @@ const EditProfile = () => {
     }));
   };
 
+  const { mutate: updateUser, isPending } = updateUserMutation();
+
+  const handleFinalFormSubmit = () => {
+    const mappedFormData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      oldPassword: formData.password,
+      newPassword : formData.newPassword,
+      email: formData.email,
+      avatarUrl: avatar,
+      frameUrl: frame,
+      backgroundUrl: background
+    };
+
+    updateUser(
+      { userId: profileData.id,
+        data: mappedFormData,
+      },
+      {
+        onSuccess: (data) => {
+          if (data?.status === HttpStatusCode.OK) {
+            router.push(DASHBOARD_URL + PROFILE);
+          } else {
+            setFormSubmitPopupOpen(false);
+            setErrorPopup(data?.error)
+          }
+        },
+        onError: (error) => {
+          setFormSubmitPopupOpen(false);
+          setErrorPopup(error.message);
+          console.error("Error updating user:", error);
+        }
+      }
+    )
+  };
+
+  const handleReset = () => {
+    setFormData(initialState);
+    setAvatar(profileData.avatarURL);
+    setFrame(profileData.frame);
+    setBackground(profileData.backgroundUrl);
+  };
+
     
   return (
-    <div className='h-[150vh] md:h-auto'>
+    <div className='h-[170vh] sm:h-auto'>
       <h1 className="text-secondary text-2xl font-semibold py-5">Edit Profile</h1>
 
-      <section className='pr-4'>
+      <section className=''>
         <BackgroundContainer imageUrl={background} />
       </section>
 
@@ -108,10 +162,27 @@ const EditProfile = () => {
               alt="profile avatar"
             />
           </AvatarFrame>
-          <div className='pt-5 flex flex-col sm:flex-row gap-3 items-center'>
-            <ButtonSecondary onClick={() => setAvatarPopupOpen(true)} title='Change Avatar' />
-            <ButtonSecondary onClick={() =>  setFramePopupOpen(true)} title='Change Frame' />
-            <ButtonSecondary onClick={() =>  setBackgroundPopupOpen(true)} title='Change Background' />
+          <div className='pt-5 flex flex-wrap gap-3 items-center'>
+            <button 
+              onClick={() => setAvatarPopupOpen(true)}
+              className='bg-secondary text-white font-medium px-3 py-2 flex items-center gap-3 rounded-sm'>
+              <p>Avatar</p>
+              <EditIcon width={20} height={20} color={COLORS.white} />
+            </button>
+
+            <button 
+              onClick={() => setFramePopupOpen(true)}
+              className='bg-secondary text-white font-medium px-3 py-2 flex items-center gap-3 rounded-sm'>
+              <p>Frame</p>
+              <EditIcon width={20} height={20} color={COLORS.white} />
+            </button>
+
+            <button 
+              onClick={() => setBackgroundPopupOpen(true)}
+              className='bg-secondary text-white font-medium px-3 py-2 flex items-center gap-3 rounded-sm'>
+              <p>Background</p>
+              <EditIcon width={20} height={20} color={COLORS.white} />
+            </button>
           </div>
         </section>
 
@@ -172,9 +243,9 @@ const EditProfile = () => {
           />
         </section>
 
-        <div className='pt-10 flex gap-3'>
-          <ButtonStandard title='Save Changes' />
-          <ButtonSecondary title='Reset' />
+        <div className='pb-[10rem] pt-10 md:py-10 flex gap-3'>
+          <ButtonStandard onClick={() => setFormSubmitPopupOpen(true)} title='Save Changes' />
+          <ButtonSecondary onClick={handleReset} title='Reset' />
         </div>
       </div>
 
@@ -220,6 +291,27 @@ const EditProfile = () => {
             />
           </div>
       </LargePopup>
+
+
+      <Popup isOpen={formSubmitPopupOpen}>
+        <div className='flex flex-col items-center'>
+          <p className='text-md text-secondary font-medium'>Are you sure you want to save your changes?</p>
+          <div className='flex items-center gap-5 pt-5'>
+            <ButtonSecondary onClick={() => setFormSubmitPopupOpen(false)} title='Cancel' />
+            <ButtonStandard onClick={handleFinalFormSubmit} title='Save My Changes' />
+          </div>
+        </div>
+      </Popup>
+
+      <Popup isOpen={errorPopup !== ""}>
+        <div className='flex flex-col items-center'>
+          <FailIcon width={120} height={120} color={COLORS.primaryRed} />
+          <p className='text-md text-secondary font-medium'>Failed to Update Profile</p>
+          <div className='flex items-center gap-5 pt-5'>
+            <ButtonSecondary onClick={() => setErrorPopup("")} title='Try Again' />
+          </div>
+        </div>
+      </Popup>
 
     </div>
   )
