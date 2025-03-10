@@ -9,5 +9,6 @@ export const COLORS = {
   darkGray: "#898989",
   thirdly: "#D9D9D9",
   backPrimary: "#F0F0F0", 
+  gold: "#FFD700",
 }
 

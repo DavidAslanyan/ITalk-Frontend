@@ -37,7 +37,7 @@ export const FRAMES = {
 };
 
 export const BACKGROUNDS = {
-  def: "/backgrounds/cover-1.jpg",
+  def: "/backgrounds/cover-10.jpg",
   cover1: "/backgrounds/cover-2.jpg",
   cover2: "/backgrounds/cover-3.jpg",
   cover3: "/backgrounds/cover-4.jpg",
@@ -46,6 +46,6 @@ export const BACKGROUNDS = {
   cover6: "/backgrounds/cover-7.jpg",
   cover7: "/backgrounds/cover-8.jpg",
   cover8: "/backgrounds/cover-9.jpg",
-  cover9: "/backgrounds/cover-10.jpg",
+  cover9: "/backgrounds/cover-1.jpg",
 };
 
