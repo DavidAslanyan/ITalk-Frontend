@@ -1,5 +1,5 @@
 import { API_URLS } from "@/app/utilities/constants/api-endpoints";
-import { AddGameType } from "@/app/utilities/types/progress.type";
+import { AddGameType, SubtractCoinsType } from "@/app/utilities/types/progress.type";
 import axios from "axios";
 
 
@@ -20,6 +20,17 @@ export const clearPassedGames = async () => {
     return response.data;
   } catch(error) {
     console.error("There was an error when clearing passed games:", error);
+    throw error; 
+  }
+}
+
+
+export const subtractCoins = async (data: SubtractCoinsType) => {
+  try {
+    const response = await axios.patch(`${API_URLS.SUBTRACT_COINS}`, data);
+    return response.data;
+  } catch(error) {
+    console.error("There was an error subtracting coins:", error);
     throw error; 
   }
 }

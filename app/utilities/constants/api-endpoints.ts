@@ -9,5 +9,7 @@ export const API_URLS = {
   AUTH_UPDATE: `${BASE}/${VERSION}/auth/update`,
   ADD_GAME: `${BASE}/${VERSION}/${PROGRESS}/game`,
   CLEAR_GAMES: `${BASE}/${VERSION}/${PROGRESS}/games/clear`,
+  ADD_COINS: `${BASE}/${VERSION}/${PROGRESS}/add-coins`,
+  SUBTRACT_COINS: `${BASE}/${VERSION}/${PROGRESS}/subtract-coins`,
 };
 

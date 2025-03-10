@@ -10,6 +10,9 @@ import { COLORS } from '@/app/utilities/constants/colors';
 import Popup from '@/app/components/popup';
 import ButtonSecondary from '@/app/components/buttons/button-secondary/ButtonSecondary';
 import ButtonStandard from '@/app/components/buttons/button-standard';
+import { subtractCoinsMutation } from '@/app/services/queries/progress.query';
+import { HttpStatusCode } from '@/app/utilities/enums/status-codes.enum';
+import FailIcon from '@/app/components/icons/FailIcon';
 
 
 enum ActiveTabEnum {
@@ -28,6 +31,7 @@ const Store = () => {
   const ownedAvatars = [AVATARS.male1, AVATARS.female1];
   const ownedFrames = [FRAMES.def];
   const ownedBackgrounds= [BACKGROUNDS.def];
+  const coins = 275;
 
   const [activeTab, setActiveTab] = useState<ActiveTabEnum>(ActiveTabEnum.BACKGROUNDS);
   const tabs = [
@@ -39,10 +43,47 @@ const Store = () => {
   const activeIndex = tabs.findIndex(tab => tab.value === activeTab);
 
   const [selectedItem, setSelectedItem] = useState<StoreItemType | null>(null);
+  const [successPopup, setSuccessPopup] = useState<boolean>(false);
+  const [errorPopup, setErrorPopup] = useState<string>("");
+
+  const { mutate: subtractCoins } = subtractCoinsMutation();
+
+  const handleBuyItem = (item: StoreItemType) => {
+    if (coins >= item.price) {
+      const data = {
+        coins: item.price
+      }
+
+      subtractCoins(data, {
+        onSuccess: (data) => {
+          if (data?.status === HttpStatusCode.OK) {
+            setSuccessPopup(true);
+          } else {
+            setSelectedItem(null);
+            setErrorPopup(data?.error);
+          }
+        },
+        onError: (error) => {
+          setSelectedItem(null);
+          setErrorPopup(error.message);
+          console.error("Error buying item: ", error)
+        }
+      })
+    }
+  }
 
   return (
-    <div className='h-[180vh] md:h-auto relative'>
-      <nav className="relative pt-20">
+    <div className={`${activeTab === ActiveTabEnum.BACKGROUNDS ? "h-[300vh]" : "h-[280vh] sm:h-[170vh]"} md:h-auto relative`}>
+      <h1 className='pt-10 text-2xl font-bold text-secondary'>Store</h1>
+      <div className='pt-5 flex items-center gap-5'>
+        <p className='text-secondary font-semibold text-md'>Your Balance:</p>
+        <div className='flex items-center gap-1'>
+          <CoinIcon />
+          <p className='text-secondary font-bold'>{coins}</p>
+        </div>
+      </div>
+
+      <nav className="relative pt-6">
         <ul className="flex items-center gap-2 md:gap-5 relative">
           {tabs.map((tab) => (
             <li
@@ -123,13 +164,58 @@ const Store = () => {
             <p className='font-medium'>{selectedItem?.price}</p>
           </div>
 
+          {selectedItem?.price &&
           <div className='pt-10 flex w-full items-center justify-center gap-20'>
-          <ButtonSecondary onClick={() => setSelectedItem(null)} title='Back'/>
-          <ButtonStandard title='Buy Item' />
-        </div>
+            <ButtonSecondary onClick={() => setSelectedItem(null)} title='Back'/>
+            <ButtonStandard onClick={() => handleBuyItem(selectedItem)} disabled={coins < selectedItem?.price} title='Buy Item' />
+          </div>
+          }
         </div>
         }
-        
+      </Popup>
+
+      <Popup isOpen={successPopup}>
+        <div>
+          <div className='flex flex-col items-center justify-center'>
+          <SuccessIcon width={120} height={120} color={COLORS.primaryGreen} />
+          <p className='text-md font-semibold py-4'>Item Purchased</p>
+          {selectedItem?.url.includes("/")
+          ?
+          <>
+          {selectedItem.url.includes("user")
+          ?
+          <Image className='rounded-sm object-cover' style={{width: "10rem", height: "10rem"}}  width={120} height={120} src={selectedItem.url} alt={selectedItem.title} />
+          :
+          <Image className='rounded-sm object-cover' style={{width: "15rem", height: "5rem"}}  width={120} height={120} src={selectedItem.url} alt={selectedItem.title} />
+          }
+          </>
+          :
+          <div className={`flex justify-center items-center w-[6rem] h-[6rem] border-[0.5rem] ${selectedItem?.url && selectFrameColor(selectedItem.url)} rounded-full bg-backPrimary`}></div>
+          }
+          <p className='pt-3 font-medium'>{selectedItem?.title}</p>
+          <div className='flex items-center gap-1'>
+            <p className='font-medium'>You can now use your item</p>
+          </div>
+
+          <div className='pt-10 flex w-full items-center justify-center gap-20'>
+          <ButtonSecondary onClick={() => {
+            setSelectedItem(null);
+            setSuccessPopup(false);
+          }} title='Close'/>
+        </div>
+        </div>
+        </div>
+      </Popup>
+
+      <Popup isOpen={errorPopup !== ""}>
+        <div className='flex flex-col items-center'>
+          <FailIcon width={120} height={120} color={COLORS.primaryRed} />
+          <p className='text-md text-secondary font-medium'>Failed to Buy Item</p>
+          <p>{errorPopup}</p>
+          <div className='flex items-center gap-5 pt-5'>
+            <ButtonSecondary onClick={() => setErrorPopup("")} title='Try Again' />
+          </div>
+        </div>
       </Popup>
     </div>
   )

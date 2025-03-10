@@ -4,3 +4,12 @@ export type AddGameType = {
   gamePassed: GamesEnum;
 }
 
+
+export type SubtractCoinsType = {
+  coins: number;
+}
+
+export type AddCoinsType = {
+  coins: number;
+}
+

@@ -208,7 +208,6 @@ const EditProfile = () => {
 
         <section className='pt-5 flex flex-col sm:flex-row max-w-[34rem]'>
           <InputCustom
-            maxLength={15}
             name="email"
             onChange={(e) => handleFormChange(e)}
             value={formData.email}
