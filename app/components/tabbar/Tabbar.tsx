@@ -8,6 +8,7 @@ import { COLORS } from '@/app/utilities/constants/colors';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import HomeIcon from '../icons/navbar-icons/HomeIcon';
+import ShopIcon from '../icons/navbar-icons/ShopIcon';
 
 
 const homeTab = {
@@ -19,13 +20,18 @@ const homeTab = {
 export const tabItems = [
   {
     id: Math.random(),
-    url: `${DASHBOARD_URL}/search`,
-    icon: <SearchIcon width={36} height={36} />
+    url: `${DASHBOARD_URL}/store`,
+    icon: <ShopIcon width={36} height={36} />
   },
   {
     id: Math.random(),
     url: `${DASHBOARD_URL}/games`,
     icon: <GameIcon width={36} height={36} />
+  },
+  {
+    id: Math.random(),
+    url: `${DASHBOARD_URL}/search`,
+    icon: <SearchIcon width={36} height={36} />
   },
   {
     id: Math.random(),
@@ -44,7 +50,7 @@ const Tabbar = () => {
     
   return (
     <div>
-      <ul className='flex items-center gap-5'>
+      <ul className='flex items-center gap-3 sm:gap-5'>
         <li 
           className='flex items-center justify-center w-16 h-16 bg-secondary rounded-full'
           key={homeTab.id}

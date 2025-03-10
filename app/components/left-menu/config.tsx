@@ -5,6 +5,7 @@ import ProfileIcon from "../icons/navbar-icons/ProfileIcon";
 import HelpIcon from "../icons/navbar-icons/HelpIcon";
 import PolicyIcon from "../icons/navbar-icons/PolicyIcon";
 import ExitIcon from "../icons/navbar-icons/ExitIcon";
+import ShopIcon from "../icons/navbar-icons/ShopIcon";
 
 
 export const homeItem = {
@@ -16,15 +17,21 @@ export const homeItem = {
 export const menuItemsTop = [
   {
     id: Math.random(),
-    title: "Search",
-    url: `${DASHBOARD_URL}/search`,
-    icon: <SearchIcon />
+    title: "Store",
+    url: `${DASHBOARD_URL}/store`,
+    icon: <ShopIcon />
   },
   {
     id: Math.random(),
     title: "Games",
     url: `${DASHBOARD_URL}/games`,
     icon: <GameIcon />
+  },
+  {
+    id: Math.random(),
+    title: "Search",
+    url: `${DASHBOARD_URL}/search`,
+    icon: <SearchIcon />
   },
   {
     id: Math.random(),
