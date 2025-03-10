@@ -10,9 +10,10 @@ import { COLORS } from '@/app/utilities/constants/colors';
 import Popup from '@/app/components/popup';
 import ButtonSecondary from '@/app/components/buttons/button-secondary/ButtonSecondary';
 import ButtonStandard from '@/app/components/buttons/button-standard';
-import { subtractCoinsMutation } from '@/app/services/queries/progress.query';
+import { purchaseStoreItemMutation, subtractCoinsMutation } from '@/app/services/queries/progress.query';
 import { HttpStatusCode } from '@/app/utilities/enums/status-codes.enum';
 import FailIcon from '@/app/components/icons/FailIcon';
+import { StoreItemEnum } from '@/app/utilities/enums/store-item.enum';
 
 
 enum ActiveTabEnum {
@@ -22,6 +23,7 @@ enum ActiveTabEnum {
 };
 
 type StoreItemType = {
+  type: StoreItemEnum
   title: string;
   url: string;
   price: number;
@@ -46,15 +48,17 @@ const Store = () => {
   const [successPopup, setSuccessPopup] = useState<boolean>(false);
   const [errorPopup, setErrorPopup] = useState<string>("");
 
-  const { mutate: subtractCoins } = subtractCoinsMutation();
+  const { mutate: purchase } = purchaseStoreItemMutation();
 
   const handleBuyItem = (item: StoreItemType) => {
     if (coins >= item.price) {
       const data = {
+        item: item.url,
+        type: item.type,
         coins: item.price
       }
 
-      subtractCoins(data, {
+      purchase(data, {
         onSuccess: (data) => {
           if (data?.status === HttpStatusCode.OK) {
             setSuccessPopup(true);

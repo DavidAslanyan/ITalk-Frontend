@@ -1,5 +1,5 @@
 import { API_URLS } from "@/app/utilities/constants/api-endpoints";
-import { AddGameType, SubtractCoinsType } from "@/app/utilities/types/progress.type";
+import { AddGameType, PurchaseStoreItemType, SubtractCoinsType } from "@/app/utilities/types/progress.type";
 import axios from "axios";
 
 
@@ -31,6 +31,16 @@ export const subtractCoins = async (data: SubtractCoinsType) => {
     return response.data;
   } catch(error) {
     console.error("There was an error subtracting coins:", error);
+    throw error; 
+  }
+}
+
+export const purchaseStoreItem = async (data: PurchaseStoreItemType) => {
+  try {
+    const response = await axios.post(`${API_URLS.PURCHASE}`, data);
+    return response.data;
+  } catch(error) {
+    console.error("There was an error purchasing store item:", error);
     throw error; 
   }
 }

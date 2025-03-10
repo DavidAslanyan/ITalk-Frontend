@@ -11,5 +11,6 @@ export const API_URLS = {
   CLEAR_GAMES: `${BASE}/${VERSION}/${PROGRESS}/games/clear`,
   ADD_COINS: `${BASE}/${VERSION}/${PROGRESS}/add-coins`,
   SUBTRACT_COINS: `${BASE}/${VERSION}/${PROGRESS}/subtract-coins`,
+  PURCHASE:  `${BASE}/${VERSION}/${PROGRESS}/purchase`,
 };
 
