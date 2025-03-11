@@ -1,4 +1,5 @@
 import { API_URLS } from "@/app/utilities/constants/api-endpoints";
+import { DifficultyLevel } from "@/app/utilities/enums/difficulty-level.enum";
 import { LoginUserFormType, RegisterUserFormType, UpdateUserFormType } from "@/app/utilities/types/auth.type";
 import axios from "axios";
 
@@ -44,6 +45,17 @@ export const updateUser = async ({ userId, data }: { userId: string; data: Updat
     return response.data;
   } catch(error) {
     console.error("Failed to update the user:", error);
+    throw error; 
+  }
+}
+
+
+export const changeDifficulty = async ({ level }: { level: DifficultyLevel | string }) => {
+  try {
+    const response = await axios.patch(`${API_URLS.CHANGE_DIFFICULTY}`, { level });
+    return response.data;
+  } catch(error) {
+    console.error("Failed to udpate difficulty:", error);
     throw error; 
   }
 }

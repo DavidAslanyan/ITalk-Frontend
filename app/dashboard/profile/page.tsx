@@ -10,6 +10,8 @@ import PolicyIcon from "@/app/components/icons/navbar-icons/PolicyIcon";
 import SettingsToggleTab from "@/app/components/settings-toggle-tab";
 import { getUserQuery } from "@/app/services/queries/auth.query";
 import { EDIT_PROFILE } from "@/app/utilities/constants/global-urls";
+import SelectDifficulty from "@/app/components/select-difficulty";
+import LargePopup from "@/app/components/large-popup";
 
 
 const profileData = {
@@ -18,13 +20,14 @@ const profileData = {
   rangURL: "/rangs/rang-1.png",
   username: "David Aslanyan",
   progress: 150,
+  difficultyLevel: "easy"
 };
 
 
 const Profile = () => {
   const router = useRouter();
   // const { data } = getUserQuery();
-
+  const [difficultyPopupOpen, setDifficultyPopupOpen] = useState<boolean>(false);
 
   return (
     <div className="min-h-[150vh] sm:min-h-[120vh] md:min-h-[100vh]">
@@ -79,9 +82,9 @@ const Profile = () => {
         />
 
       <SettingsTab
-          title="Selected Difficulty: Easy"
+          title={`Selected Difficulty: ${profileData.difficultyLevel}`}
           icon={<HelpIcon />}
-          onClick={() => router.push("help")}
+          onClick={() => setDifficultyPopupOpen(true)}
         />
 
 
@@ -110,6 +113,14 @@ const Profile = () => {
           onClick={() => router.push("help")}
         />
       </section>
+
+
+      <LargePopup isOpen={difficultyPopupOpen}>
+        <SelectDifficulty 
+          difficulty={profileData.difficultyLevel}
+          setDifficultyPopupOpen={setDifficultyPopupOpen}
+        />
+      </LargePopup>
     </div>
   );
 };

@@ -12,5 +12,6 @@ export const API_URLS = {
   ADD_COINS: `${BASE}/${VERSION}/${PROGRESS}/add-coins`,
   SUBTRACT_COINS: `${BASE}/${VERSION}/${PROGRESS}/subtract-coins`,
   PURCHASE:  `${BASE}/${VERSION}/${PROGRESS}/purchase`,
+  CHANGE_DIFFICULTY: `${BASE}/${VERSION}/auth/change-difficulty`
 };
 
