@@ -1,7 +1,17 @@
 import { API_URLS } from "@/app/utilities/constants/api-endpoints";
-import { AddGameType, PurchaseStoreItemType, SubtractCoinsType } from "@/app/utilities/types/progress.type";
+import { AddCoinsType, AddGameType, AddPointsType, PurchaseStoreItemType, SubtractCoinsType, UpdateProgressType } from "@/app/utilities/types/progress.type";
 import axios from "axios";
 
+
+export const updateProgress = async (data: UpdateProgressType) => {
+  try {
+    const response = await axios.patch(`${API_URLS.UPDATE_PROGRESS}`, data);
+    return response.data;
+  } catch(error) {
+    console.error("There was an error updating user progress:", error);
+    throw error; 
+  }
+};
 
 export const addPassedGame = async (data: AddGameType) => {
   try {
@@ -24,6 +34,16 @@ export const clearPassedGames = async () => {
   }
 }
 
+export const addCoins = async (data: AddCoinsType) => {
+  try {
+    const response = await axios.patch(`${API_URLS.ADD_COINS}`, data);
+    return response.data;
+  } catch(error) {
+    console.error("There was an error adding coins:", error);
+    throw error; 
+  }
+}
+
 
 export const subtractCoins = async (data: SubtractCoinsType) => {
   try {
@@ -31,6 +51,16 @@ export const subtractCoins = async (data: SubtractCoinsType) => {
     return response.data;
   } catch(error) {
     console.error("There was an error subtracting coins:", error);
+    throw error; 
+  }
+}
+
+export const addPoints = async (data: AddPointsType) => {
+  try {
+    const response = await axios.patch(`${API_URLS.ADD_POINTS}`, data);
+    return response.data;
+  } catch(error) {
+    console.error("There was an error adding points:", error);
     throw error; 
   }
 }

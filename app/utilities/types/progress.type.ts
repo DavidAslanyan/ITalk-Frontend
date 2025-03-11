@@ -5,6 +5,9 @@ export type AddGameType = {
   gamePassed: GamesEnum;
 }
 
+export type UpdateProgressType = {
+  progress: number;
+}
 
 export type SubtractCoinsType = {
   coins: number;
@@ -12,6 +15,10 @@ export type SubtractCoinsType = {
 
 export type AddCoinsType = {
   coins: number;
+}
+
+export type AddPointsType = {
+  points: number;
 }
 
 export type PurchaseStoreItemType = {

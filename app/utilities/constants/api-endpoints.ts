@@ -11,7 +11,9 @@ export const API_URLS = {
   CLEAR_GAMES: `${BASE}/${VERSION}/${PROGRESS}/games/clear`,
   ADD_COINS: `${BASE}/${VERSION}/${PROGRESS}/add-coins`,
   SUBTRACT_COINS: `${BASE}/${VERSION}/${PROGRESS}/subtract-coins`,
+  ADD_POINTS: `${BASE}/${VERSION}/${PROGRESS}/add-points`,
   PURCHASE:  `${BASE}/${VERSION}/${PROGRESS}/purchase`,
-  CHANGE_DIFFICULTY: `${BASE}/${VERSION}/auth/change-difficulty`
+  CHANGE_DIFFICULTY: `${BASE}/${VERSION}/auth/change-difficulty`,
+  UPDATE_PROGRESS:  `${BASE}/${VERSION}/${PROGRESS}/add`
 };
 

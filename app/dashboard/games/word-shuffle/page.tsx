@@ -12,30 +12,34 @@ import { DASHBOARD_URL, GAMES, TERMS_URL } from '@/app/utilities/constants/globa
 import Popup from '@/app/components/popup';
 import Timer from '@/app/components/timer';
 import SmallProgressBar from '@/app/components/small-progress-bar/SmallProgressBar';
-import { addPassedGameMutation } from '@/app/services/queries/progress.query';
+import { addCoinsMutation, addPassedGameMutation, addPointsMutation } from '@/app/services/queries/progress.query';
 import { GAME, GamesEnum } from '@/app/utilities/constants/game-titles';
+import VictoryBlock from '@/app/components/victory-block/VictoryBlock';
 
 
 const TIMER_SECONDS = 120;
+const REWARD_COINS = 5;
+const REWARD_POINTS = 175;
 
 const WordShuffle = () => {
   const gamesPassed: string[] = [];
-  const { mutate: addPassedGame } = addPassedGameMutation();
-
-  const savePassedGame = () => {
-    addPassedGame({
-      gamePassed: GamesEnum.WORD_SHUFFLE
-    }, {
-      onSuccess: () => {
-        router.replace(`${DASHBOARD_URL}/${GAMES}`);
-      },
-      onError: () => {
-        router.replace(`${DASHBOARD_URL}/${GAMES}`);
-      }
-    })
+  const { mutateAsync: addPassedGame } = addPassedGameMutation();
+  const { mutateAsync: addCoins } = addCoinsMutation();
+  const { mutateAsync: addPoints } = addPointsMutation();
+  
+  const savePassedGame = async () => {
+    try {
+      await addPassedGame({ gamePassed: GamesEnum.WORD_SHUFFLE });
+      await addCoins({ coins: REWARD_COINS });
+      await addPoints({ points: REWARD_POINTS });
+  
+      router.replace(`${DASHBOARD_URL}/${GAMES}`);
+    } catch (error) {
+      console.error("Error in transaction:", error);
+      router.replace(`${DASHBOARD_URL}/${GAMES}`);
+    }
   }
 
-    
   const router = useRouter();
   const data = {
     progress: 5,
@@ -189,10 +193,11 @@ const WordShuffle = () => {
 
 
       <Popup isOpen={successPopupOpen}>
-        <div className="flex flex-col items-center justify-center p-5">
-          <span className="py-3 text-2xl text-green-600 font-bold">SUCCESS</span>
-          <ButtonStandard onClick={handleSuccessPopup} title="Proceed to other Games"/>
-        </div>
+        <VictoryBlock 
+          handleSuccessPopup={handleSuccessPopup}
+          points={REWARD_POINTS}
+          coins={REWARD_COINS}
+        />
       </Popup>
 
       <Popup isOpen={failPopupOpen}> 

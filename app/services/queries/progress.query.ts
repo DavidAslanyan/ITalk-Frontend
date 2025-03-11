@@ -1,10 +1,20 @@
 import { useMutation } from "@tanstack/react-query";
-import { addPassedGame, clearPassedGames, purchaseStoreItem, subtractCoins } from "../controllers/progress.controller";
+import { addCoins, addPassedGame, addPoints, clearPassedGames, purchaseStoreItem, subtractCoins, updateProgress } from "../controllers/progress.controller";
 
+
+
+export const updateProgressMutation = () => {
+  return useMutation({
+    mutationFn: updateProgress
+  });
+};
 
 export const addPassedGameMutation = () => {
   return useMutation({
-    mutationFn: addPassedGame
+    mutationFn: addPassedGame,
+    onError: (error) => {
+      throw error
+    }
   });
 };
 
@@ -14,9 +24,26 @@ export const clearPassedGamesMutation = () => {
   });
 };
 
+export const addCoinsMutation = () => {
+  return useMutation({
+    mutationFn: addCoins,onError: (error) => {
+      throw error
+    }
+  });
+};
+
 export const subtractCoinsMutation = () => {
   return useMutation({
     mutationFn: subtractCoins
+  });
+};
+
+export const addPointsMutation = () => {
+  return useMutation({
+    mutationFn: addPoints,
+    onError: (error) => {
+      throw error
+    }
   });
 };
 
