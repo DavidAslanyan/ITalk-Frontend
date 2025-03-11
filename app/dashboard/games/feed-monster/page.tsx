@@ -15,7 +15,7 @@ import { DASHBOARD_URL, GAMES, TERMS_URL } from '@/app/utilities/constants/globa
 import Popup from '@/app/components/popup';
 import ButtonStandard from '@/app/components/buttons/button-standard';
 import Timer from '@/app/components/timer';
-import Monster from '@/app/components/lottie-monster';
+import Monster from '@/app/components/lottie-animations/lottie-monster';
 import { addPassedGameMutation } from '@/app/services/queries/progress.query';
 import { GAME, GamesEnum } from '@/app/utilities/constants/game-titles';
 

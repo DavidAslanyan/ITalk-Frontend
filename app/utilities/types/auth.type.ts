@@ -24,3 +24,4 @@ export type UpdateUserFormType = {
   frameUrl: string,
   backgroundUrl: string
 }
+

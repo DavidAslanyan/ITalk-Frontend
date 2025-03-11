@@ -35,7 +35,7 @@ const Store = () => {
   const ownedBackgrounds= [BACKGROUNDS.def];
   const coins = 275;
 
-  const [activeTab, setActiveTab] = useState<ActiveTabEnum>(ActiveTabEnum.BACKGROUNDS);
+  const [activeTab, setActiveTab] = useState<ActiveTabEnum>(ActiveTabEnum.AVATARS);
   const tabs = [
     { name: "Avatars", value: ActiveTabEnum.AVATARS },
     { name: "Frames", value: ActiveTabEnum.FRAMES },
@@ -229,7 +229,7 @@ const AvatarsSection = ({ owned, set }: { owned: string[], set: (arg: StoreItemT
   return (
     <ul className='flex justify-center md:justify-start items-center flex-wrap gap-16'>
       {AVATARS_STORE.map((item, index) => (
-        <li onClick={() => set(item)} key={index}>
+        <li className='cursor-pointer' onClick={() => set(item)} key={index}>
           <Image priority={true} width={120} height={120} src={item.url} alt='avatar'/>
           {owned.includes(item.url) ?
           <div className='pt-2 flex flex-col items-center'>
@@ -288,7 +288,7 @@ const BackgroundsSection = ({ owned, set }: { owned: string[], set: (arg: StoreI
   return (
     <ul className='flex justify-center md:justify-start items-center flex-wrap gap-16'>
       {BACKGROUNDS_STORE.map((item, index) => (
-        <li onClick={() => set(item)} key={index}>
+        <li className='cursor-pointer' onClick={() => set(item)} key={index}>
           <Image className='w-[15rem] h-[4rem] object-cover rounded-sm' priority={true} style={{width: "15rem", height: '6rem'}} width={120} height={120} src={item.url} alt='background'/>
           {owned.includes(item.url) ?
           <div className='pt-2 flex flex-col items-center'>
