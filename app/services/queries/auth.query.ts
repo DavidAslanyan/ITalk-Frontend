@@ -1,11 +1,21 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getUser, postUser, loginUser, updateUser, changeDifficulty } from "../controllers/auth.controller";
+import { getUser, postUser, loginUser, updateUser, changeDifficulty, getUsersList } from "../controllers/auth.controller";
 
 
 export const getUserQuery = () => {
   return useQuery({
     queryKey: ['user'],
     queryFn: getUser,
+    staleTime: 5 * 60 * 1000,
+    retry: 2, 
+    refetchOnWindowFocus: false, 
+  });
+};
+
+export const getUsersListQuery = () => {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: getUsersList,
     staleTime: 5 * 60 * 1000,
     retry: 2, 
     refetchOnWindowFocus: false, 

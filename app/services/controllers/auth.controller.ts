@@ -17,6 +17,17 @@ export const getUser = async () => {
 }
 
 
+export const getUsersList = async () => {
+   try {
+    const response = await axios.get(`${API_URLS.LIST}`);
+    return response.data;
+  } catch (error) {
+    console.error("There was an error fetching the data:", error);
+    throw error; 
+  }
+}
+
+
 export const postUser = async (data: RegisterUserFormType) => {
   try {
     const response = await axios.post(`${API_URLS.REGISTER}`, data);
