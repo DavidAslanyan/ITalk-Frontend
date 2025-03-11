@@ -2,7 +2,6 @@
 import DottedLine from '@/app/components/dotted-line';
 import FoodPlate from '@/app/components/food-plate';
 import React, { useEffect, useMemo, useState } from 'react';
-import easyTermsData from "../../../data/easy-terms.json";
 import { fetchRandomTerms } from "@/app/utilities/functions/fetch-random-terms";
 import { ResponseEnum } from '@/app/utilities/enums/response.enum';
 import { shuffleArray } from '@/app/utilities/functions/shuffle-array';
@@ -19,6 +18,9 @@ import Monster from '@/app/components/lottie-animations/lottie-monster';
 import { addCoinsMutation, addPassedGameMutation, addPointsMutation } from '@/app/services/queries/progress.query';
 import { GAME, GamesEnum } from '@/app/utilities/constants/game-titles';
 import VictoryBlock from '@/app/components/victory-block/VictoryBlock';
+import { getUserQuery } from '@/app/services/queries/auth.query';
+import { fetchTermsLevelBased } from '@/app/utilities/functions/fetch-terms-level-based';
+import { PROGRESS_POINTS } from '@/app/utilities/constants/global-data';
 
 
 const TIMER_SECONDS = 120;
@@ -45,10 +47,6 @@ const FeedMonster = () => {
   }
 
   const router = useRouter();
-  const data = {
-    progress: 5,
-  };
-
   const [gameLive, setGameLive] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
   const [response, setResponse] = useState<ResponseEnum | null>(null);
@@ -92,13 +90,29 @@ const FeedMonster = () => {
     }
   }
 
+  const { data: user, isLoading } = getUserQuery();
+  const userMappedData = useMemo(() => {
+    if (!user) return null;
+    return {
+      username: `${user.data.firstName} ${user.data.lastName}`,
+      progress: user.data.progress ?? 0, 
+      gamesPassed: user.data.gamesPassed,
+      coins: user.data.coins,
+      points: user.data.points,
+      difficultyLevel: user.data.difficultyLevel
+    };
+  }, [user]);
+  
+  const curProgress = userMappedData?.progress;
+  const termsLevelBased = fetchTermsLevelBased(userMappedData?.difficultyLevel); 
+
   useEffect(() => {
-    setMonstersQuestions(easyTermsData.slice(data.progress).map((item) => item.shortExplanation));
-  }, [data.progress]);  
+    setMonstersQuestions(termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS).map((item) => item.shortExplanation));
+  }, [curProgress]);  
 
   const termsData = useMemo(() => {
-    return easyTermsData.slice(data.progress).map((item) => item.term);
-  }, [data.progress]);
+    return termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS).map((item) => item.term);
+  }, [curProgress]);
   
   const randomTerms = useMemo(() => {
     const fetchedTerms = fetchRandomTerms(5).map((term) => term.term);
@@ -130,6 +144,14 @@ const FeedMonster = () => {
   
     setDraggingItem(null); 
   }  
+
+  if (isLoading) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
 
   if (!gameLive) {
     return (

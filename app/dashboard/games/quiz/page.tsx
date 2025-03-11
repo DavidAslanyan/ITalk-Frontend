@@ -1,7 +1,6 @@
 "use client";
 import ButtonStandard from "@/app/components/buttons/button-standard";
 import React, { useEffect, useMemo, useState } from "react";
-import easyTermsData from "../../../data/easy-terms.json";
 import { fetchRandomTerms } from "@/app/utilities/functions/fetch-random-terms";
 import QuizStep from "@/app/components/quiz-step/QuizStep";
 import { useRouter } from "next/navigation";
@@ -18,7 +17,8 @@ import { GAME, GamesEnum } from "@/app/utilities/constants/game-titles";
 import VictoryBlock from "@/app/components/victory-block/VictoryBlock";
 import { getUserQuery } from "@/app/services/queries/auth.query";
 import { PROGRESS_POINTS } from "@/app/utilities/constants/global-data";
-
+import { fetchTermsLevelBased } from "@/app/utilities/functions/fetch-terms-level-based";
+import { shuffleArray } from "@/app/utilities/functions/shuffle-array";
 
 const TIMER_SECONDS = 45;
 const REWARD_COINS = 5;
@@ -85,7 +85,7 @@ const Quiz = () => {
     }
   }
 
-  const { data: user, isLoading } = getUserQuery();
+  const { data: user, isLoading, isSuccess: userFetched } = getUserQuery();
   const userMappedData = useMemo(() => {
     if (!user) return null;
     return {
@@ -93,12 +93,14 @@ const Quiz = () => {
       progress: user.data.progress ?? 0, 
       gamesPassed: user.data.gamesPassed,
       coins: user.data.coins,
-      points: user.data.points
+      points: user.data.points,
+      difficultyLevel: user.data.difficultyLevel
     };
   }, [user]);
 
   const curProgress = userMappedData?.progress;
-  const termData = useMemo(() => easyTermsData.slice(curProgress, curProgress + PROGRESS_POINTS), [curProgress]);
+  const termsLevelBased = fetchTermsLevelBased(userMappedData?.difficultyLevel); 
+  const termData = useMemo(() => shuffleArray(termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS)), [curProgress]);
   const randomTerms = useMemo(() => fetchRandomTerms(3).map((term) => term.shortExplanation), [swiper, step]);
 
   const onSlideChange = () => {
@@ -123,22 +125,32 @@ const Quiz = () => {
   }
 
   const shuffledOptions = useMemo(() => {
-    let uniqueRandomTerms = new Set<string>();
-  
-    while (uniqueRandomTerms.size < 3) {
-      const term = fetchRandomTerms(1)[0].shortExplanation;
-      if (term !== termData[step].shortExplanation) {
-        uniqueRandomTerms.add(term);
+    if (userFetched) {
+      let uniqueRandomTerms = new Set<string>();
+    
+      while (uniqueRandomTerms.size < 3) {
+        const term = fetchRandomTerms(1)[0].shortExplanation;
+        if (term !== termData[step].shortExplanation) {
+          uniqueRandomTerms.add(term);
+        }
       }
+    
+      const options = [...uniqueRandomTerms];
+      const randomIndex = Math.floor(Math.random() * (options.length + 1));
+    
+      options.splice(randomIndex, 0, termData[step].shortExplanation);
+    
+      return options;
     }
-  
-    const options = [...uniqueRandomTerms];
-    const randomIndex = Math.floor(Math.random() * (options.length + 1));
-  
-    options.splice(randomIndex, 0, termData[step].shortExplanation);
-  
-    return options;
   }, [termData, step]);
+
+  if (isLoading) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
 
   if (!gameLive) {
     return (
