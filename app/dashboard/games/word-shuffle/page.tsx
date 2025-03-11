@@ -15,6 +15,10 @@ import SmallProgressBar from '@/app/components/small-progress-bar/SmallProgressB
 import { addCoinsMutation, addPassedGameMutation, addPointsMutation } from '@/app/services/queries/progress.query';
 import { GAME, GamesEnum } from '@/app/utilities/constants/game-titles';
 import VictoryBlock from '@/app/components/victory-block/VictoryBlock';
+import { getUserQuery } from '@/app/services/queries/auth.query';
+import { fetchTermsLevelBased } from '@/app/utilities/functions/fetch-terms-level-based';
+import { PROGRESS_POINTS } from '@/app/utilities/constants/global-data';
+import { shuffleArray } from '@/app/utilities/functions/shuffle-array';
 
 
 const TIMER_SECONDS = 120;
@@ -41,10 +45,6 @@ const WordShuffle = () => {
   }
 
   const router = useRouter();
-  const data = {
-    progress: 5,
-  };
-
   const [gameLive, setGameLive] = useState<boolean>(false);
   const [swiper, setSwiper] = useState<any>(null);
   const [step, setStep] = useState<number>(0);
@@ -55,10 +55,22 @@ const WordShuffle = () => {
   const [failPopupOpen, setFailPopupOpen] = useState<boolean>(false);
   const [timeOverPopupOpen, setTimeOverPopupOpen] = useState<boolean>(false);
 
-  const termData = useMemo(
-    () => easyTermsData.slice(data.progress),
-    [data.progress]
-  );
+  const { data: user, isLoading } = getUserQuery();
+  const userMappedData = useMemo(() => {
+    if (!user) return null;
+    return {
+      username: `${user.data.firstName} ${user.data.lastName}`,
+      progress: user.data.progress ?? 0, 
+      gamesPassed: user.data.gamesPassed,
+      coins: user.data.coins,
+      points: user.data.points,
+      difficultyLevel: user.data.difficultyLevel
+    };
+  }, [user]);
+
+  const curProgress = userMappedData?.progress;
+  const termsLevelBased = fetchTermsLevelBased(userMappedData?.difficultyLevel); 
+  const termData = useMemo(() => shuffleArray(termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS)), [curProgress]);
 
   useEffect(() => {
     if (!timerRunning && !successPopupOpen && !failPopupOpen) {
@@ -101,6 +113,14 @@ const WordShuffle = () => {
       setSuccessPopupOpen(true);
     }
     setResponse(null);
+  }
+
+  if (isLoading) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    )
   }
 
   if (!gameLive) {

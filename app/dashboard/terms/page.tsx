@@ -1,12 +1,12 @@
 "use client"
 import React, { useEffect, useMemo, useState } from 'react'
-import easyTermsData from "../../data/easy-terms.json";
 import TermSwiper from '@/app/components/term-swiper';
 import Stopwatch from '@/app/components/stopwatch';
 import ButtonStandard from '@/app/components/buttons/button-standard';
 import { getUserQuery } from '@/app/services/queries/auth.query';
 import { clearPassedGamesMutation, updateProgressMutation } from '@/app/services/queries/progress.query';
 import { MINIMUM_GAMES_PASSED, PROGRESS_POINTS } from '@/app/utilities/constants/global-data';
+import { fetchTermsLevelBased } from '@/app/utilities/functions/fetch-terms-level-based';
 
 
 const title = "Ready to learn some new tech terms? -Jump right into the game";
@@ -28,7 +28,8 @@ const Terms = () => {
       progress: user.data.progress ?? 0, 
       gamesPassed: user.data.gamesPassed,
       coins: user.data.coins,
-      points: user.data.points
+      points: user.data.points,
+      difficultyLevel: user.data.difficultyLevel
     };
   }, [user]);
 
@@ -50,7 +51,8 @@ const Terms = () => {
   }, [user]);
 
   const curProgress = userMappedData?.progress;
-  const termData = easyTermsData.slice(curProgress, curProgress + PROGRESS_POINTS);
+  const termsLevelBased = fetchTermsLevelBased(userMappedData?.difficultyLevel); 
+  const termData = termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS);
 
   if (isLoading) {
     return (
