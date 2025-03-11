@@ -9,9 +9,10 @@ type GameTabProps = {
   url: string;
   gif: string;
   image: string;
+  completed: boolean;
 };
 
-const GameTab: React.FC<GameTabProps> = ({ title, url, gif, image }) => {
+const GameTab: React.FC<GameTabProps> = ({ title, url, gif, image, completed }) => {
   const router = useRouter();
 
   return (
@@ -35,6 +36,12 @@ const GameTab: React.FC<GameTabProps> = ({ title, url, gif, image }) => {
           alt="gameImage"
         />
       </div>
+
+      {completed &&
+      <div className="absolute top-0 bg-green-600 w-full rounded-t-md">
+        <p className="py-2 text-white text-center font-semibold text-md uppercase">Completed</p>
+      </div>
+      }
 
       <div className="transition-all flex justify-between items-center px-4 w-full max-w-[20rem] h-[4rem] bg-secondary rounded-b-md">
         <span className="text-white text-md font-semibold flex justify-center items-center pt-3">

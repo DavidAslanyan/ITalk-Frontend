@@ -13,31 +13,36 @@ import { QuizButtonForm } from "@/app/components/buttons/button-quiz-step/Button
 import Popup from "@/app/components/popup";
 import SmallProgressBar from "@/app/components/small-progress-bar/SmallProgressBar";
 import Timer from "@/app/components/timer";
-import { addPassedGameMutation } from "@/app/services/queries/progress.query";
+import { addCoinsMutation, addPassedGameMutation, addPointsMutation } from "@/app/services/queries/progress.query";
 import { GAME, GamesEnum } from "@/app/utilities/constants/game-titles";
+import VictoryBlock from "@/app/components/victory-block/VictoryBlock";
+import { getUserQuery } from "@/app/services/queries/auth.query";
+import { PROGRESS_POINTS } from "@/app/utilities/constants/global-data";
 
 
 const TIMER_SECONDS = 45;
+const REWARD_COINS = 5;
+const REWARD_POINTS = 175;
 
 const Quiz = () => {
   const gamesPassed: string[] = [];
-  const { mutate: addPassedGame } = addPassedGameMutation();
+  const { mutateAsync: addPassedGame } = addPassedGameMutation();
+  const { mutateAsync: addCoins } = addCoinsMutation();
+  const { mutateAsync: addPoints } = addPointsMutation();
 
-  const savePassedGame = () => {
-    addPassedGame({
-      gamePassed: GamesEnum.QUIZ
-    }, {
-      onSuccess: () => {
-        router.replace(`${DASHBOARD_URL}/${GAMES}`);
-      },
-      onError: () => {
-        router.replace(`${DASHBOARD_URL}/${GAMES}`);
-      }
-    })
+  const savePassedGame = async () => {
+    try {
+      await addPassedGame({ gamePassed: GamesEnum.QUIZ });
+      await addCoins({ coins: REWARD_COINS });
+      await addPoints({ points: REWARD_POINTS });
+  
+      router.replace(`${DASHBOARD_URL}/${GAMES}`);
+    } catch (error) {
+      console.error("Error in transaction:", error);
+      router.replace(`${DASHBOARD_URL}/${GAMES}`);
+    }
   }
 
-
-  // Client State
   const router = useRouter();
   const [gameLive, setGameLive] = useState<boolean>(false);
 
@@ -80,11 +85,20 @@ const Quiz = () => {
     }
   }
 
-  const data = {
-    progress: 5,
-  };
+  const { data: user, isLoading } = getUserQuery();
+  const userMappedData = useMemo(() => {
+    if (!user) return null;
+    return {
+      username: `${user.data.firstName} ${user.data.lastName}`,
+      progress: user.data.progress ?? 0, 
+      gamesPassed: user.data.gamesPassed,
+      coins: user.data.coins,
+      points: user.data.points
+    };
+  }, [user]);
 
-  const termData = useMemo(() => easyTermsData.slice(data.progress), [data.progress]);
+  const curProgress = userMappedData?.progress;
+  const termData = useMemo(() => easyTermsData.slice(curProgress, curProgress + PROGRESS_POINTS), [curProgress]);
   const randomTerms = useMemo(() => fetchRandomTerms(3).map((term) => term.shortExplanation), [swiper, step]);
 
   const onSlideChange = () => {
@@ -216,10 +230,11 @@ const Quiz = () => {
       </div>
 
       <Popup isOpen={successPopupOpen}>
-        <div className="flex flex-col items-center justify-center p-5">
-          <span className="py-3 text-2xl text-green-600 font-bold">SUCCESS</span>
-          <ButtonStandard onClick={handleSuccessPopup} title="Proceed to other Games"/>
-        </div>
+       <VictoryBlock 
+        handleSuccessPopup={handleSuccessPopup}
+        points={REWARD_POINTS}
+        coins={REWARD_COINS}
+        />
       </Popup>
 
       
