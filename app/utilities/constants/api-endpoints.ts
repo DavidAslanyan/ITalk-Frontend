@@ -4,6 +4,7 @@ const PROGRESS = "progress"
 
 export const API_URLS = {
   AUTH: `${BASE}/${VERSION}/auth`,
+  LIST:  `${BASE}/${VERSION}/auth/list`,
   REGISTER: `${BASE}/${VERSION}/auth/register`,
   LOGIN: `${BASE}/${VERSION}/auth/login`,
   AUTH_UPDATE: `${BASE}/${VERSION}/auth/update`,
