@@ -8,10 +8,15 @@ import HelpIcon from "@/app/components/icons/navbar-icons/HelpIcon";
 import { useRouter } from "next/navigation";
 import PolicyIcon from "@/app/components/icons/navbar-icons/PolicyIcon";
 import SettingsToggleTab from "@/app/components/settings-toggle-tab";
-import { getUserQuery } from "@/app/services/queries/auth.query";
-import { EDIT_PROFILE } from "@/app/utilities/constants/global-urls";
+import { getUserQuery, logoutUserMutation } from "@/app/services/queries/auth.query";
+import { EDIT_PROFILE, LOGIN_URL } from "@/app/utilities/constants/global-urls";
 import SelectDifficulty from "@/app/components/select-difficulty";
 import LargePopup from "@/app/components/large-popup";
+import ExitIcon from "@/app/components/icons/navbar-icons/ExitIcon";
+import TrashIcon from "@/app/components/icons/TrashIcon";
+import Popup from "@/app/components/popup";
+import ButtonSecondary from "@/app/components/buttons/button-secondary/ButtonSecondary";
+import ButtonStandard from "@/app/components/buttons/button-standard";
 
 
 const profileData = {
@@ -24,10 +29,17 @@ const profileData = {
 };
 
 
+enum PopupOption {
+  signOut = "signOut",
+  deleteAccount = "deleteAccount"
+};
+
+
 const Profile = () => {
   const router = useRouter();
   const { data: user, isLoading } = getUserQuery();
   const [difficultyPopupOpen, setDifficultyPopupOpen] = useState<boolean>(false);
+  const [popup, setPopup] = useState<PopupOption | null>(null);
 
   const userMappedData = useMemo(() => {
     if (!user) return null;
@@ -37,6 +49,20 @@ const Profile = () => {
       difficultyLevel: user.data.difficultyLevel
     };
   }, [user]);
+
+  const { mutate: logout } = logoutUserMutation();
+  const handlePopupClick = () => {
+    if (popup === PopupOption.signOut) {
+      try {
+        logout();
+        router.replace(LOGIN_URL);
+      } catch(error) {
+        console.log("Failed to sign out", error);
+      }
+    }
+    if (popup === PopupOption.deleteAccount) {
+    }
+  }
 
   if (isLoading) {
     return (
@@ -126,8 +152,15 @@ const Profile = () => {
         />
 
         <SettingsTab
+          icon={<TrashIcon />}
           title="Delete Account"
-          onClick={() => router.push("help")}
+          onClick={() => setPopup(PopupOption.deleteAccount)}
+        />
+
+        <SettingsTab
+          icon={<ExitIcon />}
+          title="Sign Out"
+          onClick={() => setPopup(PopupOption.signOut)}
         />
       </section>
 
@@ -138,6 +171,23 @@ const Profile = () => {
           setDifficultyPopupOpen={setDifficultyPopupOpen}
         />
       </LargePopup>
+
+      <Popup isOpen={popup !== null}>
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-md text-secondary font-semibold">Are you sure you want to 
+            {popup === PopupOption.deleteAccount ? " delete your account" : " sign out"}
+            ?
+          </p>
+
+          <div className=" pt-10 flex items-center gap-5">
+            <ButtonSecondary onClick={() => setPopup(null)} title="Cancel" />
+            <ButtonStandard 
+              onClick={handlePopupClick}
+              title={popup === PopupOption.deleteAccount ? "Delete My Account" : "Sign Out"}
+              />
+          </div>
+        </div>
+      </Popup>
     </div>
   );
 };
