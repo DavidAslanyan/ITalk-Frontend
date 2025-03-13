@@ -7,6 +7,7 @@ export const API_URLS = {
   LIST:  `${BASE}/${VERSION}/auth/list`,
   REGISTER: `${BASE}/${VERSION}/auth/register`,
   LOGIN: `${BASE}/${VERSION}/auth/login`,
+  LOGOUT: `${BASE}/${VERSION}/auth/logout`,
   AUTH_UPDATE: `${BASE}/${VERSION}/auth/update`,
   ADD_GAME: `${BASE}/${VERSION}/${PROGRESS}/game`,
   CLEAR_GAMES: `${BASE}/${VERSION}/${PROGRESS}/games/clear`,

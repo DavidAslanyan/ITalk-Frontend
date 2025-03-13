@@ -8,6 +8,12 @@ export const saveTokensInSecureStorage = (accessToken: string, refreshToken: str
 }
 
 
+export const clearTokensFromSecureStorage = () => {
+  secureLocalStorage.removeItem(ACCESS_TOKEN);
+  secureLocalStorage.removeItem(REFRESH_TOKEN);
+}
+
+
 export const getAccessToken = () => {
   return secureLocalStorage.getItem(ACCESS_TOKEN);
 }

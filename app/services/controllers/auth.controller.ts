@@ -2,7 +2,7 @@ import { API_URLS } from "@/app/utilities/constants/api-endpoints";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/app/utilities/constants/global-data";
 import { DifficultyLevel } from "@/app/utilities/enums/difficulty-level.enum";
 import axiosInstance from "@/app/utilities/functions/axios-instance";
-import { saveTokensInSecureStorage } from "@/app/utilities/functions/crud-tokens-storage";
+import { clearTokensFromSecureStorage, saveTokensInSecureStorage } from "@/app/utilities/functions/crud-tokens-storage";
 import { LoginUserFormType, RegisterUserFormType, UpdateUserFormType } from "@/app/utilities/types/auth.type";
 import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
@@ -55,6 +55,15 @@ export const loginUser = async (data: LoginUserFormType) => {
     return response.data;
   } catch(error) {
     console.error("Failed to login the user:", error);
+    throw error; 
+  }
+}
+
+export const logoutUser = async () => {
+  try {
+    await axiosInstance.post(`${API_URLS.LOGOUT}`);
+  } catch(error) {
+    console.error("Failed to logout the user:", error);
     throw error; 
   }
 }

@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getUser, postUser, loginUser, updateUser, changeDifficulty, getUsersList } from "../controllers/auth.controller";
+import { getUser, postUser, loginUser, updateUser, changeDifficulty, getUsersList, logoutUser } from "../controllers/auth.controller";
+import { clearTokensFromSecureStorage } from "@/app/utilities/functions/crud-tokens-storage";
 
 
 export const getUserQuery = () => {
@@ -33,6 +34,16 @@ export const loginUserMutation = () => {
     mutationFn: loginUser
   });
 };
+
+
+export const logoutUserMutation = () => {
+  return useMutation({
+    mutationFn: logoutUser,
+    onSuccess: () => {
+      clearTokensFromSecureStorage();
+    }
+  })
+}
 
 
 export const updateUserMutation = () => {
