@@ -14,6 +14,7 @@ import { purchaseStoreItemMutation, subtractCoinsMutation } from '@/app/services
 import { HttpStatusCode } from '@/app/utilities/enums/status-codes.enum';
 import FailIcon from '@/app/components/icons/FailIcon';
 import { StoreItemEnum } from '@/app/utilities/enums/store-item.enum';
+import { getUserQuery } from '@/app/services/queries/auth.query';
 
 
 enum ActiveTabEnum {
@@ -30,6 +31,9 @@ type StoreItemType = {
 }
 
 const Store = () => {
+  const { data } = getUserQuery();
+  console.log(data);
+  
   const ownedAvatars = [AVATARS.male1, AVATARS.female1];
   const ownedFrames = [FRAMES.def];
   const ownedBackgrounds= [BACKGROUNDS.def];

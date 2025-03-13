@@ -1,9 +1,9 @@
-const BASE = "http://localhost:3000";
-const VERSION  = "api/v1";
-const PROGRESS = "progress"
+export const BASE = "http://localhost:3000";
+export const VERSION  = "api/v1";
+export const PROGRESS = "progress"
 
 export const API_URLS = {
-  AUTH: `${BASE}/${VERSION}/auth`,
+  AUTH: `${BASE}/${VERSION}/user`,
   LIST:  `${BASE}/${VERSION}/auth/list`,
   REGISTER: `${BASE}/${VERSION}/auth/register`,
   LOGIN: `${BASE}/${VERSION}/auth/login`,
@@ -14,7 +14,7 @@ export const API_URLS = {
   SUBTRACT_COINS: `${BASE}/${VERSION}/${PROGRESS}/subtract-coins`,
   ADD_POINTS: `${BASE}/${VERSION}/${PROGRESS}/add-points`,
   PURCHASE:  `${BASE}/${VERSION}/${PROGRESS}/purchase`,
-  CHANGE_DIFFICULTY: `${BASE}/${VERSION}/auth/change-difficulty`,
+  CHANGE_DIFFICULTY: `${BASE}/${VERSION}/user/change-difficulty`,
   UPDATE_PROGRESS:  `${BASE}/${VERSION}/${PROGRESS}/add`
 };
 

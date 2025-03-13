@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import EditIcon from "@/app/components/icons/EditIcon";
 import SmallProgressBar from "@/app/components/small-progress-bar/SmallProgressBar";
@@ -26,8 +26,25 @@ const profileData = {
 
 const Profile = () => {
   const router = useRouter();
-  // const { data } = getUserQuery();
+  const { data: user, isLoading } = getUserQuery();
   const [difficultyPopupOpen, setDifficultyPopupOpen] = useState<boolean>(false);
+
+  const userMappedData = useMemo(() => {
+    if (!user) return null;
+    return {
+      username: `${user.data.firstName} ${user.data.lastName}`,
+      progress: user.data.progress, 
+      difficultyLevel: user.data.difficultyLevel
+    };
+  }, [user]);
+
+  if (isLoading) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-[150vh] sm:min-h-[120vh] md:min-h-[100vh]">
@@ -82,7 +99,7 @@ const Profile = () => {
         />
 
       <SettingsTab
-          title={`Selected Difficulty: ${profileData.difficultyLevel}`}
+          title={`Selected Difficulty: ${userMappedData?.difficultyLevel}`}
           icon={<HelpIcon />}
           onClick={() => setDifficultyPopupOpen(true)}
         />
@@ -117,7 +134,7 @@ const Profile = () => {
 
       <LargePopup isOpen={difficultyPopupOpen}>
         <SelectDifficulty 
-          difficulty={profileData.difficultyLevel}
+          difficulty={userMappedData?.difficultyLevel}
           setDifficultyPopupOpen={setDifficultyPopupOpen}
         />
       </LargePopup>
