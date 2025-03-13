@@ -6,6 +6,7 @@ export type RegisterUserFormType = {
   email: string,
   password: string,
   rPassword: string,
+  avatarUrl: string,
   difficultyLevel: DifficultyLevel
 }
 

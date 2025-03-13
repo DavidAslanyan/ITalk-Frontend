@@ -49,7 +49,7 @@ const Register = () => {
     e.preventDefault();
 
     if (validateInputs()) {
-      const finalFormData = { ...formData, difficultyLevel };
+      const finalFormData = { ...formData, difficultyLevel, avatarUrl: "/user-avatars/limited-3.png" };
       handleRegister(finalFormData);
     }
   }
