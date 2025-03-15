@@ -13,6 +13,8 @@ import { LoginUserFormType } from "../utilities/types/auth.type";
 import { loginUserMutation } from "../services/queries/auth.query";
 import { HttpStatusCode } from "../utilities/enums/status-codes.enum";
 import { useRouter } from "next/navigation";
+import RegisterHeroAnimation from "../components/lottie-animations/lottie-register-hero";
+import { PROJECT_TITLE } from "../utilities/constants/global-data";
 
 
 const Login = () => {
@@ -84,9 +86,12 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-white flex justify-center items-center h-[120vh] md:h-screen">
-      <div className="py-12 flex-1">
-        <h1 className="text-3xl pb-10 text-secondary font-bold pl-4 xl:pl-16 pr-4">Login</h1>
+    <div className="bg-white flex md:justify-center md:items-center h-[120vh] md:h-screen">
+      <div className="flex-1">
+        <div className="md:hidden flex items-center justify-center">
+          <RegisterHeroAnimation width="max-w-[20rem]" />
+        </div>
+        <h1 className="text-3xl pb-10 text-secondary font-bold pl-4 xl:pl-16 pr-4">Sign in</h1>
         <form onSubmit={(e) => handleSubmit(e)}>
         <div className="max-w-[30rem] flex flex-col gap-5 ml-4 xl:ml-16 mr-4">
           <InputCustom
@@ -116,18 +121,19 @@ const Login = () => {
           }
 
           <div>
-            <p>Don't have an account? <Link className="font-semibold" href={REGISER_URL}>Register</Link></p>
+            <GoogleButton title="Sign In with Google" onClick={() => {}}/>
           </div>
 
           <div>
-            <GoogleButton title="Sign In with Google" onClick={() => {}}/>
+            <p>Don't have an account? <Link className="font-semibold text-primary" href={REGISER_URL}>Register</Link></p>
           </div>
         </div>
         </form>
       </div>
 
-      <div className="bg-secondary flex-1 h-screen hidden md:block">
-        <h1 className="text-white text-3xl xl:text-5xl flex justify-center items-center gap-2 h-screen">Join <span className="text-primary">Solaris</span> Community!</h1>
+      <div className="flex-1 h-screen hidden md:flex flex-col justify-center items-center">
+        <RegisterHeroAnimation />
+        <h1 className="text-secondary text-3xl xl:text-5xl ">Join <span className="text-primary font-bold">{PROJECT_TITLE}</span> Community!</h1>
       </div>
     </div>
   );

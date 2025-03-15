@@ -10,7 +10,7 @@ import { COLORS } from '@/app/utilities/constants/colors';
 import Popup from '@/app/components/popup';
 import ButtonSecondary from '@/app/components/buttons/button-secondary/ButtonSecondary';
 import ButtonStandard from '@/app/components/buttons/button-standard';
-import { purchaseStoreItemMutation, subtractCoinsMutation } from '@/app/services/queries/progress.query';
+import { purchaseStoreItemMutation } from '@/app/services/queries/progress.query';
 import { HttpStatusCode } from '@/app/utilities/enums/status-codes.enum';
 import FailIcon from '@/app/components/icons/FailIcon';
 import { StoreItemEnum } from '@/app/utilities/enums/store-item.enum';

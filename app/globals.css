@@ -27,6 +27,10 @@ html {
   border-radius: 1rem;
 }
 
+.title {
+  color: #20C997
+}
+
 
 /* Add this to your global CSS file or scoped CSS module */
 .scrollbar-hidden {

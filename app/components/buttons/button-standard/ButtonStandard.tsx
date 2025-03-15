@@ -30,7 +30,7 @@ const ButtonStandard = forwardRef<HTMLButtonElement, ButtonProps>(({
 
     return (
       <button 
-        className="hover:none bg-primary md:hover:bg-secondary md:hover:text-primary transition-all text-secondary border-2 border-secondary px-6 py-2 rounded font-semibold"
+        className="hover:none bg-primary md:hover:bg-secondary hover:border-secondary transition-all text-white border-2 border-primary px-6 py-2 rounded font-semibold"
         onClick={onClick}
         ref={ref} 
         disabled={disabled}
