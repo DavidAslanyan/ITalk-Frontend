@@ -10,7 +10,7 @@ import Link from "next/link";
 import { DASHBOARD_URL, LOGIN_URL, POLICY_URL } from "../utilities/constants/global-urls";
 import GoogleButton from "../components/buttons/google-button";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../utilities/constants/regex-statements";
-import { registerUserMutation } from "../services/queries/auth.query";
+import { googleLoginMutation, registerUserMutation } from "../services/queries/auth.query";
 import { useRouter } from "next/navigation";
 import { RegisterUserFormType } from "../utilities/types/auth.type";
 import { DifficultyLevel } from "../utilities/enums/difficulty-level.enum";
@@ -19,6 +19,7 @@ import Popup from "../components/popup";
 import { HttpStatusCode } from "../utilities/enums/status-codes.enum";
 import SuccessIcon from "../components/icons/SuccessIcon";
 import FailIcon from "../components/icons/FailIcon";
+import { GoogleLogin } from "@react-oauth/google";
 
 
 const Register = () => {
@@ -91,6 +92,7 @@ const Register = () => {
 
 
   const { mutate: registerUser } = registerUserMutation();
+  const { mutate: googleLogin } = googleLoginMutation();
 
   const handleRegister = (formData: RegisterUserFormType) => {
     registerUser(formData, {
@@ -108,6 +110,17 @@ const Register = () => {
       },
     });
   };
+
+  const handleGoogleLogin = (id: string) => {
+    const data = {
+      id: id
+    }
+    googleLogin(data, {
+      onSuccess: (data) => {
+
+      }
+    })
+  }
 
 
   return (
@@ -186,7 +199,12 @@ const Register = () => {
           }
 
           <div>
-            <GoogleButton title="Sign Up with Google" onClick={() => {}}/>
+            {/* <GoogleButton title="Sign Up with Google" onClick={() => {}}/> */}
+            <GoogleLogin 
+              onSuccess={(response) => {
+                console.log(response)
+              }}  
+            />
           </div>
 
           <div>

@@ -4,6 +4,7 @@ import { DifficultyLevel } from "@/app/utilities/enums/difficulty-level.enum";
 import axiosInstance from "@/app/utilities/functions/axios-instance";
 import { clearTokensFromSecureStorage, saveTokensInSecureStorage } from "@/app/utilities/functions/crud-tokens-storage";
 import { LoginUserFormType, RegisterUserFormType, UpdateUserFormType } from "@/app/utilities/types/auth.type";
+import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
 
@@ -12,7 +13,7 @@ const id  = "e1630445-3f60-4b4c-b7a3-37ef7aba3bbb";
 
 export const getUser = async () => {
   try {
-    const response = await axiosInstance.get(`${API_URLS.AUTH}/${id}`);
+    const response = await axiosInstance.get(`${API_URLS.AUTH}`);
     return response.data;
   } catch (error) {
     console.error("There was an error fetching the data:", error);
@@ -90,3 +91,24 @@ export const changeDifficulty = async ({ level }: { level: DifficultyLevel | str
   }
 }
 
+export const googleLogin = async ({ id }: { id: string }) => {
+  try {
+    const response = await axiosInstance.post(`${API_URLS.GOOGLE_LOGIN}`, { id });
+    return response.data;
+  } catch(error) {
+    console.error("Failed to sign in via Google:", error);
+    throw error; 
+  }
+} 
+
+
+// export const googleLogin = useGoogleLogin({
+//   onSuccess: async ({ code }) => {
+//     const tokens = await axios.post(API_URLS.GOOGLE_LOGIN, {
+//       code,
+//     });
+
+//     console.log(tokens);
+//   },
+//   flow: 'auth-code',
+// });

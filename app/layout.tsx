@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import StoreProvider from "./providers/StoreProvider";
 import QueryProvider from "./providers/QueryProvider";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 
 export const metadata: Metadata = {
@@ -14,15 +15,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const clientId = process.env.GOOGLE_CLIENT_ID || "";
+
   return (
     <StoreProvider>
-      <QueryProvider>
-        <html lang="en">
-          <body>
-            {children}
-          </body>
-        </html>
-      </QueryProvider>
+      <GoogleOAuthProvider clientId={clientId}>
+        <QueryProvider>
+          <html lang="en">
+            <body>
+              {children}
+            </body>
+          </html>
+        </QueryProvider>
+      </GoogleOAuthProvider>
     </StoreProvider>
   );
 }
