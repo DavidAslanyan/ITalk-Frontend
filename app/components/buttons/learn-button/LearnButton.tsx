@@ -41,7 +41,7 @@ const LearnButton = forwardRef<HTMLButtonElement, LearnButtonProps>(
         <button
           onClick={() => router.push(url)}
           ref={ref}
-          className={`${size === "small" ? "text-sm" : "text-lg"} text-secondary font-bold ${className}`}
+          className={`${size === "small" ? "text-sm" : "text-lg"} text-white font-semibold ${className}`}
           aria-label={title}
           {...props}
         >
