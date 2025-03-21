@@ -14,6 +14,7 @@ import { fetchTermsLevelBased } from '../utilities/functions/fetch-terms-level-b
 import { DifficultyLevel } from '../utilities/enums/difficulty-level.enum';
 import { PROGRESS_POINTS } from '../utilities/constants/global-data';
 import ButtonStandard from '../components/buttons/button-standard';
+import RibbonIcon from '../components/icons/RibbonIcon';
 
 
 const DashboardHome = () => {
@@ -39,6 +40,7 @@ const DashboardHome = () => {
   //     </div>
   //   )
   // }
+
 
   const { current, next } = determinePrize(userMappedData.points);
   const curProgress = userMappedData?.progress;
@@ -79,8 +81,8 @@ const DashboardHome = () => {
               </ul>
             </div>
 
-            <div className='hidden sm:block relative bottom-6 left-4'>
-              <LearnButton url={`${DASHBOARD_URL}/${TERMS_URL}`} title='Learn' size='large' />
+            <div className='hidden sm:block relative bottom-1 left-4'>
+              <LearnButton url={`${DASHBOARD_URL}/${TERMS_URL}`} title='Study' size='large' />
             </div>
 
             <div className='sm:hidden'>
@@ -105,17 +107,13 @@ const DashboardHome = () => {
       </section>
 
       <h3 className='text-xl text-secondary font-bold pt-10'>See Your Journey</h3>
-      <div className='my-4 h-[0.12rem] max-w-[60rem] bg-gray-300 rounded-full'></div>
-      
-      <div className='hidden md:block pt-2'>
+      <div className='my-4 h-[0.12rem] w-full  bg-gray-300 rounded-full'></div>
+
+      <div className='py-20 md:pt-2 w-full'>
         <LevelMap progress={userMappedData?.progress ?? 0} limit={1500} />
       </div>
 
-      <div className='block md:hidden pt-20'>
-        <LevelMap progress={userMappedData?.progress ?? 0} limit={1500} />
-      </div>
-
-      <div className='my-4 h-[0.12rem] max-w-[60rem] bg-gray-300 rounded-full'></div>
+      <div className='my-4 h-[0.12rem] w-full bg-gray-300 rounded-full'></div>
     </div>
   );
 };

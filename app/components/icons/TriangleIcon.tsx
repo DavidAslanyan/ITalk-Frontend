@@ -22,7 +22,7 @@ const TriangleIcon: React.FC<IconProps> = ({
     >
       <g
         id="Page-1"
-        stroke={COLORS.primaryGreen}
+        stroke={COLORS.primary}
         strokeWidth="20"
         fill="none"
         fillRule="evenodd"

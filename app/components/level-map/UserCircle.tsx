@@ -9,7 +9,7 @@ const UserCircle = () => {
         <Image src={hero3d} alt="hero" />
       </div>
       <div className='z-20 absolute top-0 bg-white w-10 h-10 rounded-full'></div>
-      <div className='z-10 absolute top-[0.30rem] bg-gray-200 w-10 h-10 rounded-full'></div>
+      {/* <div className='z-10 absolute top-[0.30rem] bg-gray-200 w-10 h-10 rounded-full'></div> */}
     </div>
   )
 }
