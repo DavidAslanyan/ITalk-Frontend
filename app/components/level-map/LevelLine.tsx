@@ -1,6 +1,5 @@
 import React from 'react'
 import UserCircle from './UserCircle'
-import Image from 'next/image'
 import World from './World';
 
 type Leveline = {
@@ -8,7 +7,11 @@ type Leveline = {
   limit: number;
   leftWorld: string;
   rightWorld: string;
-  direction: "toRight" | "toLeft"
+  direction: "toRight" | "toLeft",
+  index: number,
+  levelsTotal: number,
+  leftTitle: string,
+  rightTitle: string
 }
 
 const LevelLine: React.FC<Leveline> = ({
@@ -16,7 +19,11 @@ const LevelLine: React.FC<Leveline> = ({
   limit,
   leftWorld,
   rightWorld,
-  direction
+  direction,
+  index,
+  levelsTotal,
+  leftTitle,
+  rightTitle
 }) => {
   const width = Math.min((progress / limit) * 100, 100);
   const progressWidth = `${width}%`;
@@ -41,23 +48,31 @@ const LevelLine: React.FC<Leveline> = ({
 
 
   return (
-    <div className="flex justify-center items-center max-w-[40rem] md:max-w-[60rem]">
-      <World passed={leftActive} image={leftWorld} direction={"toRight"} />
+    <div className="flex justify-center items-center w-full">    
+      <div>
+        <World 
+          passed={leftActive} 
+          image={leftWorld} 
+          direction={"toRight"}
+          title={leftTitle}
+        />
+        
+        {index % 2 === 1 && 
+        <div className='absolute left-[3.3rem] md:left-[5.8rem]'>
+          <div className={`relative w-[1rem] h-[12rem] bottom-2 ${leftActive ? "bg-primary" : "bg-thirdly"}`}>
+        </div>
+        </div>
+        }
+      </div>
 
       <div className='relative flex-1'>
-        <div className='relative bg-thirdly h-4 max-w-[30rem] md:max-w-[40rem]'>
-
-          <div
-            className={`absolute top-[-0.5rem] ${direction === "toRight" ? "left-0" : "right-0" } h-[1.5rem] bg-primary transition-all duration-300`}
+        <div className='relative bg-thirdly h-[1.5rem]'>          
+          <div 
+            className={`absolute bottom-1 ${direction === "toRight" ? "left-0" : "right-0" } bg-green-400 h-[1rem]`}
             style={{ width: progressWidth }}
           />
-          
-          <div 
-          className={`absolute bottom-0 ${direction === "toRight" ? "left-0" : "right-0" } bg-green-400 h-[0.5rem]`}
-          style={{ width: progressWidth }}
-          />
 
-          <div className="absolute top-[-1.3rem]"
+          <div className="absolute bottom-[2rem]"
             style={ direction === "toLeft" 
               ? 
               {right: `${width + 2}%`}
@@ -70,10 +85,18 @@ const LevelLine: React.FC<Leveline> = ({
             }
           </div>
         </div>
-        <div className='relative z-0 bg-gray-400 h-4  max-w-[30rem] md:max-w-[40rem] shadow-lg shadow-gray-400'></div>
       </div>
 
-      <World passed={rightActive} image={rightWorld} direction={"toLeft"} />
+      <div className='relative'>
+        <World passed={rightActive} image={rightWorld} direction={"toLeft"} title={rightTitle} />
+
+        {index % 2 === 0 && index !== levelsTotal - 1 && 
+        <div className='absolute left-[3rem] md:left-[5.3rem]'>
+          <div className={`relative w-[1rem] h-[12rem] bottom-1 ${rightActive ? "bg-primary" : "bg-thirdly"} `}>
+        </div>
+      </div>
+        }
+      </div>
     </div>
   )
 }

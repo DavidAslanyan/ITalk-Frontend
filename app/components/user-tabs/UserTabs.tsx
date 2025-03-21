@@ -61,19 +61,6 @@ const UserTabs = () => {
        />
     </div>
 
-    <div className='z-50'>
-      <DropdownMenu
-        menuButton={
-          <div className='md:hidden flex items-center bg-secondary pr-2 py-1 pl-1 rounded-full'>
-            <div className='border-2 border-thirdly rounded-full'>
-            <Image width={40} height={40} src={profileData.avatarURL} alt='prfile avatar' />
-            </div>
-            <ArrowIcon color={COLORS.white} />
-          </div>
-        }
-        menuItems={menuItems}
-       />
-    </div>
     </>
 
   )

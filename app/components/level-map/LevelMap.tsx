@@ -21,36 +21,50 @@ const LevelMap: React.FC<LevelMapProps> = ({
       point: 100,
       leftWorld: "/levels/level-1.png",
       rightWorld: "/levels/level-2.png",
+      leftTitle: "Highrock",
+      rightTitle: "Riverside"
     },
     {
       point: 100,
       leftWorld: "/levels/level-3.png",
       rightWorld: "/levels/level-4.png",
+      leftTitle: "Everpond",
+      rightTitle: "Stonebrook"
     },
     {
       point: 200,
       leftWorld: "/levels/level-5.png",
       rightWorld: "/levels/level-6.png",
+      leftTitle: "Frostmere",
+      rightTitle: "Snowhaven"
     },
     {
       point: 200,
-      leftWorld: "/levels/level-1.png",
+      leftWorld: "/levels/level-10.png",
       rightWorld: "/levels/level-8.png",
+      leftTitle: "Autumnglade",
+      rightTitle: "Celestia"
     },
     {
       point: 300,
       leftWorld: "/levels/level-9.png",
       rightWorld: "/levels/level-10.png",
+      leftTitle: "Sandrift ",
+      rightTitle: "Maplevale"
     },
     {
       point: 300,
       leftWorld: "/levels/level-1.png",
       rightWorld: "/levels/level-2.png",
+      leftTitle: "Stormcliff",
+      rightTitle: "Duskwater"
     },
     {
       point: 300,
       leftWorld: "/levels/level-1.png",
       rightWorld: "/levels/level-8.png",
+      leftTitle: "Glaciera",
+      rightTitle: "Blazewood"
     },
   ];
 
@@ -58,7 +72,7 @@ const LevelMap: React.FC<LevelMapProps> = ({
 
 
   return (
-    <div className="">
+    <div className="w-full">
 
       <div className='relative flex flex-col gap-24 top-10'>
         
@@ -82,6 +96,10 @@ const LevelMap: React.FC<LevelMapProps> = ({
             leftWorld={level.leftWorld}
             rightWorld={level.rightWorld}
             direction={index % 2 === 0 ? "toRight" : "toLeft"}
+            index={index}
+            levelsTotal={levels.length}
+            leftTitle={level.leftTitle}
+            rightTitle={level.rightTitle}
           />
         );
       })}
