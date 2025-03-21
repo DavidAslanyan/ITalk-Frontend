@@ -5,7 +5,7 @@ import TermScrollable from '../components/term-scrollable';
 import SearchBlock from '../components/search-block';
 import DoughnutChart from '../components/doughnut-chart';
 import LearnButton from '../components/buttons/learn-button';
-import { DASHBOARD_URL, TERMS_URL } from '../utilities/constants/global-urls';
+import { DASHBOARD_URL, SEARCH_URL, TERMS_URL } from '../utilities/constants/global-urls';
 import { getUserQuery } from '../services/queries/auth.query';
 import SmallProgressBar from '../components/small-progress-bar/SmallProgressBar';
 import { determinePrize, PRIZES } from '../utilities/functions/map-prizes';
@@ -14,10 +14,11 @@ import { fetchTermsLevelBased } from '../utilities/functions/fetch-terms-level-b
 import { DifficultyLevel } from '../utilities/enums/difficulty-level.enum';
 import { PROGRESS_POINTS } from '../utilities/constants/global-data';
 import ButtonStandard from '../components/buttons/button-standard';
-import RibbonIcon from '../components/icons/RibbonIcon';
+import { useRouter } from 'next/navigation';
 
 
 const DashboardHome = () => {
+  const router = useRouter();
   const [inputValue, setInputValue] = useState<string>("");
 
   // const { data: user, isLoading } = getUserQuery();
@@ -47,11 +48,18 @@ const DashboardHome = () => {
   const termsLevelBased = fetchTermsLevelBased(userMappedData?.difficultyLevel); 
   const termData = termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS);
 
+  const handleSearchSubmit = (e: any) => {
+    e.preventDefault();
+    if (inputValue === "") return;
+
+      router.push(`${SEARCH_URL}?term=${inputValue}`);
+   }
+
   return (
     <div className='w-full max-w-[70rem] mx-auto pr-4'>
-      <div className='pt-3'>
+      <form onSubmit={handleSearchSubmit} className='pt-3'>
         <SearchBlock value={inputValue} setValue={setInputValue} />
-      </div>
+      </form>
 
       <section className='pt-7 flex flex-col lg:flex-row justify-between gap-3'>
         <DashboardContainer>
