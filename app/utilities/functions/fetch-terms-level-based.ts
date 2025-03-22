@@ -4,7 +4,7 @@ import mediumTermsData from "../../data/medium-terms.json";
 import hardTermsData from "../../data/hard-terms.json";
 
 
-export const fetchTermsLevelBased = (difficulty: DifficultyLevel) => {
+export const fetchTermsLevelBased = (difficulty?: DifficultyLevel) => {
   switch(difficulty) {
     case DifficultyLevel.EASY:
       return easyTermsData;

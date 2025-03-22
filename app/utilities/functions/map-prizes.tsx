@@ -1,6 +1,13 @@
 import Prize1Icon from "@/app/components/icons/prizes/Prize1Icon";
 
-export const determinePrize = (points: number) => {
+export const determinePrize = (points?: number) => {
+  if (!points) {
+    return {
+      current: PRIZES[0],
+      next: PRIZES[1]
+    }
+  }
+
   for (let i = 0; i < PRIZES.length; i++) {
     if (points <= PRIZES[i].points) {
       if (i === 0) {

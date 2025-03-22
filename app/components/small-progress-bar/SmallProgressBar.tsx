@@ -2,13 +2,13 @@ import { MAX_POINTS } from '@/app/utilities/constants/global-data';
 import React from 'react'
 
 type ProgressBarType = {
-  progress: number;
+  progress?: number;
   limit?: number;
   maxWidth?: string;
 }
 
 const SmallProgressBar: React.FC<ProgressBarType> = ({
-  progress,
+  progress = 0,
   limit = MAX_POINTS,
   maxWidth = "max-w-[40rem]"
 }) => {

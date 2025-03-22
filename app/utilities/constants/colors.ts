@@ -10,5 +10,6 @@ export const COLORS = {
   thirdly: "#D9D9D9",
   backPrimary: "#F0F0F0", 
   gold: "#FFD700",
+  orange: "#fab533"
 }
 
