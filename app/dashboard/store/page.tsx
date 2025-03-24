@@ -1,10 +1,9 @@
 "use client";
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { AVATARS_STORE, BACKGROUNDS_STORE, FRAMES_STORE } from './config'
 import Image from 'next/image'
 import { selectFrameColor } from '@/app/utilities/functions/select-frame-color';
 import CoinIcon from '@/app/components/icons/CoinIcon';
-import { AVATARS, BACKGROUNDS, FRAMES } from '@/app/utilities/constants/shop-items';
 import SuccessIcon from '@/app/components/icons/SuccessIcon';
 import { COLORS } from '@/app/utilities/constants/colors';
 import Popup from '@/app/components/popup';
@@ -15,6 +14,9 @@ import { HttpStatusCode } from '@/app/utilities/enums/status-codes.enum';
 import FailIcon from '@/app/components/icons/FailIcon';
 import { StoreItemEnum } from '@/app/utilities/enums/store-item.enum';
 import { getUserQuery } from '@/app/services/queries/auth.query';
+import Loading from '@/app/components/loading';
+import CheckedAnimation from '@/app/components/lottie-animations/lottie-checked';
+import ShopIcon from '@/app/components/icons/navbar-icons/ShopIcon';
 
 
 enum ActiveTabEnum {
@@ -31,13 +33,27 @@ type StoreItemType = {
 }
 
 const Store = () => {
-  const { data } = getUserQuery();
-  console.log(data);
+  const { data: user, isLoading } = getUserQuery();
+  const userMappedData = useMemo(() => {
+    if (!user) return null;
+    return {
+      username: `${user.data.firstName} ${user.data.lastName}`,
+      progress: user.data.progress ?? 0, 
+      gamesPassed: user.data.gamesPassed,
+      coins: user.data.coins,
+      points: user.data.points,
+      difficultyLevel: user.data.difficultyLevel,
+      ownedAvatars: user.data.ownedAvatars,
+      ownedFrames: user.data.ownedFrames,
+      ownedBackgrounds: user.data.ownedBackgrounds
+    };
+  }, [user]); 
+
   
-  const ownedAvatars = [AVATARS.male1, AVATARS.female1];
-  const ownedFrames = [FRAMES.def];
-  const ownedBackgrounds= [BACKGROUNDS.def];
-  const coins = 275;
+  const ownedAvatars = userMappedData?.ownedAvatars;
+  const ownedFrames = userMappedData?.ownedFrames;
+  const ownedBackgrounds= userMappedData?.ownedBackgrounds;
+  const coins = userMappedData?.coins;
 
   const [activeTab, setActiveTab] = useState<ActiveTabEnum>(ActiveTabEnum.AVATARS);
   const tabs = [
@@ -80,11 +96,16 @@ const Store = () => {
     }
   }
 
+  if (isLoading) return <Loading />;
+
   return (
-    <div className={`${activeTab === ActiveTabEnum.BACKGROUNDS ? "h-[300vh]" : "h-[280vh] sm:h-[170vh]"} md:h-auto relative`}>
-      <h1 className='pt-10 text-2xl font-bold text-secondary'>Store</h1>
+    <div className={`${activeTab === ActiveTabEnum.BACKGROUNDS ? "h-[300vh]" : "h-[280vh] sm:h-[170vh]"} md:h-auto relative w-full max-w-[60rem] mx-auto`}>
+      <div className='pt-10 flex items-center gap-1'>
+      <h1 className='text-2xl font-bold text-secondary'>Store</h1>
+      <ShopIcon />
+      </div>
       <div className='pt-5 flex items-center gap-5'>
-        <p className='text-secondary font-semibold text-md'>Your Balance:</p>
+        <p className='text-secondary font-semibold text-md'>Current Balance:</p>
         <div className='flex items-center gap-1'>
           <CoinIcon />
           <p className='text-secondary font-bold'>{coins}</p>
@@ -185,7 +206,8 @@ const Store = () => {
       <Popup isOpen={successPopup}>
         <div>
           <div className='flex flex-col items-center justify-center'>
-          <SuccessIcon width={120} height={120} color={COLORS.primaryGreen} />
+          {successPopup &&
+          <CheckedAnimation width='max-w-[10rem]' />}
           <p className='text-md font-semibold py-4'>Item Purchased</p>
           {selectedItem?.url.includes("/")
           ?
@@ -230,6 +252,7 @@ const Store = () => {
 }
 
 const AvatarsSection = ({ owned, set }: { owned: string[], set: (arg: StoreItemType) => void }) => {
+  if (!owned || owned?.length === 0) return;
   return (
     <ul className='flex justify-center md:justify-start items-center flex-wrap gap-16'>
       {AVATARS_STORE.map((item, index) => (
@@ -259,6 +282,7 @@ const AvatarsSection = ({ owned, set }: { owned: string[], set: (arg: StoreItemT
 }
 
 const FramesSection = ({ owned, set }: { owned: string[], set: (arg: StoreItemType) => void }) => {
+  if (owned.length === 0) return;
   return (
     <ul className='flex justify-center md:justify-start items-center flex-wrap gap-16'>
       {FRAMES_STORE.map((item, index) => (
@@ -289,6 +313,7 @@ const FramesSection = ({ owned, set }: { owned: string[], set: (arg: StoreItemTy
 }
 
 const BackgroundsSection = ({ owned, set }: { owned: string[], set: (arg: StoreItemType) => void }) => {
+  if (owned.length === 0) return;
   return (
     <ul className='flex justify-center md:justify-start items-center flex-wrap gap-16'>
       {BACKGROUNDS_STORE.map((item, index) => (

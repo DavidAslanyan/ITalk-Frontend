@@ -1,4 +1,5 @@
 import { API_URLS } from "@/app/utilities/constants/api-endpoints";
+import axiosInstance from "@/app/utilities/functions/axios-instance";
 import { AddCoinsType, AddGameType, AddPointsType, PurchaseStoreItemType, SubtractCoinsType, UpdateProgressType } from "@/app/utilities/types/progress.type";
 import axios from "axios";
 
@@ -67,7 +68,7 @@ export const addPoints = async (data: AddPointsType) => {
 
 export const purchaseStoreItem = async (data: PurchaseStoreItemType) => {
   try {
-    const response = await axios.post(`${API_URLS.PURCHASE}`, data);
+    const response = await axiosInstance.post(`${API_URLS.PURCHASE}`, data);
     return response.data;
   } catch(error) {
     console.error("There was an error purchasing store item:", error);
