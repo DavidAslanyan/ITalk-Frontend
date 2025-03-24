@@ -7,15 +7,12 @@ import { getUserQuery } from '@/app/services/queries/auth.query';
 import { clearPassedGamesMutation, updateProgressMutation } from '@/app/services/queries/progress.query';
 import { MINIMUM_GAMES_PASSED, PROGRESS_POINTS } from '@/app/utilities/constants/global-data';
 import { fetchTermsLevelBased } from '@/app/utilities/functions/fetch-terms-level-based';
+import LottieAnimation from '@/app/components/lottie-animations/lottie';
+import studyHero from '@/app/components/lottie-animations/study-hero.json';
+import Loading from '@/app/components/loading';
 
 
 const title = "Ready to learn some new tech terms? -Jump right into the game";
-const steps = [
-  "This is a step to explain the process of the game",
-  "This is a step to explain the process of the game",
-  "This is a step to explain the process of the game",
-  "This is a step to explain the process of the game"
-];
 
 
 const Terms = () => {
@@ -31,7 +28,7 @@ const Terms = () => {
       points: user.data.points,
       difficultyLevel: user.data.difficultyLevel
     };
-  }, [user]);
+  }, [user]); 
 
   const { mutate: updateProgress } = updateProgressMutation();
   const { mutate: clearPassedGames } = clearPassedGamesMutation();
@@ -55,35 +52,28 @@ const Terms = () => {
   const termData = termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS);
 
   if (isLoading) {
-    return (
-      <div>
-        <p>Loading...</p>
-      </div>
-    )
+    return <Loading />
   }
 
   if (!gameLive) {
     return (
-      <div className='h-[140vh] md:h-auto'>
-      <section className='pt-10'>
-        <h1 className='text-xl text-secondary font-bold'>{title}</h1>
-        <ul>
-          {steps.map((step, index) => (
-            <li key={index}>{index + 1}. {step}</li>
-          ))}
-        </ul>
-      </section>
+      <div className='h-[140vh] md:h-screen md:flex flex-col items-center justify-center w-full max-w-[50rem]  mx-auto'>
+      <div className='flex flex-col md:flex-row items-center'>
+        <section>
+          <h3 className='text-xl text-secondary font-bold'>Terms you are going to learn today</h3>
+          <ul className='pt-6'>
+            {termData.map((data, index) => (
+              <li className='text-md text-secondary font-medium' key={index}>{index + 1}. {data.term}</li>
+            ))}
+          </ul>
+        </section>
 
-      <section className='pt-36'>
-        <h3 className='text-xl text-secondary font-bold'>Terms you are going to learn today</h3>
-        <ul>
-          {termData.map((data, index) => (
-            <li key={index}>{index + 1}. {data.term}</li>
-          ))}
-        </ul>
-      </section>
+        <section>
+          <LottieAnimation data={studyHero} width='max-w-[20rem]' />
+        </section>
+      </div>
 
-      <div className='pt-10'>
+      <div className='pt-10 flex justify-center'>
         <ButtonStandard title='Begin' onClick={() => setGameLive(true)} />
       </div>
     </div>
