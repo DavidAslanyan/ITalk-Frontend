@@ -9,6 +9,8 @@ import Popup from '../popup';
 import ButtonStandard from '../buttons/button-standard';
 import { useRouter } from 'next/navigation';
 import { DASHBOARD_URL, GAMES } from '@/app/utilities/constants/global-urls';
+import LottieAnimation from '../lottie-animations/lottie';
+import termsLearned from '@/app/components/lottie-animations/terms-learned.json';
 
 
 type TermProps = {
@@ -92,10 +94,16 @@ const TermSwiper: React.FC<TermSwiperProps> = ({ data }) => {
       </div>
       
       <Popup isOpen={popupOpen} setIsOpen={setPopupOpen}>
-        <div className='flex flex-col pt-3'>
-          <span>Cograts on leanring the new terms! Now it's time to practice to make it stick.</span>
-          <span>Are you ready to test your knowledge?</span>
-          <div className='flex justify-between pt-3'>
+        <div className='flex flex-col justify-center items-center pt-3'>
+          <p className='text-lg text-secondary font-bold text-center'>Congrats, you learned some new terms! </p>
+  
+          {popupOpen &&
+          <LottieAnimation data={termsLearned} loop={false} width='max-w-[20rem]' />
+          }
+
+          <p className='text-center text-md text-secondary'>Now it's time to practice to make it stick. Are you ready to test your knowledge?</p>
+
+          <div className='flex justify-between pt-3 gap-5'>
             <button
               onClick={() => setPopupOpen(false)}
               className="text-secondary border border-secondary px-4 py-2 rounded-sm"
