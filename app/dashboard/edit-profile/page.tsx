@@ -145,106 +145,108 @@ const EditProfile = () => {
 
     
   return (
-    <div className='h-[170vh] sm:h-auto'>
+    <div className='h-[170vh] sm:h-auto w-full max-w-[50rem] mx-auto py-10'>
       <h1 className="text-secondary text-2xl font-semibold py-5">Edit Profile</h1>
 
-      <section className=''>
-        <BackgroundContainer imageUrl={background} />
-      </section>
+      <div className="shadow-md rounded-md">
+        <section>
+          <BackgroundContainer imageUrl={background} />
+        </section>
 
-      <div className='relative'>
-        <section className='pt-10 flex flex-col items-center sm:block'>
-          <AvatarFrame type={frame}>
-            <Image
-              width={200}
-              height={200}
-              src={avatar}
-              alt="profile avatar"
+        <div className='relative px-4'>
+          <section className='pt-10 flex flex-col items-center sm:block'>
+            <AvatarFrame type={frame}>
+              <Image
+                width={200}
+                height={200}
+                src={avatar}
+                alt="profile avatar"
+              />
+            </AvatarFrame>
+            <div className='pt-5 flex flex-wrap gap-3 items-center'>
+              <button 
+                onClick={() => setAvatarPopupOpen(true)}
+                className='bg-secondary text-white font-medium px-3 py-2 flex items-center gap-3 rounded-sm'>
+                <p>Avatar</p>
+                <EditIcon width={20} height={20} color={COLORS.white} />
+              </button>
+
+              <button 
+                onClick={() => setFramePopupOpen(true)}
+                className='bg-secondary text-white font-medium px-3 py-2 flex items-center gap-3 rounded-sm'>
+                <p>Frame</p>
+                <EditIcon width={20} height={20} color={COLORS.white} />
+              </button>
+
+              <button 
+                onClick={() => setBackgroundPopupOpen(true)}
+                className='bg-secondary text-white font-medium px-3 py-2 flex items-center gap-3 rounded-sm'>
+                <p>Background</p>
+                <EditIcon width={20} height={20} color={COLORS.white} />
+              </button>
+            </div>
+          </section>
+
+          <section className='pt-5 flex flex-col sm:flex-row  gap-5 max-w-[34rem]'>
+            <InputCustom
+              maxLength={15}
+              name="firstName"
+              onChange={(e) => handleFormChange(e)}
+              value={formData.firstName}
+              label="First Name"
+              placeholder="Type here"
             />
-          </AvatarFrame>
-          <div className='pt-5 flex flex-wrap gap-3 items-center'>
-            <button 
-              onClick={() => setAvatarPopupOpen(true)}
-              className='bg-secondary text-white font-medium px-3 py-2 flex items-center gap-3 rounded-sm'>
-              <p>Avatar</p>
-              <EditIcon width={20} height={20} color={COLORS.white} />
-            </button>
 
-            <button 
-              onClick={() => setFramePopupOpen(true)}
-              className='bg-secondary text-white font-medium px-3 py-2 flex items-center gap-3 rounded-sm'>
-              <p>Frame</p>
-              <EditIcon width={20} height={20} color={COLORS.white} />
-            </button>
+            <InputCustom
+              maxLength={15}
+              name="lastName"
+              onChange={(e) => handleFormChange(e)}
+              value={formData.lastName}
+              label="Last Name"
+              placeholder="Type here"
+            />
+          </section>
 
-            <button 
-              onClick={() => setBackgroundPopupOpen(true)}
-              className='bg-secondary text-white font-medium px-3 py-2 flex items-center gap-3 rounded-sm'>
-              <p>Background</p>
-              <EditIcon width={20} height={20} color={COLORS.white} />
-            </button>
+          <section className='pt-5 flex flex-col sm:flex-row max-w-[34rem]'>
+            <InputCustom
+              name="email"
+              onChange={(e) => handleFormChange(e)}
+              value={formData.email}
+              label="Email"
+              type="email"
+              icon={<EmailIcon color={COLORS.thirdly} />}
+              placeholder="Type here"
+            />
+          </section>
+
+          <section className='pt-5 flex flex-col sm:flex-row  gap-5 max-w-[34rem]'>
+            <InputCustom
+              isPassword={true}
+              maxLength={15}
+              name="password"
+              onChange={(e) => handleFormChange(e)}
+              value={formData.password}
+              label="Old Password"
+              icon={<LockIcon color={COLORS.thirdly} />}
+              placeholder="Type here"
+            />
+
+            <InputCustom
+              isPassword={true}
+              maxLength={15}
+              name="newPassword"
+              onChange={(e) => handleFormChange(e)}
+              value={formData.newPassword}
+              label="New Password"
+              icon={<LockIcon color={COLORS.thirdly} />}
+              placeholder="Type here"
+            />
+          </section>
+
+          <div className='pb-[10rem] pt-10 md:py-10 flex gap-3'>
+            <ButtonStandard onClick={() => setFormSubmitPopupOpen(true)} title='Save Changes' />
+            <ButtonSecondary onClick={handleReset} title='Reset' />
           </div>
-        </section>
-
-        <section className='pt-5 flex flex-col sm:flex-row  gap-5 max-w-[34rem]'>
-          <InputCustom
-            maxLength={15}
-            name="firstName"
-            onChange={(e) => handleFormChange(e)}
-            value={formData.firstName}
-            label="First Name"
-            placeholder="Type here"
-          />
-
-          <InputCustom
-            maxLength={15}
-            name="lastName"
-            onChange={(e) => handleFormChange(e)}
-            value={formData.lastName}
-            label="Last Name"
-            placeholder="Type here"
-          />
-        </section>
-
-        <section className='pt-5 flex flex-col sm:flex-row max-w-[34rem]'>
-          <InputCustom
-            name="email"
-            onChange={(e) => handleFormChange(e)}
-            value={formData.email}
-            label="Email"
-            type="email"
-            icon={<EmailIcon color={COLORS.thirdly} />}
-            placeholder="Type here"
-          />
-        </section>
-
-        <section className='pt-5 flex flex-col sm:flex-row  gap-5 max-w-[34rem]'>
-          <InputCustom
-            isPassword={true}
-            maxLength={15}
-            name="password"
-            onChange={(e) => handleFormChange(e)}
-            value={formData.password}
-            label="Old Password"
-            icon={<LockIcon color={COLORS.thirdly} />}
-            placeholder="Type here"
-          />
-
-          <InputCustom
-            isPassword={true}
-            maxLength={15}
-            name="newPassword"
-            onChange={(e) => handleFormChange(e)}
-            value={formData.newPassword}
-            label="New Password"
-            icon={<LockIcon color={COLORS.thirdly} />}
-            placeholder="Type here"
-          />
-        </section>
-
-        <div className='pb-[10rem] pt-10 md:py-10 flex gap-3'>
-          <ButtonStandard onClick={() => setFormSubmitPopupOpen(true)} title='Save Changes' />
-          <ButtonSecondary onClick={handleReset} title='Reset' />
         </div>
       </div>
 
