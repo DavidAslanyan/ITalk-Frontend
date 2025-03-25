@@ -16,10 +16,10 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
 }) => {
 
   return (
-    <button onClick={onClick} className='flex items-center justify-between w-full max-w-[40rem] h-10 bg-white rounded-md cursor-pointer'>
+    <button onClick={onClick} className='flex items-center justify-between w-full max-w-[45rem] h-10 bg-white rounded-md cursor-pointer'>
       <div className='ml-3 flex items-center gap-2'>
         {icon && icon}
-        <p>{title}</p>
+        <p className={`${!icon && 'pl-2'} text-secondary font-medium`}>{title}</p>
       </div>
       <div className='relative right-3 -rotate-90'>
         <ArrowIcon />

@@ -14,12 +14,10 @@ const Search = () => {
   const searchParams = useSearchParams();
   const term = searchParams.get('term');
 
-  console.log("Terms: ", term)
-
   const data = [...easyTermsData, ...mediumTermsData, ...hardTermsData];
   const [allTermsData] = useState<TermType[]>(data); 
   const [termsData, setTermsData] = useState<TermType[]>(data);
-  const [inputValue, setInputValue] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>(term || "");
   
   useEffect(() => {
     const filtered = allTermsData.filter((data) => 

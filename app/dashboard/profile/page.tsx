@@ -2,7 +2,6 @@
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import EditIcon from "@/app/components/icons/EditIcon";
-import SmallProgressBar from "@/app/components/small-progress-bar/SmallProgressBar";
 import SettingsTab from "@/app/components/settings-tab";
 import HelpIcon from "@/app/components/icons/navbar-icons/HelpIcon";
 import { useRouter } from "next/navigation";
@@ -17,6 +16,13 @@ import TrashIcon from "@/app/components/icons/TrashIcon";
 import Popup from "@/app/components/popup";
 import ButtonSecondary from "@/app/components/buttons/button-secondary/ButtonSecondary";
 import ButtonStandard from "@/app/components/buttons/button-standard";
+import { determinePrize } from "@/app/utilities/functions/map-prizes";
+import BackgroundContainer from "@/app/components/background-container";
+import AvatarFrame from "@/app/components/avatar-frame";
+import ProgressIcon from "@/app/components/icons/ProgressIcon";
+import BellIcon from "@/app/components/icons/BellIcon";
+import BookIcon from "@/app/components/icons/BookIcon";
+import Loading from "@/app/components/loading";
 
 
 const profileData = {
@@ -40,13 +46,17 @@ const Profile = () => {
   const { data: user, isLoading } = getUserQuery();
   const [difficultyPopupOpen, setDifficultyPopupOpen] = useState<boolean>(false);
   const [popup, setPopup] = useState<PopupOption | null>(null);
+  const [notificationsActive, setNotificationsActive] = useState<boolean>(false);
 
   const userMappedData = useMemo(() => {
     if (!user) return null;
     return {
       username: `${user.data.firstName} ${user.data.lastName}`,
       progress: user.data.progress, 
-      difficultyLevel: user.data.difficultyLevel
+      points: user.data.points,
+      difficultyLevel: user.data.difficultyLevel,
+      background: user.data.background,
+      frame: user.data.frame
     };
   }, [user]);
 
@@ -64,105 +74,106 @@ const Profile = () => {
     }
   }
 
-  if (isLoading) {
-    return (
-      <div>
-        <p>Loading...</p>
-      </div>
-    )
-  }
+  if (isLoading) return <Loading />;
+
+  const { current } = determinePrize(userMappedData?.points);
 
   return (
-    <div className="min-h-[150vh] sm:min-h-[120vh] md:min-h-[100vh]">
-
-      <section className="flex max-w-[40rem] justify-between items-center">
-        <div>
-          <div className="w-[12rem] border-[1rem] border-thirdly rounded-full">
-            <Image
-              width={200}
-              height={200}
-              src={profileData.avatarURL}
-              alt="prfile avatar"
-            />
+    <div className="flex flex-col py-10 min-h-[150vh] sm:min-h-[120vh] md:min-h-[100vh] w-full max-w-[50rem] mx-auto rounded-md">
+      <div className="shadow-md rounded-md">
+        <section>
+          <div className="z-0">
+            <BackgroundContainer imageUrl={userMappedData?.background} />
           </div>
+          
+          <div className="z-20 relative bottom-[7rem] md:bottom-8 flex flex-col items-center justify-center">
+            <AvatarFrame type={userMappedData?.frame}>
+              <Image
+                priority
+                width={200}
+                height={200}
+                src={profileData.avatarURL}
+                alt="prfile avatar"
+              />
+            </AvatarFrame>
 
-          <div className="flex items-center gap-2">
-            <h3 className="text-xl sm:text-3xl text-secondary font-bold">
-              {profileData.username}
-            </h3>
-            <EditIcon />
+            <div className="flex items-center gap-2">
+              <h3 className="text-xl sm:text-3xl text-secondary font-bold">
+                {profileData.username}
+              </h3>
+              <button onClick={() => router.push(EDIT_PROFILE)}>
+                <EditIcon />
+              </button>
+            </div>
+
+            <div className="flex items-center">
+              <p className="text-md text-primary font-bold">{current.title}</p>
+              <div>{current.icon}</div>
+            </div>
+
+            <div className="flex items-center gap-5 ">
+              <p>XP Points: <span className="text-md font-bold text-secondary">{userMappedData?.points}</span></p>
+              <div className="bg-thirdly w-[0.1rem] h-5"></div>
+              <div className="flex items-center gap-2">
+                <ProgressIcon width={22} height={22} />
+                <p>Progress: <span className="text-md font-bold text-secondary">{userMappedData?.progress}</span></p>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
 
-        <div className="">
-          <Image
-            width={100}
-            height={100}
-            src={profileData.rangURL}
-            alt="rang"
+        <section className="flex flex-col gap-4 justify-center items-center px-4 pb-10">
+          <SettingsTab
+            title="Edit Profile"
+            icon={<EditIcon height={25} />}
+            onClick={() => router.push(EDIT_PROFILE)}
           />
-          <h3 className="text-lg font-bold">{profileData.rang}</h3>
-        </div>
-      </section>
 
-      <section className="pt-10">
-        <span>Current Progress: {profileData.progress}</span>
-        <SmallProgressBar progress={profileData.progress} />
-      </section>
+          <SettingsTab
+            title="History"
+            icon={<BookIcon />}
+            onClick={() => router.push(EDIT_PROFILE)}
+          />
 
-      <section className="flex flex-col gap-3 pt-10">
-        <SettingsTab
-          title="Edit Profile"
-          icon={<EditIcon height={25} />}
-          onClick={() => router.push(EDIT_PROFILE)}
-        />
+          <SettingsToggleTab 
+            title="Notifications"
+            icon={<BellIcon />}
+            enabled={notificationsActive}
+            setEnabled={setNotificationsActive}
+          />
 
-        <SettingsToggleTab 
-          title="Notifications"
-          icon={<EditIcon height={25} />}
-          enabled={true}
-          setEnabled={() => {}}
-        />
+          <SettingsTab
+            title={`Selected Difficulty: ${userMappedData?.difficultyLevel}`}
+            onClick={() => setDifficultyPopupOpen(true)}
+          />
 
-      <SettingsTab
-          title={`Selected Difficulty: ${userMappedData?.difficultyLevel}`}
-          icon={<HelpIcon />}
-          onClick={() => setDifficultyPopupOpen(true)}
-        />
+          <div className='my-4 h-[0.12rem] w-full max-w-[40rem] bg-thirdly rounded-full'></div>
 
+          <SettingsTab
+            title="About"
+            icon={<HelpIcon />}
+            onClick={() => router.push("help")}
+          />
 
-        <div className='my-4 h-[0.12rem] max-w-[40rem] bg-gray-300 rounded-full'></div>
+          <SettingsTab
+            title="Policies"
+            icon={<PolicyIcon />}
+            onClick={() => router.push("help")}
+          />
 
-        <SettingsTab
-          title="Help Center"
-          icon={<HelpIcon />}
-          onClick={() => router.push("help")}
-        />
+          <SettingsTab
+            icon={<TrashIcon />}
+            title="Delete Account"
+            onClick={() => setPopup(PopupOption.deleteAccount)}
+          />
 
-        <SettingsTab
-          title="About"
-          icon={<HelpIcon />}
-          onClick={() => router.push("help")}
-        />
-
-        <SettingsTab
-          title="Policies"
-          icon={<PolicyIcon />}
-          onClick={() => router.push("help")}
-        />
-
-        <SettingsTab
-          icon={<TrashIcon />}
-          title="Delete Account"
-          onClick={() => setPopup(PopupOption.deleteAccount)}
-        />
-
-        <SettingsTab
-          icon={<ExitIcon />}
-          title="Sign Out"
-          onClick={() => setPopup(PopupOption.signOut)}
-        />
-      </section>
+          <SettingsTab
+            icon={<ExitIcon />}
+            title="Sign Out"
+            onClick={() => setPopup(PopupOption.signOut)}
+          />
+        </section>
+      </div>
 
 
       <LargePopup isOpen={difficultyPopupOpen}>

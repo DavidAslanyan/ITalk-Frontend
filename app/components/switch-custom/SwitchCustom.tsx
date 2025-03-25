@@ -15,9 +15,9 @@ const SwitchCustom: React.FC<SwitchProps> = ({
     <Switch
       checked={enabled}
       onChange={() => setEnabled(!enabled)}
-      className="group data-[checked]:border-[0.2rem] border-secondary  inline-flex h-[1.8rem] w-14 items-center rounded-full bg-secondary transition data-[checked]:bg-primary"
+      className="group inline-flex h-[1.78rem] w-14 items-center rounded-full bg-secondary transition data-[checked]:bg-primary"
     >
-      <span className="border-[0.1rem] border-thirdly size-5 translate-x-1 rounded-full bg-white transition group-data-[checked]:translate-x-7" />
+      <span className="size-5 translate-x-[0.2rem] rounded-full bg-white transition group-data-[checked]:translate-x-[2rem]" />
     </Switch>
   )
 }

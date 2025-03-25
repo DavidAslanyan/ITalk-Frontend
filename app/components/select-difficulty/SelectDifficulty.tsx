@@ -6,6 +6,7 @@ import { DifficultyLevel } from '@/app/utilities/enums/difficulty-level.enum';
 import ButtonSecondary from '../buttons/button-secondary/ButtonSecondary';
 import ButtonStandard from '../buttons/button-standard';
 import { changeDifficultyrMutation } from '@/app/services/queries/auth.query';
+import RegisterHeroAnimation from '../lottie-animations/lottie-register-hero';
 
 type SelectDifficultyProps = {
   difficulty: string;
@@ -24,7 +25,7 @@ const SelectDifficulty: React.FC<SelectDifficultyProps> = ({
     {
       title: "Student - Easy",
       description: "Start simple! Perfect for beginners or those with a little IT knowledge. You'll earn rewards at a steady pace—great for building a strong foundation.",
-      icon: <Student />,
+      icon: <RegisterHeroAnimation />,
       level: DifficultyLevel.EASY
     },
     {
