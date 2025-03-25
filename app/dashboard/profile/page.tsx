@@ -25,14 +25,14 @@ import BookIcon from "@/app/components/icons/BookIcon";
 import Loading from "@/app/components/loading";
 
 
-const profileData = {
-  avatarURL: "/user-avatars/male-1.png",
-  rang: "Student",
-  rangURL: "/rangs/rang-1.png",
-  username: "David Aslanyan",
-  progress: 150,
-  difficultyLevel: "easy"
-};
+// const profileData = {
+//   avatarURL: "/user-avatars/male-1.png",
+//   rang: "Student",
+//   rangURL: "/rangs/rang-1.png",
+//   username: "David Aslanyan",
+//   progress: 150,
+//   difficultyLevel: "easy"
+// };
 
 
 enum PopupOption {
@@ -55,6 +55,7 @@ const Profile = () => {
       progress: user.data.progress, 
       points: user.data.points,
       difficultyLevel: user.data.difficultyLevel,
+      avatar: user.data.avatar,
       background: user.data.background,
       frame: user.data.frame
     };
@@ -74,9 +75,10 @@ const Profile = () => {
     }
   }
 
-  if (isLoading) return <Loading />;
-
   const { current } = determinePrize(userMappedData?.points);
+
+  
+  if (isLoading) return <Loading />;
 
   return (
     <div className="flex flex-col py-10 min-h-[150vh] sm:min-h-[120vh] md:min-h-[100vh] w-full max-w-[50rem] mx-auto rounded-md">
@@ -92,14 +94,14 @@ const Profile = () => {
                 priority
                 width={200}
                 height={200}
-                src={profileData.avatarURL}
-                alt="prfile avatar"
+                src={userMappedData?.avatar}
+                alt="profile avatar"
               />
             </AvatarFrame>
 
             <div className="flex items-center gap-2">
               <h3 className="text-xl sm:text-3xl text-secondary font-bold">
-                {profileData.username}
+                {userMappedData?.username}
               </h3>
               <button onClick={() => router.push(EDIT_PROFILE)}>
                 <EditIcon />
