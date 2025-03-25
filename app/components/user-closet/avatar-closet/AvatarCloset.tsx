@@ -39,7 +39,7 @@ const AvatarCloset: React.FC<AvatarClosetProps> = ({ avatar, setAvatar, purchase
 
       <section className="flex flex-col items-center justify-between">
         <div className='pb-5'>
-          <Image priority width={200} height={200} src={curAvatar} alt="profile avatar" />
+          {/* <Image priority width={200} height={200} src={curAvatar} alt="profile avatar" /> */}
         </div>
 
         <div className="w-full overflow-x-auto scrollbar-hidden">

@@ -70,9 +70,9 @@ export const logoutUser = async () => {
 }
 
 
-export const updateUser = async ({ userId, data }: { userId: string; data: UpdateUserFormType }) => {
+export const updateUser = async ({ data }: { data: UpdateUserFormType }) => {
   try {
-    const response = await axiosInstance.patch(`${API_URLS.AUTH_UPDATE}/${userId}`, data);
+    const response = await axiosInstance.patch(`${API_URLS.USER_UPDATE}`, data);
     return response.data;
   } catch(error) {
     console.error("Failed to update the user:", error);

@@ -9,7 +9,7 @@ export const API_URLS = {
   LOGIN: `${BASE}/${VERSION}/auth/login`,
   GOOGLE_LOGIN: `${BASE}/${VERSION}/auth/google`,
   LOGOUT: `${BASE}/${VERSION}/auth/logout`,
-  AUTH_UPDATE: `${BASE}/${VERSION}/auth/update`,
+  USER_UPDATE: `${BASE}/${VERSION}/user/update`,
   ADD_GAME: `${BASE}/${VERSION}/${PROGRESS}/game`,
   CLEAR_GAMES: `${BASE}/${VERSION}/${PROGRESS}/games/clear`,
   ADD_COINS: `${BASE}/${VERSION}/${PROGRESS}/add-coins`,
