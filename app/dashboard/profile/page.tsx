@@ -7,8 +7,8 @@ import HelpIcon from "@/app/components/icons/navbar-icons/HelpIcon";
 import { useRouter } from "next/navigation";
 import PolicyIcon from "@/app/components/icons/navbar-icons/PolicyIcon";
 import SettingsToggleTab from "@/app/components/settings-toggle-tab";
-import { getUserQuery, logoutUserMutation } from "@/app/services/queries/auth.query";
-import { EDIT_PROFILE, LOGIN_URL } from "@/app/utilities/constants/global-urls";
+import { deleteUserMutation, getUserQuery, logoutUserMutation } from "@/app/services/queries/auth.query";
+import { EDIT_PROFILE, LOGIN_URL, REGISER_URL } from "@/app/utilities/constants/global-urls";
 import SelectDifficulty from "@/app/components/select-difficulty";
 import LargePopup from "@/app/components/large-popup";
 import ExitIcon from "@/app/components/icons/navbar-icons/ExitIcon";
@@ -26,6 +26,8 @@ import Loading from "@/app/components/loading";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
 import { increment } from "@/lib/features/couterSlice";
+import FailIcon from "@/app/components/icons/FailIcon";
+import { COLORS } from "@/app/utilities/constants/colors";
 
 
 // const profileData = {
@@ -47,31 +49,33 @@ enum PopupOption {
 const Profile = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  // const { data: user, isLoading } = getUserQuery();
+  const { data: user, isLoading } = getUserQuery();
   const [difficultyPopupOpen, setDifficultyPopupOpen] = useState<boolean>(false);
   const [popup, setPopup] = useState<PopupOption | null>(null);
   const [notificationsActive, setNotificationsActive] = useState<boolean>(false);
 
-  const userData = useAppSelector((state: RootState) => state.user);
+  // const userData = useAppSelector((state: RootState) => state.user);
 
   const counter = useAppSelector((state: RootState) => state.counter.value);
 
-  console.log('Redux data: ', userData);
+  // console.log('Redux data: ', userData);
 
-  // const userMappedData = useMemo(() => {
-  //   if (!user) return null;
-  //   return {
-  //     username: `${user.data.firstName} ${user.data.lastName}`,
-  //     progress: user.data.progress, 
-  //     points: user.data.points,
-  //     difficultyLevel: user.data.difficultyLevel,
-  //     avatar: user.data.avatar,
-  //     background: user.data.background,
-  //     frame: user.data.frame
-  //   };
-  // }, [user]);
+  const userData = useMemo(() => {
+    if (!user) return null;
+    return {
+      username: `${user.data.firstName} ${user.data.lastName}`,
+      progress: user.data.progress, 
+      points: user.data.points,
+      difficultyLevel: user.data.difficultyLevel,
+      avatar: user.data.avatar,
+      background: user.data.background,
+      frame: user.data.frame
+    };
+  }, [user]);
 
   const { mutate: logout } = logoutUserMutation();
+  const { mutate: deleteUser } = deleteUserMutation();
+
   const handlePopupClick = () => {
     if (popup === PopupOption.signOut) {
       try {
@@ -82,13 +86,19 @@ const Profile = () => {
       }
     }
     if (popup === PopupOption.deleteAccount) {
+      try {
+        deleteUser();
+        router.replace(REGISER_URL);
+      } catch(error) {
+        console.log("Failed to delete user", error);
+      }
     }
   }
 
   const { current } = determinePrize(userData?.points);
 
   
-  // if (isLoading) return <Loading />;
+  if (isLoading) return <Loading />;
 
   return (
     <div className="flex flex-col py-10 min-h-[150vh] sm:min-h-[120vh] md:min-h-[100vh] w-full max-w-[50rem] mx-auto rounded-md">
@@ -113,7 +123,7 @@ const Profile = () => {
 
             <div className="flex items-center gap-2">
               <h3 className="text-xl sm:text-3xl text-secondary font-bold">
-                {userData?.firstName} {userData?.lastName}
+                {userData?.username}
               </h3>
               <button onClick={() => router.push(EDIT_PROFILE)}>
                 <EditIcon />
@@ -199,7 +209,11 @@ const Profile = () => {
 
       <Popup isOpen={popup !== null}>
         <div className="flex flex-col items-center justify-center">
-          <p className="text-md text-secondary font-semibold">Are you sure you want to 
+          {popup === PopupOption.deleteAccount 
+          ? <FailIcon width={120} height={120} color={COLORS.primaryRed} /> 
+          : <ExitIcon width={120} height={120} />
+          }
+          <p className="pt-5 text-md text-secondary font-semibold">Are you sure you want to 
             {popup === PopupOption.deleteAccount ? " delete your account" : " sign out"}
             ?
           </p>

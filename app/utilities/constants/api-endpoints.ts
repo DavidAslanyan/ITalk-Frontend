@@ -7,6 +7,7 @@ export const API_URLS = {
   LIST:  `${BASE}/${VERSION}/auth/list`,
   REGISTER: `${BASE}/${VERSION}/auth/register`,
   LOGIN: `${BASE}/${VERSION}/auth/login`,
+  DELETE: `${BASE}/${VERSION}/user/`,
   GOOGLE_LOGIN: `${BASE}/${VERSION}/auth/google`,
   LOGOUT: `${BASE}/${VERSION}/auth/logout`,
   USER_UPDATE: `${BASE}/${VERSION}/user/update`,
