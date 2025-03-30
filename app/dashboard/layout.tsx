@@ -1,11 +1,14 @@
-import React from 'react'
+"use client"
 import LeftMenu from '../components/left-menu';
 import Tabbar from '../components/tabbar/Tabbar';
 import UserTabs from '../components/user-tabs';
+import useSocket from '../utilities/hooks/useSocket';
 
 const Layout = ({ children }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  useSocket();
+  
   return (
     <main className="relative flex bg-backPrimary">
       <div className='z-50 fixed top-2 right-5'>
