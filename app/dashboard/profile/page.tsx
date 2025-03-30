@@ -23,6 +23,9 @@ import ProgressIcon from "@/app/components/icons/ProgressIcon";
 import BellIcon from "@/app/components/icons/BellIcon";
 import BookIcon from "@/app/components/icons/BookIcon";
 import Loading from "@/app/components/loading";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { RootState } from "@/lib/store";
+import { increment } from "@/lib/features/couterSlice";
 
 
 // const profileData = {
@@ -42,24 +45,31 @@ enum PopupOption {
 
 
 const Profile = () => {
+  const dispatch = useAppDispatch();
   const router = useRouter();
-  const { data: user, isLoading } = getUserQuery();
+  // const { data: user, isLoading } = getUserQuery();
   const [difficultyPopupOpen, setDifficultyPopupOpen] = useState<boolean>(false);
   const [popup, setPopup] = useState<PopupOption | null>(null);
   const [notificationsActive, setNotificationsActive] = useState<boolean>(false);
 
-  const userMappedData = useMemo(() => {
-    if (!user) return null;
-    return {
-      username: `${user.data.firstName} ${user.data.lastName}`,
-      progress: user.data.progress, 
-      points: user.data.points,
-      difficultyLevel: user.data.difficultyLevel,
-      avatar: user.data.avatar,
-      background: user.data.background,
-      frame: user.data.frame
-    };
-  }, [user]);
+  const userData = useAppSelector((state: RootState) => state.user);
+
+  const counter = useAppSelector((state: RootState) => state.counter.value);
+
+  console.log('Redux data: ', userData);
+
+  // const userMappedData = useMemo(() => {
+  //   if (!user) return null;
+  //   return {
+  //     username: `${user.data.firstName} ${user.data.lastName}`,
+  //     progress: user.data.progress, 
+  //     points: user.data.points,
+  //     difficultyLevel: user.data.difficultyLevel,
+  //     avatar: user.data.avatar,
+  //     background: user.data.background,
+  //     frame: user.data.frame
+  //   };
+  // }, [user]);
 
   const { mutate: logout } = logoutUserMutation();
   const handlePopupClick = () => {
@@ -75,33 +85,35 @@ const Profile = () => {
     }
   }
 
-  const { current } = determinePrize(userMappedData?.points);
+  const { current } = determinePrize(userData?.points);
 
   
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
 
   return (
     <div className="flex flex-col py-10 min-h-[150vh] sm:min-h-[120vh] md:min-h-[100vh] w-full max-w-[50rem] mx-auto rounded-md">
       <div className="shadow-md rounded-md">
+        <p>Counter: {counter}</p>
+        <button onClick={() => dispatch(increment())}>Add</button>
         <section>
           <div className="z-0">
-            <BackgroundContainer imageUrl={userMappedData?.background} />
+            <BackgroundContainer imageUrl={userData?.background} />
           </div>
           
           <div className="z-20 relative bottom-[7rem] md:bottom-8 flex flex-col items-center justify-center">
-            <AvatarFrame type={userMappedData?.frame}>
+            <AvatarFrame type={userData?.frame}>
               <Image
                 priority
                 width={200}
                 height={200}
-                src={userMappedData?.avatar}
+                src={userData?.avatar}
                 alt="profile avatar"
               />
             </AvatarFrame>
 
             <div className="flex items-center gap-2">
               <h3 className="text-xl sm:text-3xl text-secondary font-bold">
-                {userMappedData?.username}
+                {userData?.firstName} {userData?.lastName}
               </h3>
               <button onClick={() => router.push(EDIT_PROFILE)}>
                 <EditIcon />
@@ -114,11 +126,11 @@ const Profile = () => {
             </div>
 
             <div className="flex items-center gap-5 ">
-              <p>XP Points: <span className="text-md font-bold text-secondary">{userMappedData?.points}</span></p>
+              <p>XP Points: <span className="text-md font-bold text-secondary">{userData?.points}</span></p>
               <div className="bg-thirdly w-[0.1rem] h-5"></div>
               <div className="flex items-center gap-2">
                 <ProgressIcon width={22} height={22} />
-                <p>Progress: <span className="text-md font-bold text-secondary">{userMappedData?.progress}</span></p>
+                <p>Progress: <span className="text-md font-bold text-secondary">{userData?.progress}</span></p>
               </div>
             </div>
           </div>
@@ -145,7 +157,7 @@ const Profile = () => {
           />
 
           <SettingsTab
-            title={`Selected Difficulty: ${userMappedData?.difficultyLevel}`}
+            title={`Selected Difficulty: ${userData?.difficultyLevel}`}
             onClick={() => setDifficultyPopupOpen(true)}
           />
 
@@ -180,7 +192,7 @@ const Profile = () => {
 
       <LargePopup isOpen={difficultyPopupOpen}>
         <SelectDifficulty 
-          difficulty={userMappedData?.difficultyLevel}
+          difficulty={userData?.difficultyLevel}
           setDifficultyPopupOpen={setDifficultyPopupOpen}
         />
       </LargePopup>

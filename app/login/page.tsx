@@ -15,9 +15,12 @@ import { HttpStatusCode } from "../utilities/enums/status-codes.enum";
 import { useRouter } from "next/navigation";
 import RegisterHeroAnimation from "../components/lottie-animations/lottie-register-hero";
 import { PROJECT_TITLE } from "../utilities/constants/global-data";
+import { useAppDispatch } from "@/lib/hooks";
+import { setUser } from "@/lib/features/user/userSlice";
 
 
 const Login = () => {
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const [formData, setFormData] = useState<LoginUserFormType>({
     email: "",
@@ -74,6 +77,7 @@ const Login = () => {
     loginUser(formData, {
       onSuccess: (data) => {
         if (data?.status === HttpStatusCode.ACCEPTED) {
+          dispatch(setUser(data.data.user));
           router.push(DASHBOARD_URL);
         } else {
           setErrorMessage(data?.error);
