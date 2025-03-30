@@ -8,6 +8,8 @@ import SearchTermItem from '@/app/components/search-term-item';
 import TermScrollable from '@/app/components/term-scrollable';
 import SearchBlock from '@/app/components/search-block';
 import { useSearchParams } from 'next/navigation'
+import LottieAnimation from '@/app/components/lottie-animations/lottie';
+import notFoundHero from '@/app/components/lottie-animations/not-found-hero.json';
 
 
 const Search = () => {
@@ -48,8 +50,9 @@ const Search = () => {
           </ul>
         </TermScrollable>
         :
-        <div className='h-[65vh]'>
-          <p className='text-md font-semibold text-secondary'>Term Not Found</p>
+        <div className='h-[65vh] flex flex-col-reverse md:flex-row items-center'>
+          <LottieAnimation data={notFoundHero} />
+          <p className='text-xl md:text-2xl font-semibold text-secondary'>Sorry,Term Not Found</p>
         </div>
         }
       </section>

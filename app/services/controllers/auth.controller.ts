@@ -91,6 +91,17 @@ export const changeDifficulty = async ({ level }: { level: DifficultyLevel | str
   }
 }
 
+export const deleteUser = async () => {
+  try {
+    const response = await axiosInstance.delete(API_URLS.DELETE);
+    return response.data;
+  } catch(error) {
+    console.error("There was an error deleting user:", error);
+    throw error; 
+  }
+}
+
+
 export const googleLogin = async ({ id }: { id: string }) => {
   try {
     const response = await axiosInstance.post(`${API_URLS.GOOGLE_LOGIN}`, { id });
@@ -100,6 +111,8 @@ export const googleLogin = async ({ id }: { id: string }) => {
     throw error; 
   }
 } 
+
+
 
 
 // export const googleLogin = useGoogleLogin({

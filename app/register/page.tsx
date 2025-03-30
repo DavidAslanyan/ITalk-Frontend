@@ -194,9 +194,9 @@ const Register = () => {
           <div>
             <label className="text-base text-secondary font-semibold" htmlFor="diffcultyLevel">Select Your Difficulty Level</label>
             <div className="pt-2 flex justify-between gap-3">
-              <button onClick={() => setDifficultyLevel(DifficultyLevel.EASY)} type="button" className={`${difficultyLevel === DifficultyLevel.EASY ? "bg-primary border-secondary" : "bg-white border-thirdly" } text-secondary text-base font-semibold capitalize border-2 py-1 w-full max-w-[9rem] rounded-sm transition-all`}>{DifficultyLevel.EASY}</button>
-              <button onClick={() => setDifficultyLevel(DifficultyLevel.MEDIUM)} type="button" className={`${difficultyLevel === DifficultyLevel.MEDIUM ? "bg-primary border-secondary" : "bg-white border-thirdly" } text-secondary text-base font-semibold capitalize border-2 py-1 w-full max-w-[9rem] rounded-sm transition-all`}>{DifficultyLevel.MEDIUM}</button>
-              <button onClick={() => setDifficultyLevel(DifficultyLevel.HARD)} type="button" className={`${difficultyLevel === DifficultyLevel.HARD ? "bg-primary border-secondary" : "bg-white border-thirdly" } text-secondary text-base font-semibold capitalize border-2 py-1 w-full max-w-[9rem] rounded-sm transition-all`}>{DifficultyLevel.HARD}</button>
+              <button onClick={() => setDifficultyLevel(DifficultyLevel.EASY)} type="button" className={`${difficultyLevel === DifficultyLevel.EASY ? "bg-primary border-primary text-white" : "bg-white border-thirdly" } text-secondary text-base font-semibold capitalize border-2 py-1 w-full max-w-[9rem] rounded-sm transition-all`}>{DifficultyLevel.EASY}</button>
+              <button onClick={() => setDifficultyLevel(DifficultyLevel.MEDIUM)} type="button" className={`${difficultyLevel === DifficultyLevel.MEDIUM ? "bg-primary border-primary text-white" : "bg-white border-thirdly" } text-secondary text-base font-semibold capitalize border-2 py-1 w-full max-w-[9rem] rounded-sm transition-all`}>{DifficultyLevel.MEDIUM}</button>
+              <button onClick={() => setDifficultyLevel(DifficultyLevel.HARD)} type="button" className={`${difficultyLevel === DifficultyLevel.HARD ? "bg-primary border-primary text-white" : "bg-white border-thirdly" } text-secondary text-base font-semibold capitalize border-2 py-1 w-full max-w-[9rem] rounded-sm transition-all`}>{DifficultyLevel.HARD}</button>
             </div>
           </div>
 
