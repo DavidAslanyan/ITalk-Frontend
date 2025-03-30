@@ -19,6 +19,8 @@ import { getUserQuery } from "@/app/services/queries/auth.query";
 import { PROGRESS_POINTS } from "@/app/utilities/constants/global-data";
 import { fetchTermsLevelBased } from "@/app/utilities/functions/fetch-terms-level-based";
 import { shuffleArray } from "@/app/utilities/functions/shuffle-array";
+import LottieAnimation from "@/app/components/lottie-animations/lottie";
+import failAnimation from "@/app/components/lottie-animations/fail.json";
 
 
 const TIMER_SECONDS = 59;
@@ -155,6 +157,8 @@ const MissingWord = () => {
     );
   }
 
+  console.log(termData)
+
 
   return (
     <div className="h-[140vh] md:h-auto">
@@ -219,7 +223,11 @@ const MissingWord = () => {
 
         <Popup isOpen={failPopupOpen}> 
           <div className="flex flex-col items-center justify-center p-5">
-            <span className="py-3 text-2xl text-red-600 font-bold">FAIL</span>
+            {failPopupOpen &&
+            <LottieAnimation width="max-w-[15rem]" data={failAnimation} loop={false} />
+            }
+            <span className="pt-3 text-2xl text-red-600 font-bold">Failed</span>
+            <p className="text-md font-semibold py-2">No worries, with failures we learn as well!</p>
             <ButtonStandard onClick={handleRetry} title="Try Again"/>
             <span className="text-secondary py-1 font-medium">or</span>
             <button onClick={handleFailPopup} className="text-secondary text-base font-semibold">Return to Terms</button>
@@ -228,7 +236,10 @@ const MissingWord = () => {
 
         <Popup isOpen={timeOverPopupOpen}> 
           <div className="flex flex-col items-center justify-center p-5">
-            <span className="py-3 text-2xl text-red-600 font-bold">FAIL</span>
+            {failPopupOpen &&
+            <LottieAnimation width="max-w-[15rem]" data={failAnimation} loop={false} />
+            }
+            <span className="pt-3 text-2xl text-red-600 font-bold">Failed</span>
             <span className="pb-2 text-red-600 text-xl">Sorry, your time is over</span>
             <ButtonStandard onClick={handleRetry} title="Try Again"/>
             <span className="text-secondary py-1 font-medium">or</span>
