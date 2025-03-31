@@ -6,7 +6,8 @@ import axios from "axios";
 
 export const updateProgress = async (data: UpdateProgressType) => {
   try {
-    const response = await axios.patch(`${API_URLS.UPDATE_PROGRESS}`, data);
+    console.log("Called api")
+    const response = await axiosInstance.patch(`${API_URLS.UPDATE_PROGRESS}`, data);
     return response.data;
   } catch(error) {
     console.error("There was an error updating user progress:", error);
@@ -16,7 +17,7 @@ export const updateProgress = async (data: UpdateProgressType) => {
 
 export const addPassedGame = async (data: AddGameType) => {
   try {
-    const response = await axios.post(`${API_URLS.ADD_GAME}`, data);
+    const response = await axiosInstance.post(`${API_URLS.ADD_GAME}`, data);
     return response.data;
   } catch(error) {
     console.error("There was an error when adding passed game:", error);
@@ -27,7 +28,7 @@ export const addPassedGame = async (data: AddGameType) => {
 
 export const clearPassedGames = async () => {
   try {
-    const response = await axios.put(`${API_URLS.CLEAR_GAMES}`);
+    const response = await axiosInstance.put(`${API_URLS.CLEAR_GAMES}`);
     return response.data;
   } catch(error) {
     console.error("There was an error when clearing passed games:", error);
@@ -37,7 +38,7 @@ export const clearPassedGames = async () => {
 
 export const addCoins = async (data: AddCoinsType) => {
   try {
-    const response = await axios.patch(`${API_URLS.ADD_COINS}`, data);
+    const response = await axiosInstance.patch(`${API_URLS.ADD_COINS}`, data);
     return response.data;
   } catch(error) {
     console.error("There was an error adding coins:", error);
@@ -48,7 +49,7 @@ export const addCoins = async (data: AddCoinsType) => {
 
 export const subtractCoins = async (data: SubtractCoinsType) => {
   try {
-    const response = await axios.patch(`${API_URLS.SUBTRACT_COINS}`, data);
+    const response = await axiosInstance.patch(`${API_URLS.SUBTRACT_COINS}`, data);
     return response.data;
   } catch(error) {
     console.error("There was an error subtracting coins:", error);
@@ -58,7 +59,7 @@ export const subtractCoins = async (data: SubtractCoinsType) => {
 
 export const addPoints = async (data: AddPointsType) => {
   try {
-    const response = await axios.patch(`${API_URLS.ADD_POINTS}`, data);
+    const response = await axiosInstance.patch(`${API_URLS.ADD_POINTS}`, data);
     return response.data;
   } catch(error) {
     console.error("There was an error adding points:", error);

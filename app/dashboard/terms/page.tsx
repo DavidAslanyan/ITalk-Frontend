@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import TermSwiper from '@/app/components/term-swiper';
 import Stopwatch from '@/app/components/stopwatch';
 import ButtonStandard from '@/app/components/buttons/button-standard';
@@ -10,9 +10,6 @@ import { fetchTermsLevelBased } from '@/app/utilities/functions/fetch-terms-leve
 import LottieAnimation from '@/app/components/lottie-animations/lottie';
 import studyHero from '@/app/components/lottie-animations/study-hero.json';
 import Loading from '@/app/components/loading';
-
-
-const title = "Ready to learn some new tech terms? -Jump right into the game";
 
 
 const Terms = () => {
@@ -33,8 +30,14 @@ const Terms = () => {
   const { mutate: updateProgress } = updateProgressMutation();
   const { mutate: clearPassedGames } = clearPassedGamesMutation();
 
+  const progressUpdated = useRef(false);
+
   useEffect(() => {
-    if (userMappedData?.gamesPassed.length >= MINIMUM_GAMES_PASSED) {
+    if (!progressUpdated.current && userMappedData?.gamesPassed.length >= MINIMUM_GAMES_PASSED) {
+      clearPassedGames();
+      progressUpdated.current = true;
+      window.location.reload(); 
+
       updateProgress(
         { progress: PROGRESS_POINTS },
         {
@@ -45,7 +48,7 @@ const Terms = () => {
         }
       );
     }
-  }, [user]);
+  }, [userMappedData]);
 
   const curProgress = userMappedData?.progress;
   const termsLevelBased = fetchTermsLevelBased(userMappedData?.difficultyLevel); 
