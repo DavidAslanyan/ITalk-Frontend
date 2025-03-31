@@ -21,6 +21,7 @@ import { fetchTermsLevelBased } from "@/app/utilities/functions/fetch-terms-leve
 import { shuffleArray } from "@/app/utilities/functions/shuffle-array";
 import LottieAnimation from "@/app/components/lottie-animations/lottie";
 import failAnimation from "@/app/components/lottie-animations/fail.json";
+import Loading from "@/app/components/loading";
 
 
 const TIMER_SECONDS = 59;
@@ -119,23 +120,22 @@ const MissingWord = () => {
 
   if (isLoading) {
     return (
-      <div>
-        <p>Loading...</p>
-      </div>
+      <Loading />
     )
   }
 
   if (!gameLive) {
     return (
-      <div className="px-4">
-        <h1 className="text-secondary text-2xl font-semibold">
+      <div className="px-4 py-5 flex flex-col lg:flex-row gap-5 items-center h-[100rem] md:h-auto min-h-screen w-full justify-between max-w-[80rem] mx-auto">
+        <div>
+        <h1 className="text-xl text-secondary font-bold">
           Game 2 - Missing Word
         </h1>
-        <h3>Find the missing words in the terms' explanations to test your recently learnt </h3>
+        <h3 className="text-secondary font-semibold text-md">Find the missing words in the terms' explanations to test your recently learnt </h3>
 
         <div className="pt-10">
-          <span className="text-xl font-semibold">Instructions</span>
-          <ul className=" list-decimal">
+          <span className="text-secondary font-semibold text-md">Instructions</span>
+          <ul className="pl-4 list-decimal">
             <li>Simple and straighforward game</li>
             <li>A short explanation of one the learned terms will be shown to you</li>
             <li>
@@ -149,9 +149,18 @@ const MissingWord = () => {
           </ul>
         </div>
 
-        <p className="pt-10">Excited? Great then jump right into the game</p>
+        <p className="py-10 font-semibold">Excited? Great then jump right into the game</p>
         <div className="pt-5 pb-20">
           <ButtonStandard onClick={() => setGameLive(true)} title="Start the Game" />
+        </div>
+
+        </div>
+
+        <div className="flex justify-center items-center px-4">
+          <video autoPlay controls className="rounded-lg shadow-lg w-full max-w-xl border-thirdly border-2">
+            <source src={'/demos/game-2.mp4'} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
     );

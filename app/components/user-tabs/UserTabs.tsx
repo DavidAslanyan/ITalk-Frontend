@@ -7,7 +7,8 @@ import SettingsIcon from '../icons/profile-icons/SettingsIcon';
 import HistoryIcon from '../icons/profile-icons/HistoryIcon';
 import PolicyIcon from '../icons/navbar-icons/PolicyIcon';
 import HelpIcon from '../icons/navbar-icons/HelpIcon';
-import { DASHBOARD_URL, HISTORY, PROFILE } from '@/app/utilities/constants/global-urls';
+import { DASHBOARD_URL, HELP_URL, HISTORY, LEADERBOARD_URL, PROFILE } from '@/app/utilities/constants/global-urls';
+import PrizeIcon from '../icons/PrizeIcon';
 
 
 const profileData = {
@@ -29,14 +30,14 @@ const menuItems = [
     url: `${DASHBOARD_URL}${HISTORY}`
   },
   {
-    icon: <PolicyIcon height={25} />,
-    title: "Policy",
-    url: `${DASHBOARD_URL}${HISTORY}`
+    icon:  <PrizeIcon width={25} height={20} />,
+    title: "Leadeboard",
+    url: LEADERBOARD_URL
   },
   {
     icon: <HelpIcon height={23} />,
     title: "Help",
-    url: `${DASHBOARD_URL}${HISTORY}`
+    url: HELP_URL
   }
 ];
 

@@ -1,5 +1,7 @@
 export const DASHBOARD_URL = "/dashboard";
 export const SEARCH_URL = "/dashboard/search";
+export const LEADERBOARD_URL = "/dashboard/leaderboard";
+export const HELP_URL = "/dashboard/help";
 export const TERMS_URL = "terms";
 export const LOGIN_URL = "/login";
 export const REGISER_URL = "/register";

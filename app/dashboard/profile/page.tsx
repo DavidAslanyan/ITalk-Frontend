@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import PolicyIcon from "@/app/components/icons/navbar-icons/PolicyIcon";
 import SettingsToggleTab from "@/app/components/settings-toggle-tab";
 import { deleteUserMutation, getUserQuery, logoutUserMutation } from "@/app/services/queries/auth.query";
-import { EDIT_PROFILE, LOGIN_URL, REGISER_URL } from "@/app/utilities/constants/global-urls";
+import { EDIT_PROFILE, LEADERBOARD_URL, LOGIN_URL, REGISER_URL } from "@/app/utilities/constants/global-urls";
 import SelectDifficulty from "@/app/components/select-difficulty";
 import LargePopup from "@/app/components/large-popup";
 import ExitIcon from "@/app/components/icons/navbar-icons/ExitIcon";
@@ -28,6 +28,7 @@ import { RootState } from "@/lib/store";
 import { increment } from "@/lib/features/couterSlice";
 import FailIcon from "@/app/components/icons/FailIcon";
 import { COLORS } from "@/app/utilities/constants/colors";
+import PrizeIcon from "@/app/components/icons/PrizeIcon";
 
 
 // const profileData = {
@@ -157,6 +158,12 @@ const Profile = () => {
             title="History"
             icon={<BookIcon />}
             onClick={() => router.push(EDIT_PROFILE)}
+          />
+
+          <SettingsTab
+            title="Leaderboard"
+            icon={<PrizeIcon />}
+            onClick={() => router.push(LEADERBOARD_URL)}
           />
 
           <SettingsToggleTab 

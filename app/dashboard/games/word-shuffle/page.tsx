@@ -124,30 +124,39 @@ const WordShuffle = () => {
 
   if (!gameLive) {
     return (
-      <div className="px-4">
-        <h1 className="text-secondary text-2xl font-semibold">
-          Game 3 - Word Shuffle
-        </h1>
-        <h3>Decode the terms to test your recently learnt </h3>
+      <div className="px-4 flex flex-col lg:flex-row gap-5 h-[100rem] md:h-auto items-center min-h-screen w-full justify-between max-w-[80rem] mx-auto">
+        <div>
+          <h1 className="text-xl text-secondary font-bold">
+            Game 3 - Word Shuffle
+          </h1>
+          <h3 className="text-secondary font-semibold text-md">Decode the terms to test your recently learnt </h3>
 
-        <div className="pt-10">
-          <span className="text-xl font-semibold">Instructions</span>
-          <ul className=" list-decimal">
-            <li>Simple and straighforward game</li>
-            <li>You will see a term, but it is shuffled, menaing the characters are in wrong order</li>
-            <li>Your jov is to recongnize the decoded term, and give it to us</li>
-            <li>As a Hint a short explanation will be shown to you</li>
-            <li>Do not worry about case sensitivity</li>
-            <li>However Note, as terms can consist of more than one word, you will need to type spaces as well</li>
-            <li>Tha's it, continue the same steps for the rest of the terms</li>
-            <li>If you passed all, Congrats, you won Game 3</li>
-            <li>You are ready to proceed to the next games</li>
-          </ul>
+          <div className="pt-10">
+            <span className="text-secondary font-semibold text-md">Instructions</span>
+            <ul className="pl-4 list-decimal">
+              <li>Simple and straighforward game</li>
+              <li>You will see a term, but it is shuffled, menaing the characters are in wrong order</li>
+              <li>Your jov is to recongnize the decoded term, and give it to us</li>
+              <li>As a Hint a short explanation will be shown to you</li>
+              <li>Do not worry about case sensitivity</li>
+              <li>However Note, as terms can consist of more than one word, you will need to type spaces as well</li>
+              <li>Tha's it, continue the same steps for the rest of the terms</li>
+              <li>If you passed all, Congrats, you won Game 3</li>
+              <li>You are ready to proceed to the next games</li>
+            </ul>
+          </div>
+
+          <p className="py-10 font-semibold">Excited? Great then jump right into the game</p>
+          <div className="pt-5 pb-20">
+            <ButtonStandard onClick={() => setGameLive(true)} title="Start the Game" />
+          </div>
         </div>
 
-        <p className="pt-10">Excited? Great then jump right into the game</p>
-        <div className="pt-5 pb-20">
-          <ButtonStandard onClick={() => setGameLive(true)} title="Start the Game" />
+        <div className="flex justify-center items-center px-4">
+          <video autoPlay controls className="rounded-lg shadow-lg w-full max-w-xl border-thirdly border-2">
+            <source src={'/demos/game-3.mp4'} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
     );
