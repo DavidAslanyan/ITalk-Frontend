@@ -157,15 +157,16 @@ const FeedMonster = () => {
 
   if (!gameLive) {
     return (
-      <div className="px-4">
-        <h1 className="text-secondary text-2xl font-semibold">
+      <div className="px-4 flex flex-col lg:flex-row gap-5 h-[100rem] md:h-auto items-center min-h-screen w-full max-w-[100rem] mx-auto">
+        <div>
+        <h1 className="text-xl text-secondary font-bold">
           Game 4 - Feed the Monster
         </h1>
-        <h3>Figure out what term the mosnter needs and feed him with it</h3>
+        <h3 className="text-secondary font-semibold text-md">Figure out what term the mosnter needs and feed him with it</h3>
 
         <div className="pt-10">
-          <span className="text-xl font-semibold">Instructions</span>
-          <ul className=" list-decimal">
+          <span className="text-secondary font-semibold text-md">Instructions</span>
+          <ul className="pl-4 list-decimal">
             <li>Simple and straightforward game</li>
             <li>The monster is hungry and you need to feed him</li>
             <li>The monster is very bad at speaking so you will have to figure out what terms does he want</li>
@@ -181,9 +182,17 @@ const FeedMonster = () => {
           </ul>
         </div>
 
-        <p className="pt-10">Excited? Great then jump right into the game</p>
+        <p className="py-10 font-semibold">Excited? Great then jump right into the game</p>
         <div className="pt-5 pb-20">
           <ButtonStandard onClick={() => setGameLive(true)} title="Start the Game" />
+        </div>
+        </div>
+
+        <div className="flex justify-center items-center px-4">
+          <video autoPlay controls className="rounded-lg shadow-lg w-full max-w-xl border-thirdly border-2">
+            <source src={'/demos/game-4.mp4'} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
     );

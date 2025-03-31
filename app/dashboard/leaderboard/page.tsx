@@ -1,5 +1,6 @@
 "use client";
 import GobletIcon from '@/app/components/icons/GobletIcon';
+import Loading from '@/app/components/loading';
 import TermScrollable from '@/app/components/term-scrollable';
 import UserTableRow from '@/app/components/user-table-row';
 import { getUsersListQuery } from '@/app/services/queries/auth.query';
@@ -157,9 +158,7 @@ const Leaderboard = () => {
   const { data: usersList, isLoading } = getUsersListQuery();
 
   if (isLoading) {
-    <div>
-      <p>Loading...</p>
-    </div>
+    <Loading />
   }
 
   return (

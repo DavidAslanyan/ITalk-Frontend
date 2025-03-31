@@ -21,6 +21,7 @@ import { fetchTermsLevelBased } from "@/app/utilities/functions/fetch-terms-leve
 import { shuffleArray } from "@/app/utilities/functions/shuffle-array";
 import failAnimation from "@/app/components/lottie-animations/fail.json";
 import LottieAnimation from "@/app/components/lottie-animations/lottie";
+import Loading from "@/app/components/loading";
 
 const TIMER_SECONDS = 45;
 const REWARD_COINS = 5;
@@ -148,38 +149,45 @@ const Quiz = () => {
 
   if (isLoading) {
     return (
-      <div>
-        <p>Loading...</p>
-      </div>
+      <Loading />
     )
   }
 
   if (!gameLive) {
     return (
-      <div className="px-4">
-        <h1>Game 1 - Quiz</h1>
-        <h3>Take a quiz to test your recently learnt terms</h3>
+      <div className="px-4 flex flex-col lg:flex-row gap-5 h-[100rem] md:h-auto items-center min-h-screen w-full justify-between max-w-[80rem] mx-auto">
+        <div>
+          <h1 className="text-xl text-secondary font-bold">Game 1 - Quiz</h1>
+          <h3 className="text-secondary font-semibold text-md">Take a quiz to test your recently learnt terms</h3>
 
-        <div className="pt-10">
-          <span>Instructions</span>
-          <ul className=" list-decimal">
-            <li>Simple and straighforward quiz</li>
-            <li>One of the learned terms will be shown to you</li>
-            <li>
-              Below the term, you will see a list of explanations for the term
-            </li>
-            <li>
-              You will have to select the right explanation to move forward
-            </li>
-            <li>Tha's it, continue the same steps for the rest of the terms</li>
-            <li>If you passed all, Congrats, you won Game-1</li>
-            <li>You are ready to proceed to the next games</li>
-          </ul>
+          <div className="w-full">
+            <span className="text-secondary font-semibold text-md">Instructions</span>
+            <ul className="pl-4 list-decimal">
+              <li>You'll be shown a term that you've learned.</li>
+              <li>Below it, you'll see a list of possible explanations.</li>
+              <li>
+              Select the correct explanation to move forward.
+              </li>
+              <li>
+              Keep going until you've answered all the terms correctly.
+              </li>
+              <li>Tha's it, continue the same steps for the rest of the terms</li>
+              <li>If you passed all, Congrats, you won Game-1</li>
+              <li>You are ready to proceed to the next games</li>
+            </ul>
+          </div>
+
+          <p className="py-10 font-semibold">Excited? Great then jump right into the game</p>
+          <div>
+            <ButtonStandard onClick={() => setGameLive(true)} title="Start the Game" />
+          </div>
         </div>
 
-        <p className="pt-10">Excited? Great then jump right into the game</p>
-        <div>
-          <ButtonStandard onClick={() => setGameLive(true)} title="Start the Game" />
+        <div className="flex justify-center items-center px-4">
+          <video autoPlay controls className="rounded-lg shadow-lg w-full max-w-xl border-thirdly border-2">
+            <source src={'/demos/game-1.mp4'} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
     );
@@ -252,7 +260,6 @@ const Quiz = () => {
         />
       </Popup>
 
-      
       <Popup isOpen={failPopupOpen}> 
         <div className="flex flex-col items-center justify-center p-5">
           {failPopupOpen &&
