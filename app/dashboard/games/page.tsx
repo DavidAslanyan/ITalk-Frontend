@@ -90,7 +90,7 @@ const Games = () => {
           </div>
         </section>
 
-        <p className="pt-10 text-lg text-secondary font-semibold">Complete all the game to unlock new terms</p>
+        <p className="pt-10 text-lg text-secondary font-semibold">Complete all games to unlock new terms</p>
 
         {allGamesPassed &&
         <section className="flex items-center gap-5">

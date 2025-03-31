@@ -234,6 +234,7 @@ const FeedMonster = () => {
 
       <Popup isOpen={successPopupOpen}>
         <VictoryBlock 
+          isOpen={successPopupOpen}
           handleSuccessPopup={handleSuccessPopup}
           points={REWARD_POINTS}
           coins={REWARD_COINS}
