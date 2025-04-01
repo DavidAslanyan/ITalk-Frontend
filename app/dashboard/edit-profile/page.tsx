@@ -21,6 +21,7 @@ import { DASHBOARD_URL, PROFILE } from '@/app/utilities/constants/global-urls';
 import FailIcon from '@/app/components/icons/FailIcon';
 import EditIcon from '@/app/components/icons/EditIcon';
 import Loading from '@/app/components/loading';
+import useGetUser from '@/app/utilities/hooks/useGetUser';
 
 
 // const profileData = {
@@ -73,56 +74,41 @@ import Loading from '@/app/components/loading';
 
 const EditProfile = () => {
   const router = useRouter();
-  const { data: user, isLoading } = getUserQuery();
-  const userMappedData = useMemo(() => {
-    if (!user) return null;
-    return {
-      firstName: user.data.firstName,
-      lastName: user.data.lastName,
-      email: user.data.email,
-      difficultyLevel: user.data.difficultyLevel,
-      avatar: user.data.avatar,
-      background: user.data.background,
-      frame: user.data.frame,
-      ownedAvatars: user.data.ownedAvatars,
-      ownedFrames: user.data.ownedFrames,
-      ownedBackgrounds: user.data.ownedBackgrounds
-    };
-  }, [user]); 
+  const { user, isLoading } = useGetUser();
 
   useEffect(() => {
-    if (userMappedData) {
+    if (user) {
       setFormData((prev) => ({
         ...prev,
-        firstName: userMappedData.firstName || "",
-        lastName: userMappedData.lastName || "",
-        email: userMappedData.email || ""
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.email || ""
       }));
-      setAvatar(userMappedData.avatar);
-      setFrame(userMappedData.frame);
-      setBackground(userMappedData.background);
+      setAvatar(user.avatar);
+      setFrame(user.frame);
+      setBackground(user.background);
     }
-  }, [userMappedData]);
+  }, [user]);
 
-  const ownedAvatars = userMappedData?.ownedAvatars;
-  const ownedFrames = userMappedData?.ownedFrames;
-  const ownedBackgrounds= userMappedData?.ownedBackgrounds;
+  const ownedAvatars = user?.ownedAvatars ?? [];
+  const ownedFrames = user?.ownedFrames ?? [];
+  const ownedBackgrounds= user?.ownedBackgrounds ?? [];
   
   const initialState = {
-    firstName: userMappedData?.firstName || "",
-    lastName: userMappedData?.lastName || "",
-    email: userMappedData?.email || "",
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email || "",
     password: "",
     newPassword: "",
-    avatar: userMappedData?.avatar,
-    frame: userMappedData?.frame,
-    background: userMappedData?.background
+    avatar: user?.avatar,
+    frame: user?.frame,
+    background: user?.background
   };
 
   const [formData, setFormData] = useState(initialState);
-  const [avatar, setAvatar] = useState(userMappedData?.avatar);
-  const [frame, setFrame] = useState(userMappedData?.frame);
-  const [background, setBackground] = useState(userMappedData?.background);
+  const [avatar, setAvatar] = useState(user?.avatar);
+  const [frame, setFrame] = useState(user?.frame);
+  const [background, setBackground] = useState(user?.background);
   
   const [avatarPopupOpen, setAvatarPopupOpen] = useState<boolean>(false);
   const [framePopupOpen, setFramePopupOpen] = useState<boolean>(false);

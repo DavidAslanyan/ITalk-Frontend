@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '@/lib/features/user/userSlice';
 import axiosInstance from '../functions/axios-instance';
 import { API_URLS, BASE } from '../constants/api-endpoints';
+import { storeUserInLocalStorage } from '../functions/manage-user-local-storage';
 
 
 let socket: Socket;
@@ -29,6 +30,7 @@ const useSocket = () => {
       const response = await axiosInstance.get(`${API_URLS.AUTH}`);
       console.log('Socket worked: ', response)
       dispatch(setUser(response.data.data)); 
+      storeUserInLocalStorage(response.data.user);
     } catch (error) {
       console.error('Failed to fetch user data', error);
     }

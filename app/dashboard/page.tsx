@@ -51,7 +51,7 @@ const DashboardHome = () => {
         <DashboardContainer>
           <div className='p-5 pt-10 md:pt-7 flex items-center justify-between gap-3'>
             <div className='flex flex-col'>
-              <h3 className='text-2xl text-secondary font-bold'>Hi, {user.username}</h3>
+              <h3 className='text-2xl text-secondary font-bold'>Hi, {user.firstName} {user.lastName}</h3>
               <p className='pt-1 font-bold text-semibold'>XP: <span className='text-secondary font-bold text-md md:text-xl'>{user.points}</span></p>
               <div className='flex items-center gap-2'>
                 <CoinIcon width={24} height={24} color={COLORS.orange}/>
