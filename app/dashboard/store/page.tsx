@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { AVATARS_STORE, BACKGROUNDS_STORE, FRAMES_STORE } from './config'
 import Image from 'next/image'
 import { selectFrameColor } from '@/app/utilities/functions/select-frame-color';
@@ -13,10 +13,10 @@ import { purchaseStoreItemMutation } from '@/app/services/queries/progress.query
 import { HttpStatusCode } from '@/app/utilities/enums/status-codes.enum';
 import FailIcon from '@/app/components/icons/FailIcon';
 import { StoreItemEnum } from '@/app/utilities/enums/store-item.enum';
-import { getUserQuery } from '@/app/services/queries/auth.query';
 import Loading from '@/app/components/loading';
 import CheckedAnimation from '@/app/components/lottie-animations/lottie-checked';
 import ShopIcon from '@/app/components/icons/navbar-icons/ShopIcon';
+import useGetUser from '@/app/utilities/hooks/useGetUser';
 
 
 enum ActiveTabEnum {
@@ -33,27 +33,12 @@ type StoreItemType = {
 }
 
 const Store = () => {
-  const { data: user, isLoading } = getUserQuery();
-  const userMappedData = useMemo(() => {
-    if (!user) return null;
-    return {
-      username: `${user.data.firstName} ${user.data.lastName}`,
-      progress: user.data.progress ?? 0, 
-      gamesPassed: user.data.gamesPassed,
-      coins: user.data.coins,
-      points: user.data.points,
-      difficultyLevel: user.data.difficultyLevel,
-      ownedAvatars: user.data.ownedAvatars,
-      ownedFrames: user.data.ownedFrames,
-      ownedBackgrounds: user.data.ownedBackgrounds
-    };
-  }, [user]); 
+  const { user, isLoading } = useGetUser();
 
-  
-  const ownedAvatars = userMappedData?.ownedAvatars;
-  const ownedFrames = userMappedData?.ownedFrames;
-  const ownedBackgrounds= userMappedData?.ownedBackgrounds;
-  const coins = userMappedData?.coins;
+  const ownedAvatars = user?.ownedAvatars ?? [];
+  const ownedFrames = user?.ownedFrames ?? [];
+  const ownedBackgrounds= user?.ownedBackgrounds ?? [];
+  const coins = user?.coins ?? 0;
 
   const [activeTab, setActiveTab] = useState<ActiveTabEnum>(ActiveTabEnum.AVATARS);
   const tabs = [
@@ -96,7 +81,9 @@ const Store = () => {
     }
   }
 
-  if (isLoading) return <Loading />;
+  if (isLoading || !user) {
+    return <Loading />;  
+  }
 
   return (
     <div className={`${activeTab === ActiveTabEnum.BACKGROUNDS ? "h-[300vh]" : "h-[280vh] sm:h-[170vh]"} md:h-auto relative w-full max-w-[60rem] mx-auto`}>

@@ -137,10 +137,8 @@ const Quiz = () => {
     }
   }, [termData, step]);
 
-  if (isLoading) {
-    return (
-      <Loading />
-    )
+  if (isLoading || !user) {
+    return <Loading />;  
   }
 
   if (!gameLive) {

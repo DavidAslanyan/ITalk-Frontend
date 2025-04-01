@@ -1,6 +1,5 @@
 "use client"
 import React, { useEffect, useMemo, useState } from 'react';
-import easyTermsData from "../../../data/easy-terms.json";
 import ShuffleWord from '@/app/components/shuffle-word';
 import { ResponseEnum } from '@/app/utilities/enums/response.enum';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -15,13 +14,13 @@ import SmallProgressBar from '@/app/components/small-progress-bar/SmallProgressB
 import { addCoinsMutation, addPassedGameMutation, addPointsMutation } from '@/app/services/queries/progress.query';
 import { GAME, GamesEnum } from '@/app/utilities/constants/game-titles';
 import VictoryBlock from '@/app/components/victory-block/VictoryBlock';
-import { getUserQuery } from '@/app/services/queries/auth.query';
 import { fetchTermsLevelBased } from '@/app/utilities/functions/fetch-terms-level-based';
 import { PROGRESS_POINTS } from '@/app/utilities/constants/global-data';
 import { shuffleArray } from '@/app/utilities/functions/shuffle-array';
 import LottieAnimation from '@/app/components/lottie-animations/lottie';
 import failAnimation from "@/app/components/lottie-animations/fail.json";
 import Loading from '@/app/components/loading';
+import useGetUser from '@/app/utilities/hooks/useGetUser';
 
 
 const TIMER_SECONDS = 120;
@@ -58,21 +57,10 @@ const WordShuffle = () => {
   const [failPopupOpen, setFailPopupOpen] = useState<boolean>(false);
   const [timeOverPopupOpen, setTimeOverPopupOpen] = useState<boolean>(false);
 
-  const { data: user, isLoading } = getUserQuery();
-  const userMappedData = useMemo(() => {
-    if (!user) return null;
-    return {
-      username: `${user.data.firstName} ${user.data.lastName}`,
-      progress: user.data.progress ?? 0, 
-      gamesPassed: user.data.gamesPassed,
-      coins: user.data.coins,
-      points: user.data.points,
-      difficultyLevel: user.data.difficultyLevel
-    };
-  }, [user]);
+  const { user, isLoading } = useGetUser();
 
-  const curProgress = userMappedData?.progress;
-  const termsLevelBased = fetchTermsLevelBased(userMappedData?.difficultyLevel); 
+  const curProgress = user?.progress ?? 0; 
+  const termsLevelBased = user ? fetchTermsLevelBased(user.difficultyLevel) : []; 
   const termData = useMemo(() => shuffleArray(termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS)), [curProgress]);
 
   useEffect(() => {
@@ -118,8 +106,8 @@ const WordShuffle = () => {
     setResponse(null);
   }
 
-  if (isLoading) {
-    return <Loading />
+  if (isLoading || !user) {
+    return <Loading />;  
   }
 
   if (!gameLive) {
