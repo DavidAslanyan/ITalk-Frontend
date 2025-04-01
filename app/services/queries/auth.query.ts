@@ -10,6 +10,7 @@ export const getUserQuery = () => {
     staleTime: 5 * 60 * 1000,
     retry: 2, 
     refetchOnWindowFocus: false, 
+    enabled: false
   });
 };
 

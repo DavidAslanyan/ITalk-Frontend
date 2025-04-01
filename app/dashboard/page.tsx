@@ -1,10 +1,9 @@
 "use client";
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import LevelMap from '../components/level-map';
 import SearchBlock from '../components/search-block';
 import LearnButton from '../components/buttons/learn-button';
 import { DASHBOARD_URL, SEARCH_URL, TERMS_URL } from '../utilities/constants/global-urls';
-import { getUserQuery } from '../services/queries/auth.query';
 import SmallProgressBar from '../components/small-progress-bar/SmallProgressBar';
 import { determinePrize } from '../utilities/functions/map-prizes';
 import DashboardContainer from '../components/dashboard-container';
@@ -16,29 +15,14 @@ import ProgressIcon from '../components/icons/ProgressIcon';
 import CoinIcon from '../components/icons/CoinIcon';
 import { COLORS } from '../utilities/constants/colors';
 import Loading from '../components/loading';
+import useGetUser from '../utilities/hooks/useGetUser';
 
 
 const DashboardHome = () => {
   const router = useRouter();
   const [inputValue, setInputValue] = useState<string>("");
 
-  const { data: user, isLoading } = getUserQuery();
-  const userMappedData = useMemo(() => {
-    if (!user) return null;
-    return {
-      username: `${user.data.firstName} ${user.data.lastName}`,
-      progress: user.data.progress, 
-      points: user.data.points,
-      coins: user.data.coins,
-      difficultyLevel: user.data.difficultyLevel
-    };
-  }, [user]); 
-
-  const { current, next } = determinePrize(userMappedData?.points);
-  const curProgress = userMappedData?.progress;
-  const curCoins = userMappedData?.coins;
-  const termsLevelBased = fetchTermsLevelBased(userMappedData?.difficultyLevel); 
-  const termData = termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS);
+  const { user, isLoading } = useGetUser();
 
   const handleSearchSubmit = (e: any) => {
     e.preventDefault();
@@ -46,9 +30,16 @@ const DashboardHome = () => {
     router.push(`${SEARCH_URL}?term=${inputValue}`);
   }
 
-  const progressForMap = userMappedData?.progress * 5;
+  if (isLoading || !user) {
+    return <Loading />;  
+  }
 
-  if (isLoading) return <Loading />;
+  const { current, next } = determinePrize(user.points);
+  const curProgress = user.progress;
+  const curCoins = user.coins;
+  const termsLevelBased = fetchTermsLevelBased(user.difficultyLevel); 
+  const termData = termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS);
+  const progressForMap = user.progress * 5;
 
   return (
     <div className='w-full max-w-[70rem] mx-auto pr-4'>
@@ -60,8 +51,8 @@ const DashboardHome = () => {
         <DashboardContainer>
           <div className='p-5 pt-10 md:pt-7 flex items-center justify-between gap-3'>
             <div className='flex flex-col'>
-              <h3 className='text-2xl text-secondary font-bold'>Hi, {userMappedData?.username}</h3>
-              <p className='pt-1 font-bold text-semibold'>XP: <span className='text-secondary font-bold text-md md:text-xl'>{userMappedData?.points}</span></p>
+              <h3 className='text-2xl text-secondary font-bold'>Hi, {user.username}</h3>
+              <p className='pt-1 font-bold text-semibold'>XP: <span className='text-secondary font-bold text-md md:text-xl'>{user.points}</span></p>
               <div className='flex items-center gap-2'>
                 <CoinIcon width={24} height={24} color={COLORS.orange}/>
                 <p>Coins: <span className='text-secondary font-bold text-md md:text-xl'>{curCoins}</span></p>
@@ -111,8 +102,8 @@ const DashboardHome = () => {
       <section className='pt-5 flex flex-col md:flex-row items-center justify-center'>
         <div className='w-full'>
           <p className='py-2 text-secondary font-medium'>Keep going to earn your next prize!</p>
-          <SmallProgressBar maxWidth='w-full' progress={userMappedData?.points} limit={next.points} />
-          <p className='py-2 text-secondary font-medium'>{userMappedData?.points} / {next.points} points</p>
+          <SmallProgressBar maxWidth='w-full' progress={user.points} limit={next.points} />
+          <p className='py-2 text-secondary font-medium'>{user.points} / {next.points} points</p>
         </div>
 
         <div className='flex flex-col items-center w-full max-w-[10rem] pt-5 md:pt-0'>

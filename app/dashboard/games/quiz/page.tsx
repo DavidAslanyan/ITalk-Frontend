@@ -22,6 +22,7 @@ import { shuffleArray } from "@/app/utilities/functions/shuffle-array";
 import failAnimation from "@/app/components/lottie-animations/fail.json";
 import LottieAnimation from "@/app/components/lottie-animations/lottie";
 import Loading from "@/app/components/loading";
+import useGetUser from "@/app/utilities/hooks/useGetUser";
 
 const TIMER_SECONDS = 45;
 const REWARD_COINS = 5;
@@ -88,21 +89,10 @@ const Quiz = () => {
     }
   }
 
-  const { data: user, isLoading, isSuccess: userFetched } = getUserQuery();
-  const userMappedData = useMemo(() => {
-    if (!user) return null;
-    return {
-      username: `${user.data.firstName} ${user.data.lastName}`,
-      progress: user.data.progress ?? 0, 
-      gamesPassed: user.data.gamesPassed,
-      coins: user.data.coins,
-      points: user.data.points,
-      difficultyLevel: user.data.difficultyLevel
-    };
-  }, [user]);
+  const { user, isLoading } = useGetUser();
 
-  const curProgress = userMappedData?.progress;
-  const termsLevelBased = fetchTermsLevelBased(userMappedData?.difficultyLevel); 
+  const curProgress = user?.progress ?? 0; 
+  const termsLevelBased = user ? fetchTermsLevelBased(user.difficultyLevel) : []; 
   const termData = useMemo(() => shuffleArray(termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS)), [curProgress]);
   const randomTerms = useMemo(() => fetchRandomTerms(3).map((term) => term.shortExplanation), [swiper, step]);
 
@@ -128,7 +118,7 @@ const Quiz = () => {
   }
 
   const shuffledOptions = useMemo(() => {
-    if (userFetched) {
+    if (user) {
       let uniqueRandomTerms = new Set<string>();
     
       while (uniqueRandomTerms.size < 3) {
@@ -184,7 +174,7 @@ const Quiz = () => {
         </div>
 
         <div className="flex justify-center items-center px-4">
-          <video autoPlay controls className="rounded-lg shadow-lg w-full max-w-xl border-thirdly border-2">
+          <video autoPlay muted controls className="rounded-lg shadow-lg w-full max-w-xl border-thirdly border-2">
             <source src={'/demos/game-1.mp4'} type="video/mp4" />
             Your browser does not support the video tag.
           </video>

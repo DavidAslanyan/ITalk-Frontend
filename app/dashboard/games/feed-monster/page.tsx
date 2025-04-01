@@ -18,11 +18,12 @@ import Monster from '@/app/components/lottie-animations/lottie-monster';
 import { addCoinsMutation, addPassedGameMutation, addPointsMutation } from '@/app/services/queries/progress.query';
 import { GAME, GamesEnum } from '@/app/utilities/constants/game-titles';
 import VictoryBlock from '@/app/components/victory-block/VictoryBlock';
-import { getUserQuery } from '@/app/services/queries/auth.query';
 import { fetchTermsLevelBased } from '@/app/utilities/functions/fetch-terms-level-based';
 import { PROGRESS_POINTS } from '@/app/utilities/constants/global-data';
 import LottieAnimation from '@/app/components/lottie-animations/lottie';
 import failAnimation from "@/app/components/lottie-animations/fail.json";
+import Loading from '@/app/components/loading';
+import useGetUser from '@/app/utilities/hooks/useGetUser';
 
 
 const TIMER_SECONDS = 120;
@@ -30,10 +31,94 @@ const REWARD_COINS = 5;
 const REWARD_POINTS = 175;
 
 const FeedMonster = () => {
-  const gamesPassed: string[] = [];
+  const { user, isLoading } = useGetUser();
+
+  const router = useRouter();
   const { mutateAsync: addPassedGame } = addPassedGameMutation();
   const { mutateAsync: addCoins } = addCoinsMutation();
   const { mutateAsync: addPoints } = addPointsMutation();
+  const [gameLive, setGameLive] = useState<boolean>(false);
+  const [step, setStep] = useState<number>(0);
+  const [response, setResponse] = useState<ResponseEnum | null>(null);
+  const [shuffledTerms, setShuffledTerms] = useState<string[]>([]);
+  const [monstersQuestions, setMonstersQuestions] = useState<string[]>([]);
+  const [timerRunning, setTimerRunning] = useState<boolean>(true);
+  const [successPopupOpen, setSuccessPopupOpen] = useState<boolean>(false);
+  const [failPopupOpen, setFailPopupOpen] = useState<boolean>(false);
+  const [timeOverPopupOpen, setTimeOverPopupOpen] = useState<boolean>(false);
+  const [draggingItem, setDraggingItem] = useState<string | null>(null);
+  
+  const gamesPassed: string[] = [];
+  
+  const curProgress = user?.progress ?? 0; 
+  const termsLevelBased = user ? fetchTermsLevelBased(user.difficultyLevel) : [];
+  
+  useEffect(() => {
+    if (!timerRunning && !successPopupOpen && !failPopupOpen) {
+      setTimeOverPopupOpen(true);
+    }
+  }, [timerRunning]);
+  
+  useEffect(() => {
+    if (response === ResponseEnum.FAIL) {
+      setTimerRunning(false);
+      setFailPopupOpen(true);
+    } else if (response === ResponseEnum.SUCCESS) {
+      setSuccessPopupOpen(true);
+      setTimerRunning(false);
+    }
+  }, [response]);
+  
+  useEffect(() => {
+    if (user) {
+      setMonstersQuestions(
+        termsLevelBased
+          .slice(curProgress, curProgress + PROGRESS_POINTS)
+          .map((item) => item.shortExplanation)
+      );
+    }
+  }, [user, curProgress]);
+  
+  const termsData = useMemo(() => {
+    return user
+      ? termsLevelBased
+          .slice(curProgress, curProgress + PROGRESS_POINTS)
+          .map((item) => item.term)
+      : [];
+  }, [user, curProgress]);
+  
+  const randomTerms = useMemo(() => {
+    const fetchedTerms = fetchRandomTerms(5).map((term) => term.term);
+    return Array.from(
+      new Set(fetchedTerms.filter((term) => !termsData.includes(term)))
+    );
+  }, [step, termsData]);
+  
+  useEffect(() => {
+    setShuffledTerms(shuffleArray([...termsData, ...randomTerms]));
+  }, [termsData, randomTerms]);
+  
+  function handleDragStart({ active }: any) {
+    if (active?.id) {
+      setDraggingItem(active.id);
+    }
+  }
+  
+  function handleDragEnd({ over }: any) {
+    if (draggingItem) {
+      if (draggingItem.toLowerCase() === termsData[step]?.toLowerCase()) {
+        setStep((prev) => prev + 1);
+        setShuffledTerms((prev) =>
+          prev.filter(
+            (term) => term.toLowerCase() !== draggingItem.toLowerCase()
+          )
+        );
+      } else {
+        setResponse(ResponseEnum.FAIL);
+      }
+    }
+    setDraggingItem(null);
+  }
   
   const savePassedGame = async () => {
     try {
@@ -46,114 +131,28 @@ const FeedMonster = () => {
       console.error("Error in transaction:", error);
       router.replace(`${DASHBOARD_URL}/${GAMES}`);
     }
-  }
-
-  const router = useRouter();
-  const [gameLive, setGameLive] = useState<boolean>(false);
-  const [step, setStep] = useState<number>(0);
-  const [response, setResponse] = useState<ResponseEnum | null>(null);
-  const [shuffledTerms, setShuffledTerms] = useState<string[]>([]);
-  const [monstersQuestions, setMonstersQuestions] = useState<string[]>([]);
-
-  const [timerRunning, setTimerRunning] = useState<boolean>(true);
-  const [successPopupOpen, setSuccessPopupOpen] = useState<boolean>(false);
-  const [failPopupOpen, setFailPopupOpen] = useState<boolean>(false);
-  const [timeOverPopupOpen, setTimeOverPopupOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (!timerRunning && !successPopupOpen && !failPopupOpen) {
-      setTimeOverPopupOpen(true);
-    }
-  }, [timerRunning]);
-    
-  useEffect(() => {
-    if (response === ResponseEnum.FAIL) {
-      setTimerRunning(false);
-      setFailPopupOpen(true);
-    } else if (response === ResponseEnum.SUCCESS) {
-      setSuccessPopupOpen(true);
-      setTimerRunning(false);
-    }
-  }, [response]);
-
+  };
+  
   const handleRetry = () => {
     window.location.reload();
-  }
-
+  };
+  
   const handleFailPopup = () => {
     router.replace(`${DASHBOARD_URL}/${TERMS_URL}`);
-  }
-
+  };
+  
   const handleSuccessPopup = () => {
     if (!gamesPassed.includes(GAME.FEED_MONSTER)) {
       savePassedGame();
     } else {
       router.replace(`${DASHBOARD_URL}/${GAMES}`);
     }
+  };
+  
+  if (isLoading || !user) {
+    return <Loading />;
   }
 
-  const { data: user, isLoading } = getUserQuery();
-  const userMappedData = useMemo(() => {
-    if (!user) return null;
-    return {
-      username: `${user.data.firstName} ${user.data.lastName}`,
-      progress: user.data.progress ?? 0, 
-      gamesPassed: user.data.gamesPassed,
-      coins: user.data.coins,
-      points: user.data.points,
-      difficultyLevel: user.data.difficultyLevel
-    };
-  }, [user]);
-  
-  const curProgress = userMappedData?.progress;
-  const termsLevelBased = fetchTermsLevelBased(userMappedData?.difficultyLevel); 
-
-  useEffect(() => {
-    setMonstersQuestions(termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS).map((item) => item.shortExplanation));
-  }, [curProgress]);  
-
-  const termsData = useMemo(() => {
-    return termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS).map((item) => item.term);
-  }, [curProgress]);
-  
-  const randomTerms = useMemo(() => {
-    const fetchedTerms = fetchRandomTerms(5).map((term) => term.term);
-    return Array.from(new Set(fetchedTerms.filter(term => !termsData.includes(term))));
-  }, [step]);
-  
-  
-  useEffect(() => {
-    setShuffledTerms(shuffleArray([...termsData, ...randomTerms]));
-  }, []);
-
-  const [draggingItem, setDraggingItem] = useState<string | null>(null);
-
-  function handleDragStart({ active }: any) {
-    if (active?.id) {
-      setDraggingItem(active.id); 
-    }
-  }
-  
-  function handleDragEnd({ over }: any) {  
-    if (draggingItem) {
-      if (draggingItem.toLowerCase() === termsData[step].toLowerCase()) {
-        setStep((prev) => prev + 1);
-        setShuffledTerms((prev) => prev.filter((term) => term.toLowerCase() !== draggingItem.toLowerCase()));
-      } else {
-        setResponse(ResponseEnum.FAIL);
-      }
-    }
-  
-    setDraggingItem(null); 
-  }  
-
-  if (isLoading) {
-    return (
-      <div>
-        <p>Loading...</p>
-      </div>
-    )
-  }
 
   if (!gameLive) {
     return (
@@ -189,7 +188,7 @@ const FeedMonster = () => {
         </div>
 
         <div className="flex justify-center items-center px-4">
-          <video autoPlay controls className="rounded-lg shadow-lg w-full max-w-xl border-thirdly border-2">
+          <video autoPlay controls muted className="rounded-lg shadow-lg w-full max-w-xl border-thirdly border-2">
             <source src={'/demos/game-4.mp4'} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
