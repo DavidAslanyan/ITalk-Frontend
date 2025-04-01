@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import EditIcon from "@/app/components/icons/EditIcon";
 import SettingsTab from "@/app/components/settings-tab";
@@ -7,7 +7,7 @@ import HelpIcon from "@/app/components/icons/navbar-icons/HelpIcon";
 import { useRouter } from "next/navigation";
 import PolicyIcon from "@/app/components/icons/navbar-icons/PolicyIcon";
 import SettingsToggleTab from "@/app/components/settings-toggle-tab";
-import { deleteUserMutation, getUserQuery, logoutUserMutation } from "@/app/services/queries/auth.query";
+import { deleteUserMutation, logoutUserMutation } from "@/app/services/queries/auth.query";
 import { EDIT_PROFILE, LEADERBOARD_URL, LOGIN_URL, REGISER_URL } from "@/app/utilities/constants/global-urls";
 import SelectDifficulty from "@/app/components/select-difficulty";
 import LargePopup from "@/app/components/large-popup";
@@ -23,22 +23,10 @@ import ProgressIcon from "@/app/components/icons/ProgressIcon";
 import BellIcon from "@/app/components/icons/BellIcon";
 import BookIcon from "@/app/components/icons/BookIcon";
 import Loading from "@/app/components/loading";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { RootState } from "@/lib/store";
-import { increment } from "@/lib/features/couterSlice";
 import FailIcon from "@/app/components/icons/FailIcon";
 import { COLORS } from "@/app/utilities/constants/colors";
 import PrizeIcon from "@/app/components/icons/PrizeIcon";
-
-
-// const profileData = {
-//   avatarURL: "/user-avatars/male-1.png",
-//   rang: "Student",
-//   rangURL: "/rangs/rang-1.png",
-//   username: "David Aslanyan",
-//   progress: 150,
-//   difficultyLevel: "easy"
-// };
+import useGetUser from "@/app/utilities/hooks/useGetUser";
 
 
 enum PopupOption {
@@ -48,34 +36,15 @@ enum PopupOption {
 
 
 const Profile = () => {
-  const dispatch = useAppDispatch();
   const router = useRouter();
-  const { data: user, isLoading } = getUserQuery();
+  const { user, isLoading } = useGetUser();
+  const { mutate: logout } = logoutUserMutation();
+  const { mutate: deleteUser } = deleteUserMutation();
+
   const [difficultyPopupOpen, setDifficultyPopupOpen] = useState<boolean>(false);
   const [popup, setPopup] = useState<PopupOption | null>(null);
   const [notificationsActive, setNotificationsActive] = useState<boolean>(false);
 
-  // const userData = useAppSelector((state: RootState) => state.user);
-
-  const counter = useAppSelector((state: RootState) => state.counter.value);
-
-  // console.log('Redux data: ', userData);
-
-  const userData = useMemo(() => {
-    if (!user) return null;
-    return {
-      username: `${user.data.firstName} ${user.data.lastName}`,
-      progress: user.data.progress, 
-      points: user.data.points,
-      difficultyLevel: user.data.difficultyLevel,
-      avatar: user.data.avatar,
-      background: user.data.background,
-      frame: user.data.frame
-    };
-  }, [user]);
-
-  const { mutate: logout } = logoutUserMutation();
-  const { mutate: deleteUser } = deleteUserMutation();
 
   const handlePopupClick = () => {
     if (popup === PopupOption.signOut) {
@@ -96,35 +65,34 @@ const Profile = () => {
     }
   }
 
-  const { current } = determinePrize(userData?.points);
+  if (isLoading || !user) {
+    return <Loading />;  
+  }
 
-  
-  if (isLoading) return <Loading />;
+  const { current } = determinePrize(user.points);
 
   return (
     <div className="flex flex-col py-10 min-h-[150vh] sm:min-h-[120vh] md:min-h-[100vh] w-full max-w-[50rem] mx-auto rounded-md">
       <div className="shadow-md rounded-md">
-        <p>Counter: {counter}</p>
-        <button onClick={() => dispatch(increment())}>Add</button>
         <section>
           <div className="z-0">
-            <BackgroundContainer imageUrl={userData?.background} />
+            <BackgroundContainer imageUrl={user.background} />
           </div>
           
           <div className="z-20 relative bottom-[7rem] md:bottom-8 flex flex-col items-center justify-center">
-            <AvatarFrame type={userData?.frame}>
+            <AvatarFrame type={user.frame}>
               <Image
                 priority
                 width={200}
                 height={200}
-                src={userData?.avatar}
+                src={user?.avatar}
                 alt="profile avatar"
               />
             </AvatarFrame>
 
             <div className="flex items-center gap-2">
               <h3 className="text-xl sm:text-3xl text-secondary font-bold">
-                {userData?.username}
+                {user?.firstName} {user?.lastName}
               </h3>
               <button onClick={() => router.push(EDIT_PROFILE)}>
                 <EditIcon />
@@ -137,11 +105,11 @@ const Profile = () => {
             </div>
 
             <div className="flex items-center gap-5 ">
-              <p>XP Points: <span className="text-md font-bold text-secondary">{userData?.points}</span></p>
+              <p>XP Points: <span className="text-md font-bold text-secondary">{user?.points}</span></p>
               <div className="bg-thirdly w-[0.1rem] h-5"></div>
               <div className="flex items-center gap-2">
                 <ProgressIcon width={22} height={22} />
-                <p>Progress: <span className="text-md font-bold text-secondary">{userData?.progress}</span></p>
+                <p>Progress: <span className="text-md font-bold text-secondary">{user?.progress}</span></p>
               </div>
             </div>
           </div>
@@ -174,7 +142,7 @@ const Profile = () => {
           />
 
           <SettingsTab
-            title={`Selected Difficulty: ${userData?.difficultyLevel}`}
+            title={`Selected Difficulty: ${user.difficultyLevel}`}
             onClick={() => setDifficultyPopupOpen(true)}
           />
 
@@ -209,7 +177,7 @@ const Profile = () => {
 
       <LargePopup isOpen={difficultyPopupOpen}>
         <SelectDifficulty 
-          difficulty={userData?.difficultyLevel}
+          difficulty={user.difficultyLevel}
           setDifficultyPopupOpen={setDifficultyPopupOpen}
         />
       </LargePopup>

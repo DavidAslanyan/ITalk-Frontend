@@ -17,6 +17,7 @@ import RegisterHeroAnimation from "../components/lottie-animations/lottie-regist
 import { PROJECT_TITLE } from "../utilities/constants/global-data";
 import { useAppDispatch } from "@/lib/hooks";
 import { setUser } from "@/lib/features/user/userSlice";
+import { storeUserInLocalStorage } from "../utilities/functions/manage-user-local-storage";
 
 
 const Login = () => {
@@ -78,6 +79,7 @@ const Login = () => {
       onSuccess: (data) => {
         if (data?.status === HttpStatusCode.ACCEPTED) {
           dispatch(setUser(data.data.user));
+          storeUserInLocalStorage(data.data.user);
           router.push(DASHBOARD_URL);
         } else {
           setErrorMessage(data?.error);

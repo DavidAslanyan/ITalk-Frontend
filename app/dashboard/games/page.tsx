@@ -3,12 +3,11 @@ import ButtonStandard from "@/app/components/buttons/button-standard";
 import GameTab from "@/app/components/game-tab";
 import CoinIcon from "@/app/components/icons/CoinIcon";
 import Loading from "@/app/components/loading";
-import { getUserQuery } from "@/app/services/queries/auth.query";
 import { COLORS } from "@/app/utilities/constants/colors";
 import { GamesEnum } from "@/app/utilities/constants/game-titles";
 import { DASHBOARD_URL, TERMS_URL } from "@/app/utilities/constants/global-urls";
+import useGetUser from "@/app/utilities/hooks/useGetUser";
 import { useRouter } from "next/navigation";
-import React, { useMemo } from "react";
 
 const GAMES = [
   {
@@ -47,26 +46,14 @@ const GAMES = [
 
 const Games = () => {
   const router = useRouter();
-  const { data: user, isLoading } = getUserQuery();
-  const userMappedData = useMemo(() => {
-    if (!user) return null;
-    return {
-      username: `${user.data.firstName} ${user.data.lastName}`,
-      progress: user.data.progress ?? 0, 
-      gamesPassed: user.data.gamesPassed,
-      coins: user.data.coins,
-      points: user.data.points
-    };
-  }, [user]);
+  const { user, isLoading } = useGetUser();
 
-  if (isLoading) {
-    return (
-      <Loading />
-    )
+  if (isLoading || !user) {
+    return <Loading />;  
   }
 
   const requiredGames = [GamesEnum.QUIZ, GamesEnum.MISSING_WORD, GamesEnum.WORD_SHUFFLE, GamesEnum.FEED_MONSTER];
-  const allGamesPassed = requiredGames.every(game => userMappedData?.gamesPassed.includes(game));
+  const allGamesPassed = requiredGames.every(game => user.gamesPassed.includes(game));
 
   return (
     <div className="min-h-[160vh] sm:h-auto w-full max-w-[90rem] mx-auto">
@@ -78,15 +65,14 @@ const Games = () => {
           </h1>
         </section>
 
-
         <section>
           <div className="flex">
             <p className="font-bold pr-1">XP</p> Points: 
-            <span className="font-bold">{userMappedData?.points}</span>
+            <span className="font-bold">{user.points}</span>
           </div>
           <div className="flex items-center gap-1">
             <CoinIcon color={COLORS.orange} />
-            <p>Coins: <span className="font-bold">{userMappedData?.coins}</span></p>
+            <p>Coins: <span className="font-bold">{user.coins}</span></p>
           </div>
         </section>
 
@@ -104,7 +90,7 @@ const Games = () => {
             {GAMES.map((game) => (
               <li key={game.id}>
                 <GameTab
-                  completed={userMappedData?.gamesPassed.includes(game.name)}
+                  completed={user.gamesPassed.includes(game.name)}
                   gif={game.gif}
                   url={game.url}
                   image={game.image}
