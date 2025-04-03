@@ -1,14 +1,10 @@
 import { API_URLS } from "@/app/utilities/constants/api-endpoints";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/app/utilities/constants/global-data";
 import { DifficultyLevel } from "@/app/utilities/enums/difficulty-level.enum";
 import axiosInstance from "@/app/utilities/functions/axios-instance";
-import { clearTokensFromSecureStorage, saveTokensInSecureStorage } from "@/app/utilities/functions/crud-tokens-storage";
+import { saveTokensInSecureStorage } from "@/app/utilities/functions/crud-tokens-storage";
 import { LoginUserFormType, RegisterUserFormType, UpdateUserFormType } from "@/app/utilities/types/auth.type";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import secureLocalStorage from "react-secure-storage";
-
-const id  = "e1630445-3f60-4b4c-b7a3-37ef7aba3bbb";
 
 
 export const getUser = async () => {
@@ -113,8 +109,6 @@ export const googleLogin = async ({ id }: { id: string }) => {
 } 
 
 
-
-
 // export const googleLogin = useGoogleLogin({
 //   onSuccess: async ({ code }) => {
 //     const tokens = await axios.post(API_URLS.GOOGLE_LOGIN, {
@@ -125,3 +119,4 @@ export const googleLogin = async ({ id }: { id: string }) => {
 //   },
 //   flow: 'auth-code',
 // });
+
