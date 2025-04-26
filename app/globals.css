@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar Styling */
+.search-scrollbar::-webkit-scrollbar {
+  width: 0.5rem; 
+  border-radius: 1rem;
+}
+
+.search-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #222222; 
+  border-radius: 1rem;
+  cursor: grab; 
+  /* color: #fab533 */
+}
+
+
+.search-scrollbar::-webkit-scrollbar-track {
+  background-color: #D9D9D9;
+  width: 0.2rem; 
+  border-radius: 1rem;
+}
+
+.title {
+  color: #20C997
+}
+
+
+/* Add this to your global CSS file or scoped CSS module */
+.scrollbar-hidden {
+  /* Hide scrollbar for all browsers */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+

@@ -1,0 +1,72 @@
+[
+  {
+    "id": 11,
+    "term": "Load Balancing",
+    "shortExplanation": "Distributing network traffic efficiently",
+    "longExplanation": "Load balancing is the process of distributing network traffic across multiple servers to ensure no single server becomes overwhelmed. This improves application availability, fault tolerance, and response times. Load balancers can be hardware-based or software-based and operate at different layers of the OSI model. Common strategies include round-robin, least connections, and IP hash-based balancing. Popular tools include Nginx, HAProxy, and AWS Elastic Load Balancer. Challenges include handling session persistence, SSL termination, and distributed denial-of-service (DDoS) mitigation.",
+    "level": "Medium"
+  },
+  {
+    "id": 12,
+    "term": "Container Orchestration",
+    "shortExplanation": "Managing containerized applications",
+    "longExplanation": "Container orchestration automates the deployment, scaling, and management of containerized applications across clusters. It ensures containers run efficiently and optimally across different environments. Kubernetes is the most widely used container orchestration tool, allowing developers to manage microservices-based applications with features like service discovery, load balancing, and self-healing capabilities. Other tools include Docker Swarm and Apache Mesos. Challenges include managing stateful applications, networking complexities, and security concerns in multi-tenant environments.",
+    "level": "Medium"
+  },
+  {
+    "id": 13,
+    "term": "API Gateway",
+    "shortExplanation": "A centralized API management layer",
+    "longExplanation": "An API Gateway is a server that acts as an intermediary between clients and backend services, managing API requests, authentication, and traffic control. It provides features such as rate limiting, caching, request transformation, and security enforcement. Popular API gateways include Kong, Apigee, and AWS API Gateway. API gateways help optimize microservices communication and ensure scalability, but they introduce additional latency, complexity, and single points of failure if not managed properly.",
+    "level": "Medium"
+  },
+  {
+    "id": 14,
+    "term": "Event-Driven Architecture",
+    "shortExplanation": "Designing systems around events",
+    "longExplanation": "Event-Driven Architecture (EDA) is a software design pattern where components communicate by producing and consuming events rather than direct function calls. It enables real-time processing, scalability, and decoupled systems. EDA is widely used in microservices, IoT applications, and real-time analytics. Technologies like Apache Kafka, RabbitMQ, and AWS EventBridge facilitate event streaming and messaging. However, implementing EDA introduces challenges such as event ordering, eventual consistency, and debugging complexity due to asynchronous workflows.",
+    "level": "Medium"
+  },
+  {
+    "id": 15,
+    "term": "Service Mesh",
+    "shortExplanation": "Managing service-to-service communication",
+    "longExplanation": "A Service Mesh is an infrastructure layer that manages service-to-service communication in microservices architectures. It provides features such as traffic control, observability, security, and resilience through sidecar proxies. Popular service mesh solutions include Istio, Linkerd, and Consul. Service meshes help in managing distributed applications efficiently but come with increased complexity, resource overhead, and configuration challenges.",
+    "level": "Medium"
+  },
+  {
+    "id": 16,
+    "term": "GraphQL",
+    "shortExplanation": "A flexible query language for APIs",
+    "longExplanation": "GraphQL is a query language for APIs that allows clients to request specific data, reducing over-fetching and under-fetching issues. Unlike REST, GraphQL provides a single endpoint for fetching structured data, improving efficiency and flexibility. It is widely used in modern web applications and is supported by libraries like Apollo and Relay. While GraphQL enhances API performance and usability, it introduces complexity in caching, rate limiting, and query optimization.",
+    "level": "Medium"
+  },
+  {
+    "id": 17,
+    "term": "Infrastructure as Code (IaC)",
+    "shortExplanation": "Managing infrastructure with code",
+    "longExplanation": "Infrastructure as Code (IaC) is the practice of managing and provisioning IT infrastructure using machine-readable configuration files rather than manual processes. It ensures consistency, scalability, and automation in cloud and on-premises environments. Popular IaC tools include Terraform, Ansible, and AWS CloudFormation. While IaC reduces human errors and deployment time, it requires proper version control, security considerations, and a learning curve for teams unfamiliar with declarative infrastructure management.",
+    "level": "Medium"
+  },
+  {
+    "id": 18,
+    "term": "NoSQL Databases",
+    "shortExplanation": "Flexible, schema-less databases",
+    "longExplanation": "NoSQL databases are designed for handling unstructured or semi-structured data, offering flexibility, scalability, and high performance compared to traditional relational databases. They are categorized into key-value stores, document stores, column-family stores, and graph databases. Popular NoSQL databases include MongoDB, Cassandra, and Redis. NoSQL databases excel in handling big data and real-time applications but can introduce challenges in complex queries, consistency models, and schema evolution.",
+    "level": "Medium"
+  },
+  {
+    "id": 19,
+    "term": "Reverse Proxy",
+    "shortExplanation": "An intermediary server for requests",
+    "longExplanation": "A reverse proxy is a server that sits between client devices and backend servers, handling incoming requests and distributing them efficiently. It improves load balancing, security, and caching for web applications. Common reverse proxy solutions include Nginx, Apache HTTP Server, and HAProxy. While reverse proxies enhance application performance and security, misconfigurations can lead to vulnerabilities and performance bottlenecks.",
+    "level": "Medium"
+  },
+  {
+    "id": 20,
+    "term": "Data Lake",
+    "shortExplanation": "A centralized repository for large datasets",
+    "longExplanation": "A Data Lake is a storage system that holds vast amounts of raw data in its native format, supporting structured, semi-structured, and unstructured data. It enables big data analytics, machine learning, and real-time processing. Technologies like Apache Hadoop, AWS S3, and Azure Data Lake Storage power data lake solutions. While data lakes offer scalability and cost efficiency, they require proper data governance, security measures, and indexing to prevent turning into ‘data swamps’ with unmanageable data.",
+    "level": "Medium"
+  }
+]
