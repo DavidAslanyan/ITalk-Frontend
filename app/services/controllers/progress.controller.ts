@@ -1,7 +1,6 @@
 import { API_URLS } from "@/app/utilities/constants/api-endpoints";
 import axiosInstance from "@/app/utilities/functions/axios-instance";
 import { AddCoinsType, AddGameType, AddPointsType, PurchaseStoreItemType, SubtractCoinsType, UpdateProgressType } from "@/app/utilities/types/progress.type";
-import axios from "axios";
 
 
 export const updateProgress = async (data: UpdateProgressType) => {

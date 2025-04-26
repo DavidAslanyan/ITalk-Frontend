@@ -1,5 +1,6 @@
 "use client";
 import React from 'react'
+import Image from 'next/image';
 import { homeItem, menuItemsBottom, menuItemsTop } from './config';
 import Link from 'next/link';
 import { usePathname } from "next/navigation";
@@ -7,6 +8,7 @@ import { DASHBOARD_URL, TERMS_URL } from '@/app/utilities/constants/global-urls'
 import HomeIcon from '../icons/navbar-icons/HomeIcon';
 import { COLORS } from '@/app/utilities/constants/colors';
 import LearnButton from '../buttons/learn-button';
+import f from '../../../public/logo.png'
 
 
 const LeftMenu = () => {
@@ -18,7 +20,9 @@ const LeftMenu = () => {
 
   return (
     <div className='flex flex-col bg-secondary w-[4.2rem] xl:w-36 h-[98vh] rounded'>
-      <div className='flex justify-center w-full pt-10'><h1 className='text-primary'>LOGO</h1></div>
+      <div className='flex justify-center w-full pt-10'>
+        <Image width={80} height={80} src='/logo.png' alt='logo' className='rounded-sm' />
+      </div>
 
       <div className='hidden xl:block pl-10 pt-24'>
         <LearnButton url={`${DASHBOARD_URL}/${TERMS_URL}`} title='Study' size='small' />

@@ -54,6 +54,7 @@ const Terms = () => {
   const termsLevelBased = fetchTermsLevelBased(userMappedData?.difficultyLevel); 
   const termData = termsLevelBased.slice(curProgress, curProgress + PROGRESS_POINTS);
 
+
   if (isLoading) {
     return <Loading />
   }

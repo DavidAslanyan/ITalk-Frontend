@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![ITalk Logo](/public/web-demo.GIF)
+![ITalk Logo](/public/mobile-demo.GIF)
 
-## Getting Started
+# ITalk Frontend
 
-First, run the development server:
+Welcome to **ITalk** — an educational platform designed to teach IT and tech terms in a fun, interactive, and accessible way.
+
+## About ITalk
+
+In today's tech-driven world, miscommunication often stems from a lack of understanding of technical terms. Even the best engineers once had to learn these concepts from scratch. **Education is the solution.**
+
+**ITalk** was born from a simple idea:
+
+> If we have apps like Duolingo to teach languages, why not have a platform dedicated to teaching IT terms?
+
+**ITalk** aims to make technical learning approachable by offering:
+
+- Structured lessons
+- Quizzes
+- Interactive exercises
+
+Covering topics from **beginner** to **advanced** levels.
+
+Whether you're just starting your tech journey or looking to sharpen your skills, **ITalk** is your go-to educational companion.
+
+## Features
+
+### Structured Learning Paths  
+Organized courses based on difficulty level, from **beginner** to **expert**.
+
+### Interactive Lessons and Quizzes  
+Engage with material through short, dynamic lessons and quick quizzes to reinforce learning.
+
+### Progress Tracking  
+Monitor your achievements and learning streaks as you master new terms and concepts.
+
+### Gamified Experience  
+Earn points, unlock levels, and stay motivated through fun, game-like mechanics.
+
+### Cross-Platform Access  
+Learn seamlessly on web or mobile — your progress syncs across devices.
+
+## Frontend Overview
+
+This repository contains the frontend code that powers the **ITalk** platform.
+
+### Tech Stack
+
+- **NextJS** – Frontend framework  
+- **ReduxToolkit** – State management
+- **Tailwind** – Styles
+- **TanstackQuery** – API integrations  
+- **JWT Authentication** – Secure user login  
+- **REST API & WebSocket Support** – Real-time features and structured endpoints
+
+## Run Locally
+
+1. **Clone the repository:**
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/italk-backend.git
+cd italk-backend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install dependencies:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. **Set up environment variables**
+Create a .env file following the structure of .env.example.
 
-## Learn More
+4. **Run the development server:**
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run start:dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Official Deployment Coming soon!  
+---
 
-## Deploy on Vercel
+## 📄 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the **MIT License**.

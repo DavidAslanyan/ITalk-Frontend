@@ -117,7 +117,8 @@ const DashboardHome = () => {
       <div className='my-4 h-[0.12rem] w-full  bg-gray-300 rounded-full'></div>
 
       <div className='py-20 md:pt-2 w-full'>
-        <LevelMap progress={progressForMap  ?? 0} limit={1500} />
+        {/* progressForMap  ?? 0 */}
+        <LevelMap progress={800} limit={1500} />
       </div>
 
       <div className='my-4 h-[0.12rem] w-full bg-gray-300 rounded-full'></div>

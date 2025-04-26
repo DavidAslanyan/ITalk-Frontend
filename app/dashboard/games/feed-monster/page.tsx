@@ -176,7 +176,7 @@ const FeedMonster = () => {
             <li>When the plate is full, press feed and feed the monster</li>
             <li>That's it you won the game!</li>
             <li>Note: The monster is very sensitive you grab a wrong term, he will get angry and you will loose</li>
-            <li>So, pick think carefully before you grab one</li>
+            <li>So, think carefully before you grab one</li>
             <li>Note, if you are on a mobile, no need to grab, just tap on the term and it will be automatically placed on monster's plate</li>
           </ul>
         </div>

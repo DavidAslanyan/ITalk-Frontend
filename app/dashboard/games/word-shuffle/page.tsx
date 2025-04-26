@@ -124,7 +124,7 @@ const WordShuffle = () => {
             <ul className="pl-4 list-decimal">
               <li>Simple and straighforward game</li>
               <li>You will see a term, but it is shuffled, menaing the characters are in wrong order</li>
-              <li>Your jov is to recongnize the decoded term, and give it to us</li>
+              <li>Your job is to recongnize the decoded term, and give it to us</li>
               <li>As a Hint a short explanation will be shown to you</li>
               <li>Do not worry about case sensitivity</li>
               <li>However Note, as terms can consist of more than one word, you will need to type spaces as well</li>

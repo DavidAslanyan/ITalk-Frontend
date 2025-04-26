@@ -129,7 +129,7 @@ const MissingWord = () => {
             </li>
             <li>You will have to type the missing word by yourself and click check</li>
             <li>You have 1 minute to complete all 5 terms</li>
-            <li>Tha's it, continue the same steps for the rest of the terms</li>
+            <li>That's it, continue the same steps for the rest of the terms</li>
             <li>If you passed all, Congrats, you won Game 2</li>
             <li>You are ready to proceed to the next games</li>
           </ul>
