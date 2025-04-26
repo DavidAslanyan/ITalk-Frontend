@@ -1,5 +1,7 @@
-![ITalk Logo](/public/web-demo.GIF)
-![ITalk Logo](/public/mobile-demo.GIF)
+<div align="center">
+  <img src="/public/web-demo.GIF" alt="Web Demo" width="600" />
+  <img src="/public/mobile-demo.GIF" alt="Mobile Demo" width="200" height="400"  />
+</div>
 
 # ITalk Frontend
 
