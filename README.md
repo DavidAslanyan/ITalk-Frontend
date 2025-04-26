@@ -61,7 +61,6 @@ This repository contains the frontend code that powers the **ITalk** platform.
 
 ```bash
 git clone https://github.com/DavidAslanyan/ITalk-Frontend.git
-cd italk-backend
 ```
 
 2. **Install dependencies:**
